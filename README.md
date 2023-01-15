@@ -1,16 +1,26 @@
-# tiktok_flutter
+# Tiktok with Flutter
 
-A new Flutter project.
+| 프로젝트 기간 | 23.01.14 ~                                     |
+| ------------- | ---------------------------------------------- |
+| 프로젝트 목적 | tiktock clone with flutter                     |
+| Github        | https://github.com/Jinwook-Song/tiktok_flutter |
+| homepage      |                                                |
+| version       | 3.3.10                                         |
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+### SafeArea
 
-A few resources to get you started if this is your first Flutter project:
+status bar 아래부터 ui가 나오도록
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### BottomAppBar
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### FractionallySizedBox
+
+_widthFactor_
+
+부모 사이즈에 반응
+
+---
+
+### Auth button
