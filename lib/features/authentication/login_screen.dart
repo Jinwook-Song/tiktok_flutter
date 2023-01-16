@@ -42,18 +42,20 @@ class LoginScreen extends StatelessWidget {
               AuthButton(
                 icon: FaIcon(FontAwesomeIcons.user),
                 text: 'Use email & password',
+                destination: Destination.email,
               ),
               Gaps.v16,
               AuthButton(
                 icon: FaIcon(FontAwesomeIcons.apple),
                 text: 'Continue with Apple',
+                destination: Destination.apple,
               ),
             ],
           ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade100,
+        color: Colors.grey.shade50,
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.symmetric(
