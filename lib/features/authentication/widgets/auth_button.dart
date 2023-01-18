@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
-import 'package:tiktok_flutter/features/authentication/widgets/email_screen.dart';
+import 'package:tiktok_flutter/features/authentication/email_screen.dart';
 
 enum Destination { email, apple }
 
