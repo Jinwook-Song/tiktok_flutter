@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
+import 'package:tiktok_flutter/features/authentication/widgets/form_button.dart';
 
 class EmailScreen extends StatefulWidget {
   const EmailScreen({super.key});
@@ -80,26 +81,7 @@ class _EmailScreenState extends State<EmailScreen> {
               ),
             ),
             Gaps.v32,
-            FractionallySizedBox(
-              widthFactor: 1,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 150),
-                padding: const EdgeInsets.symmetric(vertical: Sizes.size16),
-                decoration: BoxDecoration(
-                    color: isValid
-                        ? Theme.of(context).primaryColor
-                        : Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(Sizes.size5)),
-                child: Text(
-                  'Next',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: isValid ? Colors.white : Colors.black38,
-                      fontWeight: FontWeight.w600,
-                      fontSize: Sizes.size16),
-                ),
-              ),
-            )
+            FormButton(isValid: isValid)
           ],
         ),
       ),
