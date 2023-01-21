@@ -144,3 +144,43 @@ AnimatedContainer(
                 ),
               ),
 ```
+
+### AnimatedDefaultTextStyle
+
+```dart
+AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 150),
+                  style: TextStyle(
+                      color: isValid ? Colors.white : Colors.black38,
+                      fontWeight: FontWeight.w600,
+                      fontSize: Sizes.size16),
+                  child: const Text(
+                    'Next',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+```
+
+### Dispose
+
+```dart
+@override
+  void initState() {
+    // begin(init)
+    super.initState();
+
+    _usernameController.addListener(() {
+      setState(() {
+        _username = _usernameController.text;
+      });
+      isValid = _username.length >= 2 ? true : false;
+    });
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    // end(clean up)
+    super.dispose();
+  }
+```

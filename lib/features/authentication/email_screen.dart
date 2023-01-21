@@ -18,6 +18,7 @@ class _EmailScreenState extends State<EmailScreen> {
 
   @override
   void initState() {
+    // begin(init)
     super.initState();
 
     _usernameController.addListener(() {
@@ -26,6 +27,13 @@ class _EmailScreenState extends State<EmailScreen> {
       });
       isValid = _username.length >= 2 ? true : false;
     });
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    // end(clean up)
+    super.dispose();
   }
 
   @override
@@ -45,18 +53,10 @@ class _EmailScreenState extends State<EmailScreen> {
           children: [
             Gaps.v40,
             const Text(
-              'Create username',
+              'What is your email?',
               style: TextStyle(
                 fontSize: Sizes.size24,
                 fontWeight: FontWeight.w700,
-              ),
-            ),
-            Gaps.v10,
-            const Text(
-              'You can always change this later.',
-              style: TextStyle(
-                fontSize: Sizes.size16,
-                color: Colors.black54,
               ),
             ),
             Gaps.v40,
@@ -64,7 +64,7 @@ class _EmailScreenState extends State<EmailScreen> {
               controller: _usernameController,
               cursorColor: Theme.of(context).primaryColor,
               decoration: const InputDecoration(
-                hintText: 'Username',
+                hintText: 'Email',
                 hintStyle: TextStyle(
                   color: Colors.black26,
                 ),
