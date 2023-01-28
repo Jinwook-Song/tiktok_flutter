@@ -5,9 +5,11 @@ class FormButton extends StatelessWidget {
   const FormButton({
     Key? key,
     required this.isValid,
+    this.text = 'Next',
   }) : super(key: key);
 
   final bool isValid;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +28,8 @@ class FormButton extends StatelessWidget {
               color: isValid ? Colors.white : Colors.black38,
               fontWeight: FontWeight.w600,
               fontSize: Sizes.size16),
-          child: const Text(
-            'Next',
+          child: Text(
+            text,
             textAlign: TextAlign.center,
           ),
         ),

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
+import 'package:tiktok_flutter/features/authentication/login_form_screen.dart';
 import 'package:tiktok_flutter/features/authentication/username_screen.dart';
 
-enum Destination { email, apple }
+enum Destination { emailLogin, appleLogin, emailSignup, appleSignup }
 
 class AuthButton extends StatelessWidget {
   final String text;
@@ -19,7 +20,7 @@ class AuthButton extends StatelessWidget {
 
   void handleTap(BuildContext context) {
     switch (destination) {
-      case Destination.email:
+      case Destination.emailSignup:
         {
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -28,7 +29,19 @@ class AuthButton extends StatelessWidget {
           );
         }
         break;
-      case Destination.apple:
+      case Destination.emailLogin:
+        {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const LoginFormScreen(),
+            ),
+          );
+        }
+        break;
+      case Destination.appleSignup:
+        {}
+        break;
+      case Destination.appleLogin:
         {}
         break;
     }
