@@ -411,3 +411,21 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
   }
 }
 ```
+
+### ScrollController
+
+```dart
+final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+```
