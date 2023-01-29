@@ -668,3 +668,17 @@ class _TutorialScreenState extends State<TutorialScreen> {
   }
 }
 ```
+
+### CupertinoButton
+
+```dart
+AnimatedOpacity(
+                duration: const Duration(milliseconds: 300),
+                opacity: _page == Page.first ? 0 : 1,
+                child: CupertinoButton(
+                  onPressed: () {},
+                  color: Theme.of(context).primaryColor,
+                  child: const Text('Enter the app!'),
+                ),
+              )),
+```
