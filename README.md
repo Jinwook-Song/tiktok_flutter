@@ -682,3 +682,22 @@ AnimatedOpacity(
                 ),
               )),
 ```
+
+### pushAndRemoveUntil
+
+push는 이전 widget이 stack 되고있다. 따라서 유저는 뒤로가기가 가능하며 이를 방지하기 위해
+
+stack된 route를 제거할 수 있다.
+
+false → remove
+
+true → doesn’t remove
+
+```dart
+Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const InterestsScreen(),
+        ),
+        (route) => false,
+      );
+```
