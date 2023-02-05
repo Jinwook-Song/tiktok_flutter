@@ -761,3 +761,35 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 }
 ```
+
+### NavigationBar(material design 3)
+
+```dart
+bottomNavigationBar: NavigationBar(
+            backgroundColor: Theme.of(context).primaryColor,
+            labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+            selectedIndex: _selectedIndex,
+            onDestinationSelected: _onTap,
+            destinations: const [
+              NavigationDestination(
+                  icon: FaIcon(
+                    FontAwesomeIcons.house,
+                    color: Colors.white,
+                  ),
+                  selectedIcon: FaIcon(
+                    FontAwesomeIcons.house,
+                    color: Colors.black,
+                  ),
+                  label: 'Home'),
+              NavigationDestination(
+                  icon: FaIcon(
+                    FontAwesomeIcons.magnifyingGlass,
+                    color: Colors.white,
+                  ),
+                  selectedIcon: FaIcon(
+                    FontAwesomeIcons.magnifyingGlass,
+                    color: Colors.black,
+                  ),
+                  label: 'Search'),
+            ]));
+```
