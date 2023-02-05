@@ -705,10 +705,14 @@ Navigator.of(context).pushAndRemoveUntil(
 ## Navigation Bar
 
 - Builtin
+
   - material 2
+
     ### BottomNavigationBar
+
     item은 필수이며 2개이상을 필요로 한다
     currentIndex와 onTap method를 통해 변환할 수 있다.
+
     ```dart
     import 'package:flutter/material.dart';
     import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -762,6 +766,7 @@ Navigator.of(context).pushAndRemoveUntil(
       }
     }
     ```
+
   - material 3
     ### NavigationBar(material design 3)
     ```dart
@@ -812,8 +817,10 @@ Navigator.of(context).pushAndRemoveUntil(
           tabBuilder: (context, index) => screens[index],
         );
     ```
+
 - Custom
   Nav tab widget
+
   ```dart
   import 'package:flutter/material.dart';
   import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -866,3 +873,36 @@ Navigator.of(context).pushAndRemoveUntil(
     }
   }
   ```
+
+### Offstage (Creates a widget that visually hides its child.)
+
+default: build되지만 보이지는 않음
+
+유저가 다른 화면을 보고 오더라도 이전의 상태를 그대로 보존할 수있음
+
+```dart
+body: Stack(
+        children: [
+          Offstage(
+            offstage: _selectedIndex != 0,
+            child: screens[_selectedIndex],
+          ),
+          Offstage(
+            offstage: _selectedIndex != 1,
+            child: screens[_selectedIndex],
+          ),
+          Offstage(
+            offstage: _selectedIndex != 2,
+            child: screens[_selectedIndex],
+          ),
+          Offstage(
+            offstage: _selectedIndex != 3,
+            child: screens[_selectedIndex],
+          ),
+          Offstage(
+            offstage: _selectedIndex != 4,
+            child: screens[_selectedIndex],
+          ),
+        ],
+      ),
+```
