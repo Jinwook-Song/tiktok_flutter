@@ -1,11 +1,11 @@
-# Tiktok with Flutter
+# Tiktok with flutter
 
 | 프로젝트 기간 | 23.01.14 ~                                     |
 | ------------- | ---------------------------------------------- |
 | 프로젝트 목적 | tiktock clone with flutter                     |
 | Github        | https://github.com/Jinwook-Song/tiktok_flutter |
-| homepage      |                                                |
 | version       | 3.3.10                                         |
+| docs(design)  | https://m3.material.io/                        |
 
 ---
 
@@ -702,114 +702,167 @@ Navigator.of(context).pushAndRemoveUntil(
       );
 ```
 
-### BottomNavigationBar
+## Navigation Bar
 
-item은 필수이며 2개이상을 필요로 한다
+- Builtin
+  - material 2
+    ### BottomNavigationBar
+    item은 필수이며 2개이상을 필요로 한다
+    currentIndex와 onTap method를 통해 변환할 수 있다.
+    ```dart
+    import 'package:flutter/material.dart';
+    import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-currentIndex와 onTap method를 통해 변환할 수 있다.
+    class MainNavigationScreen extends StatefulWidget {
+      const MainNavigationScreen({super.key});
 
-```dart
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+      @override
+      State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+    }
 
-class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+    class _MainNavigationScreenState extends State<MainNavigationScreen> {
+      int _selectedIndex = 0;
 
-  @override
-  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
-}
+      void _onTap(int index) {
+        setState(() {
+          _selectedIndex = index;
+        });
+      }
 
-class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 0;
+      final screens = [
+        const Center(
+          child: Text('Home'),
+        ),
+        const Center(
+          child: Text('Search'),
+        )
+      ];
 
-  void _onTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  final screens = [
-    const Center(
-      child: Text('Home'),
-    ),
-    const Center(
-      child: Text('Search'),
-    )
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.shifting,
-          onTap: _onTap,
-          currentIndex: _selectedIndex,
-          selectedItemColor: Theme.of(context).primaryColor,
-          items: const [
+      @override
+      Widget build(BuildContext context) {
+        return Scaffold(
+          body: screens[_selectedIndex],
+          bottomNavigationBar: BottomNavigationBar(
+              type: BottomNavigationBarType.shifting,
+              onTap: _onTap,
+              currentIndex: _selectedIndex,
+              selectedItemColor: Theme.of(context).primaryColor,
+              items: const [
+                BottomNavigationBarItem(
+                    icon: FaIcon(FontAwesomeIcons.house),
+                    label: 'Home',
+                    tooltip: 'Hint',
+                    backgroundColor: Colors.orange),
+                BottomNavigationBarItem(
+                    icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
+                    label: 'Search',
+                    backgroundColor: Colors.amber),
+              ]),
+        );
+      }
+    }
+    ```
+  - material 3
+    ### NavigationBar(material design 3)
+    ```dart
+    bottomNavigationBar: NavigationBar(
+                backgroundColor: Theme.of(context).primaryColor,
+                labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+                selectedIndex: _selectedIndex,
+                onDestinationSelected: _onTap,
+                destinations: const [
+                  NavigationDestination(
+                      icon: FaIcon(
+                        FontAwesomeIcons.house,
+                        color: Colors.white,
+                      ),
+                      selectedIcon: FaIcon(
+                        FontAwesomeIcons.house,
+                        color: Colors.black,
+                      ),
+                      label: 'Home'),
+                  NavigationDestination(
+                      icon: FaIcon(
+                        FontAwesomeIcons.magnifyingGlass,
+                        color: Colors.white,
+                      ),
+                      selectedIcon: FaIcon(
+                        FontAwesomeIcons.magnifyingGlass,
+                        color: Colors.black,
+                      ),
+                      label: 'Search'),
+                ]));
+    ```
+  - cupertino
+    ### CupertinoTabScaffold
+    ```dart
+    return CupertinoTabScaffold(
+          tabBar: CupertinoTabBar(items: const [
             BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.house),
-                label: 'Home',
-                tooltip: 'Hint',
-                backgroundColor: Colors.orange),
+                icon: Icon(
+                  CupertinoIcons.house,
+                ),
+                label: 'Home'),
             BottomNavigationBarItem(
-                icon: FaIcon(FontAwesomeIcons.magnifyingGlass),
-                label: 'Search',
-                backgroundColor: Colors.amber),
+                icon: Icon(
+                  CupertinoIcons.search,
+                ),
+                label: 'Search'),
           ]),
-    );
+          tabBuilder: (context, index) => screens[index],
+        );
+    ```
+- Custom
+  Nav tab widget
+  ```dart
+  import 'package:flutter/material.dart';
+  import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+  import 'package:tiktok_flutter/constants/gaps.dart';
+
+  class NavTab extends StatelessWidget {
+    const NavTab({
+      Key? key,
+      required this.text,
+      required this.isSelected,
+      required this.icon,
+      required this.onTab,
+    }) : super(key: key);
+
+    final String text;
+    final bool isSelected;
+    final IconData icon;
+    final Function onTab;
+
+    @override
+    Widget build(BuildContext context) {
+      return Expanded(
+        child: GestureDetector(
+          onTap: () => onTab(),
+          child: Container(
+            color: Colors.black,
+            child: AnimatedOpacity(
+              opacity: isSelected ? 1 : 0.6,
+              duration: const Duration(milliseconds: 100),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FaIcon(
+                    icon,
+                    color: Colors.white,
+                  ),
+                  Gaps.v5,
+                  Text(
+                    text,
+                    style: const TextStyle(
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
   }
-}
-```
-
-### NavigationBar(material design 3)
-
-```dart
-bottomNavigationBar: NavigationBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-            selectedIndex: _selectedIndex,
-            onDestinationSelected: _onTap,
-            destinations: const [
-              NavigationDestination(
-                  icon: FaIcon(
-                    FontAwesomeIcons.house,
-                    color: Colors.white,
-                  ),
-                  selectedIcon: FaIcon(
-                    FontAwesomeIcons.house,
-                    color: Colors.black,
-                  ),
-                  label: 'Home'),
-              NavigationDestination(
-                  icon: FaIcon(
-                    FontAwesomeIcons.magnifyingGlass,
-                    color: Colors.white,
-                  ),
-                  selectedIcon: FaIcon(
-                    FontAwesomeIcons.magnifyingGlass,
-                    color: Colors.black,
-                  ),
-                  label: 'Search'),
-            ]));
-```
-
-### CupertinoTabScaffold
-
-```dart
-return CupertinoTabScaffold(
-      tabBar: CupertinoTabBar(items: const [
-        BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.house,
-            ),
-            label: 'Home'),
-        BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.search,
-            ),
-            label: 'Search'),
-      ]),
-      tabBuilder: (context, index) => screens[index],
-    );
-```
+  ```
