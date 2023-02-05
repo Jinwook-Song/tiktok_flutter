@@ -793,3 +793,23 @@ bottomNavigationBar: NavigationBar(
                   label: 'Search'),
             ]));
 ```
+
+### CupertinoTabScaffold
+
+```dart
+return CupertinoTabScaffold(
+      tabBar: CupertinoTabBar(items: const [
+        BottomNavigationBarItem(
+            icon: Icon(
+              CupertinoIcons.house,
+            ),
+            label: 'Home'),
+        BottomNavigationBarItem(
+            icon: Icon(
+              CupertinoIcons.search,
+            ),
+            label: 'Search'),
+      ]),
+      tabBuilder: (context, index) => screens[index],
+    );
+```
