@@ -4,6 +4,7 @@ import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/main_navigation/widgets/nav_tab.dart';
 import 'package:tiktok_flutter/features/main_navigation/widgets/post_video_button.dart';
+import 'package:tiktok_flutter/features/videos/video_timeline_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -20,24 +21,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       _selectedIndex = index;
     });
   }
-
-  final screens = [
-    const Center(
-      child: Text('Home'),
-    ),
-    const Center(
-      child: Text('Search'),
-    ),
-    const Center(
-      child: Text('New'),
-    ),
-    const Center(
-      child: Text('Inbox'),
-    ),
-    const Center(
-      child: Text('Profile'),
-    ),
-  ];
 
   void _onPostVideoButtonTap() {
     Navigator.of(context).push(
@@ -59,23 +42,23 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         children: [
           Offstage(
             offstage: _selectedIndex != 0,
-            child: screens[_selectedIndex],
+            child: const VideoTimelineScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: screens[_selectedIndex],
+            child: Container(),
           ),
           Offstage(
             offstage: _selectedIndex != 2,
-            child: screens[_selectedIndex],
+            child: Container(),
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: screens[_selectedIndex],
+            child: Container(),
           ),
           Offstage(
             offstage: _selectedIndex != 4,
-            child: screens[_selectedIndex],
+            child: Container(),
           ),
         ],
       ),
