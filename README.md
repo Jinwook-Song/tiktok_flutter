@@ -962,3 +962,33 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
   }
 }
 ```
+
+### PageController
+
+page 이동시에 anmation 효과 설정
+
+```dart
+final PageController _pageController = PageController();
+
+  int _itemCount = 4;
+
+  List<Color> colors = [
+    Colors.amber,
+    Colors.teal,
+    Colors.purple,
+    Colors.pink,
+  ];
+
+  void _onPageChanged(int page) {
+    _pageController.animateToPage(
+      page,
+      duration: const Duration(milliseconds: 30),
+      curve: Curves.fastOutSlowIn,
+    );
+    if (page == _itemCount - 1) {
+      _itemCount += 4;
+      colors = [...colors, ...colors];
+      setState(() {});
+    }
+  }
+```
