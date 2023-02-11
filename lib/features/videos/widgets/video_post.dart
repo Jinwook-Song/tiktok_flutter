@@ -18,8 +18,14 @@ class VideoPost extends StatefulWidget {
   State<VideoPost> createState() => _VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost> {
-  late VideoPlayerController _videoPlayerController;
+class _VideoPostState extends State<VideoPost>
+    with SingleTickerProviderStateMixin {
+  late final VideoPlayerController _videoPlayerController;
+  late final AnimationController _animationController;
+
+  bool isPaused = false;
+
+  final Duration _animationDuration = const Duration(milliseconds: 150);
 
   void _onVideoChanged() {
     if (_videoPlayerController.value.isInitialized) {
@@ -32,11 +38,10 @@ class _VideoPostState extends State<VideoPost> {
 
   void _initVideoPlayer() async {
     _videoPlayerController = VideoPlayerController.asset(
-        'assets/videos/yeonjae_0${widget.videoIndex % 6 + 1}.MP4');
+      'assets/videos/yeonjae_0${widget.videoIndex % 6 + 1}.MP4',
+    );
     await _videoPlayerController.initialize();
-    // _videoPlayerController.play();
     setState(() {});
-
     _videoPlayerController.addListener(_onVideoChanged);
   }
 
@@ -44,11 +49,22 @@ class _VideoPostState extends State<VideoPost> {
   void initState() {
     super.initState();
     _initVideoPlayer();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: _animationDuration,
+      lowerBound: 1,
+      upperBound: 1.5,
+      value: 1.5, // start point
+    );
+    _animationController.addListener(
+      () => {setState(() {})}, // call build method
+    );
   }
 
   @override
   void dispose() {
     _videoPlayerController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -61,8 +77,12 @@ class _VideoPostState extends State<VideoPost> {
   void _onTogglePlay() {
     if (_videoPlayerController.value.isPlaying) {
       _videoPlayerController.pause();
+      _animationController.reverse(); // upper to lower
+      isPaused = true;
     } else {
       _videoPlayerController.play();
+      _animationController.forward(); // lower to upper
+      isPaused = false;
     }
   }
 
@@ -84,13 +104,20 @@ class _VideoPostState extends State<VideoPost> {
               child: GestureDetector(
             onTap: _onTogglePlay,
           )),
-          const Positioned.fill(
+          Positioned.fill(
               child: IgnorePointer(
-            child: Center(
-              child: FaIcon(
-                FontAwesomeIcons.circlePlay,
-                size: Sizes.size52,
-                color: Colors.white,
+            child: Transform.scale(
+              scale: _animationController.value,
+              child: AnimatedOpacity(
+                opacity: isPaused ? 1 : 0,
+                duration: _animationDuration,
+                child: const Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.play,
+                    size: Sizes.size52,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           )),

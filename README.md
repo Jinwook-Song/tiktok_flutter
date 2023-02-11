@@ -1137,3 +1137,53 @@ void _onVisibilityChanged(VisibilityInfo info) {
   }
 }
 ```
+
+### Animation controller
+
+```dart
+class _VideoPostState extends State<VideoPost>
+    with SingleTickerProviderStateMixin
+
+@override
+  void initState() {
+    super.initState();
+    _initVideoPlayer();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: _animationDuration,
+      lowerBound: 1,
+      upperBound: 1.5,
+      value: 1.5, // start point
+    );
+    _animationController.addListener(
+      () => {setState(() {})}, // call build method
+    );
+  }
+
+void _onTogglePlay() {
+    if (_videoPlayerController.value.isPlaying) {
+      _videoPlayerController.pause();
+      _animationController.reverse(); // upper to lower
+      isPaused = true;
+    } else {
+      _videoPlayerController.play();
+      _animationController.forward(); // lower to upper
+      isPaused = false;
+    }
+  }
+
+child: Transform.scale(
+              scale: _animationController.value,
+              child: AnimatedOpacity(
+                opacity: isPaused ? 1 : 0,
+                duration: _animationDuration,
+                child: const Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.play,
+                    size: Sizes.size52,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+```
