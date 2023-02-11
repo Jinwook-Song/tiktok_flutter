@@ -1077,3 +1077,63 @@ class _VideoPostState extends State<VideoPost> {
   }
 }
 ```
+
+### Visibility detector & IgnorePointer
+
+`flutter pub add visibility_detector`
+
+화면이 완전히 넘어간 후 비디오를 재생하기 위해
+
+visibleFraction: 0~1의 값을 가지며 전체 화면이 보이는 경우가 1
+
+IgnorePointer는 Icon의 tap이벤트를 무시
+
+```dart
+void _onVisibilityChanged(VisibilityInfo info) {
+    if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
+      _videoPlayerController.play();
+    }
+  }
+
+  void _onTogglePlay() {
+    if (_videoPlayerController.value.isPlaying) {
+      _videoPlayerController.pause();
+    } else {
+      _videoPlayerController.play();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return VisibilityDetector(
+      key: Key('${widget.videoIndex}'),
+      onVisibilityChanged: _onVisibilityChanged,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: _videoPlayerController.value.isInitialized
+                ? VideoPlayer(_videoPlayerController)
+                : Container(
+                    color: Colors.black,
+                  ),
+          ),
+          Positioned.fill(
+              child: GestureDetector(
+            onTap: _onTogglePlay,
+          )),
+          const Positioned.fill(
+              child: IgnorePointer(
+            child: Center(
+              child: FaIcon(
+                FontAwesomeIcons.circlePlay,
+                size: Sizes.size52,
+                color: Colors.white,
+              ),
+            ),
+          )),
+        ],
+      ),
+    );
+  }
+}
+```
