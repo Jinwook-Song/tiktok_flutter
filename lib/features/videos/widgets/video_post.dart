@@ -56,9 +56,6 @@ class _VideoPostState extends State<VideoPost>
       upperBound: 1.5,
       value: 1.5, // start point
     );
-    _animationController.addListener(
-      () => {setState(() {})}, // call build method
-    );
   }
 
   @override
@@ -84,6 +81,7 @@ class _VideoPostState extends State<VideoPost>
       _animationController.forward(); // lower to upper
       isPaused = false;
     }
+    setState(() {});
   }
 
   @override
@@ -106,8 +104,15 @@ class _VideoPostState extends State<VideoPost>
           )),
           Positioned.fill(
               child: IgnorePointer(
-            child: Transform.scale(
-              scale: _animationController.value,
+            child: AnimatedBuilder(
+              // animation value를 감지하여 build 실행
+              animation: _animationController,
+              builder: (context, child) {
+                return Transform.scale(
+                  scale: _animationController.value,
+                  child: child, // AnimatedOpacity
+                );
+              },
               child: AnimatedOpacity(
                 opacity: isPaused ? 1 : 0,
                 duration: _animationDuration,

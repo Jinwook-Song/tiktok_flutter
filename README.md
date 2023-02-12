@@ -1187,3 +1187,31 @@ child: Transform.scale(
               ),
             ),
 ```
+
+### AnimatedBuilder
+
+animation value의 변화를 감지하여 builder 실행
+
+```dart
+child: AnimatedBuilder(
+              // animation value를 감지하여 build 실행
+              animation: _animationController,
+              builder: (context, child) {
+                return Transform.scale(
+                  scale: _animationController.value,
+                  child: child, // AnimatedOpacity
+                );
+              },
+              child: AnimatedOpacity(
+                opacity: isPaused ? 1 : 0,
+                duration: _animationDuration,
+                child: const Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.play,
+                    size: Sizes.size52,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+```
