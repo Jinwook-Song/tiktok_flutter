@@ -1215,3 +1215,9 @@ child: AnimatedBuilder(
               ),
             ),
 ```
+
+### SingleTickerProviderStateMixin
+
+Provides a single [Ticker](https://api.flutter.dev/flutter/scheduler/Ticker-class.html) that is configured to only tick while the current tree is enabled, as defined by [TickerMode](https://api.flutter.dev/flutter/widgets/TickerMode-class.html).
+
+Ticker: Calls its callback once per animation frame
