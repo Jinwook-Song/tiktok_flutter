@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
+import 'package:tiktok_flutter/features/videos/widgets/video_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -41,8 +43,9 @@ class _VideoPostState extends State<VideoPost>
       'assets/videos/yeonjae_0${widget.videoIndex % 6 + 1}.MP4',
     );
     await _videoPlayerController.initialize();
-    setState(() {});
+    await _videoPlayerController.setLooping(true);
     _videoPlayerController.addListener(_onVideoChanged);
+    setState(() {});
   }
 
   @override
@@ -126,6 +129,63 @@ class _VideoPostState extends State<VideoPost>
               ),
             ),
           )),
+          Positioned(
+            bottom: Sizes.size20,
+            left: Sizes.size14,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  '@Jw',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Sizes.size20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Gaps.v10,
+                Text(
+                  'yeonjae_0${widget.videoIndex % 6 + 1}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: Sizes.size14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Positioned(
+              bottom: Sizes.size20,
+              right: Sizes.size14,
+              child: Column(
+                children: const [
+                  CircleAvatar(
+                    radius: Sizes.size24,
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    foregroundImage: NetworkImage(
+                      'https://avatars.githubusercontent.com/u/78011042?v=4',
+                    ),
+                    child: Text('JW'),
+                  ),
+                  Gaps.v24,
+                  VideoButton(
+                    icon: FontAwesomeIcons.solidHeart,
+                    text: '2.9M',
+                  ),
+                  Gaps.v24,
+                  VideoButton(
+                    icon: FontAwesomeIcons.solidComment,
+                    text: '33.0K',
+                  ),
+                  Gaps.v24,
+                  VideoButton(
+                    icon: FontAwesomeIcons.share,
+                    text: 'Share',
+                  ),
+                ],
+              ))
         ],
       ),
     );
