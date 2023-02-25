@@ -25,7 +25,7 @@ class _VideoPostState extends State<VideoPost>
   late final VideoPlayerController _videoPlayerController;
   late final AnimationController _animationController;
 
-  bool isPaused = false;
+  bool _isPaused = false;
 
   final Duration _animationDuration = const Duration(milliseconds: 150);
 
@@ -69,7 +69,9 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
-    if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
+    if (info.visibleFraction == 1 &&
+        !_isPaused &&
+        !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
   }
@@ -78,11 +80,11 @@ class _VideoPostState extends State<VideoPost>
     if (_videoPlayerController.value.isPlaying) {
       _videoPlayerController.pause();
       _animationController.reverse(); // upper to lower
-      isPaused = true;
+      _isPaused = true;
     } else {
       _videoPlayerController.play();
       _animationController.forward(); // lower to upper
-      isPaused = false;
+      _isPaused = false;
     }
     setState(() {});
   }
@@ -117,7 +119,7 @@ class _VideoPostState extends State<VideoPost>
                 );
               },
               child: AnimatedOpacity(
-                opacity: isPaused ? 1 : 0,
+                opacity: _isPaused ? 1 : 0,
                 duration: _animationDuration,
                 child: const Center(
                   child: FaIcon(
