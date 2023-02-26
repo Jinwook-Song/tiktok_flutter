@@ -1244,3 +1244,22 @@ return RefreshIndicator(
       child: child
     );
 ```
+
+### showModalBottomSheet
+
+flutter 내장 함수
+
+```dart
+void _onCommentsTap(BuildContext context) async {
+    if (_videoPlayerController.value.isPlaying) {
+      _onTogglePlay();
+    }
+    await showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const VideoComments(),
+    );
+    // when modal closed.
+    _onTogglePlay();
+  }
+```
