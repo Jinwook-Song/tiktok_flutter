@@ -1263,3 +1263,7 @@ void _onCommentsTap(BuildContext context) async {
     _onTogglePlay();
   }
 ```
+
+### ListView.separated
+
+ListView Builder의 item들의 간격을 설정할 수 있다.
