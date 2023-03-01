@@ -75,6 +75,11 @@ class _VideoPostState extends State<VideoPost>
         !_videoPlayerController.value.isPlaying) {
       _videoPlayerController.play();
     }
+
+    if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
+      _onTogglePlay();
+      _videoPlayerController.seekTo(const Duration(seconds: 0));
+    }
   }
 
   void _onTogglePlay() {
