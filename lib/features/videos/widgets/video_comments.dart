@@ -33,6 +33,8 @@ class _VideoCommentsState extends State<VideoComments> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final ScrollController scrollController = ScrollController();
+
     return Container(
       height: screenSize.height * 0.7,
       clipBehavior: Clip.hardEdge,
@@ -58,56 +60,61 @@ class _VideoCommentsState extends State<VideoComments> {
           onTap: _onStopWriting,
           child: Stack(
             children: [
-              ListView.separated(
-                separatorBuilder: (context, index) => Gaps.v10,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Sizes.size16,
-                  vertical: Sizes.size10,
-                ),
-                itemCount: 10,
-                itemBuilder: (context, index) => Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const CircleAvatar(
-                      radius: Sizes.size16,
-                      child: Text("JW"),
-                    ),
-                    Gaps.h10,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              Scrollbar(
+                controller: scrollController,
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => Gaps.v10,
+                  padding: const EdgeInsets.only(
+                    left: Sizes.size16,
+                    right: Sizes.size16,
+                    top: Sizes.size10,
+                    bottom: Sizes.size96 + Sizes.size10,
+                  ),
+                  itemCount: 10,
+                  itemBuilder: (context, index) => Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const CircleAvatar(
+                        radius: Sizes.size16,
+                        child: Text("JW"),
+                      ),
+                      Gaps.h10,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'nico',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: Sizes.size14,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                            Gaps.v4,
+                            const Text("That's not it I've seen the same thing")
+                          ],
+                        ),
+                      ),
+                      Gaps.h10,
+                      Column(
                         children: [
+                          FaIcon(
+                            FontAwesomeIcons.heart,
+                            size: Sizes.size20,
+                            color: Colors.grey.shade500,
+                          ),
+                          Gaps.v2,
                           Text(
-                            'nico',
+                            '52.2K',
                             style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: Sizes.size14,
                               color: Colors.grey.shade500,
                             ),
                           ),
-                          Gaps.v4,
-                          const Text("That's not it I've seen the same thing")
                         ],
-                      ),
-                    ),
-                    Gaps.h10,
-                    Column(
-                      children: [
-                        FaIcon(
-                          FontAwesomeIcons.heart,
-                          size: Sizes.size20,
-                          color: Colors.grey.shade500,
-                        ),
-                        Gaps.v2,
-                        Text(
-                          '52.2K',
-                          style: TextStyle(
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
               Positioned(
