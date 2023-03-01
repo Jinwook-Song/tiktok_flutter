@@ -1267,3 +1267,131 @@ void _onCommentsTap(BuildContext context) async {
 ### ListView.separated
 
 ListView Builder의 item들의 간격을 설정할 수 있다.
+
+### TextField
+
+textfield는 크기를 지정하거나, expanded 위젯을 사용하여야 한다.
+
+키보드가 나올경우, flutter는 body의 크기를 조정하기 때문에 화면이 찌그러지는 현상이 발생할 수 있다.
+
+이를 방지 하기위해 _`resizeToAvoidBottomInset`_ 설정을 false로 변경
+
+추가로 bottom navigation bar는 keyboard가 활성화되면 기본적으로 사라지기 때문에 input text를 navigation bar에서 사용하는것은 적합하지 않다.
+
+→ Stack과 Positioned 위젯의 조합을 통해 원하는 결과를 얻을 수 있다.
+
+또한 모달의 사이즈를 조절하기 위해
+
+showModalBottomSheet의 _isScrollControlled 옵션을 true로 설정하고, Container 크기를 조정한다._
+
+```dart
+@override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return Container(
+      height: screenSize.height * 0.7,
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          Sizes.size14,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade50,
+        appBar: AppBar(
+          backgroundColor: Colors.grey.shade50,
+          automaticallyImplyLeading: false,
+          title: const Text('22796 comments'),
+          actions: [
+            IconButton(
+              onPressed: _onClosePressed,
+              icon: const FaIcon(FontAwesomeIcons.xmark),
+            ),
+          ],
+        ),
+        body: Stack(
+          children: [
+            ListView.separated(
+              separatorBuilder: (context, index) => Gaps.v10,
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.size16,
+                vertical: Sizes.size10,
+              ),
+              itemCount: 10,
+              itemBuilder: (context, index) => Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CircleAvatar(
+                    radius: Sizes.size16,
+                    child: Text("JW"),
+                  ),
+                  Gaps.h10,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'nico',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: Sizes.size14,
+                            color: Colors.grey.shade500,
+                          ),
+                        ),
+                        Gaps.v4,
+                        const Text("That's not it I've seen the same thing")
+                      ],
+                    ),
+                  ),
+                  Gaps.h10,
+                  Column(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.heart,
+                        size: Sizes.size20,
+                        color: Colors.grey.shade500,
+                      ),
+                      Gaps.v2,
+                      Text(
+                        '52.2K',
+                        style: TextStyle(
+                          color: Colors.grey.shade500,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              width: screenSize.width,
+              child: BottomAppBar(
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: Sizes.size16,
+                      backgroundColor: Colors.grey.shade500,
+                      foregroundColor: Colors.white,
+                      child: const Text('JW'),
+                    ),
+                    Gaps.h10,
+                    const Expanded(
+                      child: TextField(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+### MediaQuery
+
+screen size 및 다양한 정보를 얻을 수 있다.
