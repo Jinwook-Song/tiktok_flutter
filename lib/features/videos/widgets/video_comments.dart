@@ -98,19 +98,46 @@ class _VideoCommentsState extends State<VideoComments> {
               width: screenSize.width,
               child: BottomAppBar(
                 color: Colors.white,
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: Sizes.size16,
-                      backgroundColor: Colors.grey.shade500,
-                      foregroundColor: Colors.white,
-                      child: const Text('JW'),
-                    ),
-                    Gaps.h10,
-                    const Expanded(
-                      child: TextField(),
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: Sizes.size16,
+                    vertical: Sizes.size8,
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: Sizes.size16,
+                        backgroundColor: Colors.grey.shade500,
+                        foregroundColor: Colors.white,
+                        child: const Text('JW'),
+                      ),
+                      Gaps.h10,
+                      Expanded(
+                        child: SizedBox(
+                          height: Sizes.size44,
+                          child: TextField(
+                            cursorColor: Theme.of(context).primaryColor,
+                            decoration: InputDecoration(
+                                hintText: 'Add comment...',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey.shade500,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: Sizes.size12,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    Sizes.size10,
+                                  ),
+                                  borderSide: BorderSide.none,
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey.shade200),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
