@@ -5,7 +5,10 @@ import 'package:tiktok_flutter/constants/sizes.dart';
 class PostVideoButton extends StatelessWidget {
   const PostVideoButton({
     Key? key,
+    required this.isLight,
   }) : super(key: key);
+
+  final bool isLight;
 
   @override
   Widget build(BuildContext context) {
@@ -48,15 +51,15 @@ class PostVideoButton extends StatelessWidget {
           height: 30,
           padding: const EdgeInsets.symmetric(horizontal: Sizes.size12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isLight ? Colors.white : Colors.black,
             borderRadius: BorderRadius.circular(
               Sizes.size8,
             ),
           ),
-          child: const Center(
+          child: Center(
               child: FaIcon(
             FontAwesomeIcons.plus,
-            color: Colors.black,
+            color: isLight ? Colors.black : Colors.white,
             size: Sizes.size16 + Sizes.size2,
           )),
         )
