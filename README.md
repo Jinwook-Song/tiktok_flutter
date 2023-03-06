@@ -1463,3 +1463,24 @@ class DiscoverScreen extends StatelessWidget {
   }
 }
 ```
+
+### GridView
+
+```dart
+GridView.builder(
+            padding: const EdgeInsets.all(Sizes.size8),
+            itemCount: 20,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 9 / 16,
+              crossAxisSpacing: Sizes.size8,
+              mainAxisSpacing: Sizes.size8,
+            ),
+            itemBuilder: (context, index) => Container(
+              color: Colors.teal,
+              child: Center(
+                child: Text('${index + 1}'),
+              ),
+            ),
+          ),
+```
