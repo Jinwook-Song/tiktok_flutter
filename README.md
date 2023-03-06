@@ -1484,3 +1484,17 @@ GridView.builder(
             ),
           ),
 ```
+
+### Image + AspectRatio
+
+```dart
+itemBuilder: (context, index) => AspectRatio(
+              aspectRatio: 9 / 16,
+              child: FadeInImage.assetNetwork(
+                fit: BoxFit.cover,
+                placeholderFit: BoxFit.cover,
+                placeholder: 'assets/images/placeholder.jpeg',
+                image: 'https://source.unsplash.com/random/200x${355 + index}',
+              ),
+            ),
+```

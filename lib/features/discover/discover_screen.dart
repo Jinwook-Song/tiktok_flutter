@@ -50,10 +50,13 @@ class DiscoverScreen extends StatelessWidget {
               crossAxisSpacing: Sizes.size8,
               mainAxisSpacing: Sizes.size8,
             ),
-            itemBuilder: (context, index) => Container(
-              color: Colors.teal,
-              child: Center(
-                child: Text('${index + 1}'),
+            itemBuilder: (context, index) => AspectRatio(
+              aspectRatio: 9 / 16,
+              child: FadeInImage.assetNetwork(
+                fit: BoxFit.cover,
+                placeholderFit: BoxFit.cover,
+                placeholder: 'assets/images/placeholder.jpeg',
+                image: 'https://source.unsplash.com/random/200x${355 + index}',
               ),
             ),
           ),
