@@ -1498,3 +1498,9 @@ itemBuilder: (context, index) => AspectRatio(
               ),
             ),
 ```
+
+### DefaultTextStyle
+
+children의 style을 한번에 지정
+
+override 가능
