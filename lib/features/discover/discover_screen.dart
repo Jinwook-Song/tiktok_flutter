@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
@@ -13,18 +14,50 @@ final tabs = [
   "Brands",
 ];
 
-class DiscoverScreen extends StatelessWidget {
+class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({super.key});
+
+  @override
+  State<DiscoverScreen> createState() => _DiscoverScreenState();
+}
+
+class _DiscoverScreenState extends State<DiscoverScreen> {
+  final TextEditingController _textEditingController =
+      TextEditingController(text: 'init value');
+
+  void _onTabBarTap(int _) {
+    FocusScope.of(context).unfocus();
+  }
+
+  void _onSearchChanged(value) {
+    print(value);
+  }
+
+  void _onSearchSubmitted(value) {
+    print(value);
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
-            title: const Text('Discover'),
+            title: CupertinoSearchTextField(
+              controller: _textEditingController,
+              onChanged: _onSearchChanged,
+              onSubmitted: _onSearchSubmitted,
+            ),
             elevation: 1,
             bottom: TabBar(
+              onTap: _onTabBarTap,
               splashFactory: NoSplash.splashFactory,
               padding: const EdgeInsets.symmetric(horizontal: Sizes.size16),
               isScrollable: true,
@@ -44,6 +77,7 @@ class DiscoverScreen extends StatelessWidget {
             )),
         body: TabBarView(children: [
           GridView.builder(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.all(Sizes.size8),
             itemCount: 20,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -54,14 +88,20 @@ class DiscoverScreen extends StatelessWidget {
             ),
             itemBuilder: (context, index) => Column(
               children: [
-                AspectRatio(
-                  aspectRatio: 9 / 16,
-                  child: FadeInImage.assetNetwork(
-                    fit: BoxFit.cover,
-                    placeholderFit: BoxFit.cover,
-                    placeholder: 'assets/images/placeholder.jpeg',
-                    image:
-                        'https://source.unsplash.com/random/200x${355 + index}',
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Sizes.size8),
+                  ),
+                  clipBehavior: Clip.hardEdge,
+                  child: AspectRatio(
+                    aspectRatio: 9 / 16,
+                    child: FadeInImage.assetNetwork(
+                      fit: BoxFit.cover,
+                      placeholderFit: BoxFit.cover,
+                      placeholder: 'assets/images/placeholder.jpeg',
+                      image:
+                          'https://source.unsplash.com/random/200x${355 + index}',
+                    ),
                   ),
                 ),
                 Gaps.v10,
