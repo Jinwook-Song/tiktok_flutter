@@ -1504,3 +1504,43 @@ itemBuilder: (context, index) => AspectRatio(
 children의 style을 한번에 지정
 
 override 가능
+
+### ListTile
+
+leading, title, subtitle, trailing
+
+```dart
+ListTile(
+            leading: Container(
+              width: Sizes.size52,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.blue,
+              ),
+              child: const Center(
+                child: FaIcon(
+                  FontAwesomeIcons.users,
+                  size: Sizes.size20,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            title: const Text(
+              'New followers',
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            subtitle: const Text(
+              'Messages from followers will appear here',
+              style: TextStyle(
+                fontSize: Sizes.size12,
+              ),
+            ),
+            trailing: const FaIcon(
+              FontAwesomeIcons.chevronRight,
+              size: Sizes.size14,
+              color: Colors.black,
+            ),
+          ),
+```
