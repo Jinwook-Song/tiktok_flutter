@@ -1544,3 +1544,34 @@ ListTile(
             ),
           ),
 ```
+
+### RichText
+
+text에 각각 다른 style을 사용해야하는 경우
+
+```dart
+title: RichText(
+              text: TextSpan(
+                text: 'Account updates:',
+                style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                    fontSize: Sizes.size16),
+                children: [
+                  const TextSpan(
+                    text: ' Upload longer videos',
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' 1h',
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Colors.grey.shade500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+```
