@@ -1583,3 +1583,39 @@ swipe 하여 없앨 수 있다.
 onDismissed를 통해 어느 방향에서 제거됐는지 감지할 수 있고, 각각에 따른 기능을 구현할 수 있다
 
 실제로 위젯 트리에서 제거되지 않았기 때문에 위젯을 업데이트 해야함
+
+### RotationTransition
+
+Animation<double>을 인자로 받는다.
+
+한바퀴 값이 1
+
+```dart
+late final AnimationController _animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(
+      milliseconds: 150,
+    ),
+  );
+
+  late final Animation<double> _animation = Tween(
+    begin: 0.0,
+    end: 0.5,
+  ).animate(_animationController);
+
+  void _onTitleTap() {
+    if (_animationController.isCompleted) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
+  }
+
+RotationTransition(
+                turns: _animation,
+                child: const FaIcon(
+                  FontAwesomeIcons.chevronDown,
+                  size: Sizes.size14,
+                ),
+              ),
+```
