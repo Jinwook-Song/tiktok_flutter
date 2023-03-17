@@ -1619,3 +1619,14 @@ RotationTransition(
                 ),
               ),
 ```
+
+### SlideTransition
+
+Animation<Offset>을 인자로 받는다
+
+```dart
+late final Animation<Offset> _pannelAnimation = Tween(
+    begin: const Offset(0, -1), // dx, dy
+    end: Offset.zero,
+  ).animate(_animationController);
+```
