@@ -1630,3 +1630,19 @@ late final Animation<Offset> _pannelAnimation = Tween(
     end: Offset.zero,
   ).animate(_animationController);
 ```
+
+### AnimatedModalBarrier
+
+```dart
+late final Animation<Color?> _colorAnimation = ColorTween(
+    begin: Colors.transparent,
+    end: Colors.black26,
+  ).animate(_animationController);
+
+if (_showBarrier)
+            AnimatedModalBarrier(
+              color: _colorAnimation,
+              dismissible: true,
+              onDismiss: _toggleAnimations,
+            ),
+```
