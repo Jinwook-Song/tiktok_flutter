@@ -1745,3 +1745,63 @@ class _ChatsScreenState extends State<ChatsScreen> {
   }
 }
 ```
+
+### Delete AnimatedList
+
+삭제할 때, 동일한 위젯을 return 하여 해당 위젯이 삭제되는 것처럼 보이도록 한다.
+
+(makeTile 함수로 동일한 위젯을 사용)
+
+```dart
+void _deleteItem(int index) {
+    if (_key.currentState != null) {
+      _key.currentState!.removeItem(
+          index,
+          (context, animation) => SizeTransition(
+                sizeFactor: animation,
+                child: Container(
+                  color: Colors.grey.shade400,
+                  child: _makeTile(index),
+                ),
+              ),
+          duration: _duration);
+      _items.removeAt(index);
+    }
+  }
+
+  Widget _makeTile(int index) {
+    return ListTile(
+      key: UniqueKey(),
+      onLongPress: () => _deleteItem(index),
+      onTap: _onChatTap,
+      leading: const CircleAvatar(
+        radius: Sizes.size32,
+        foregroundImage: NetworkImage(
+          'https://avatars.githubusercontent.com/u/78011042?v=4',
+        ),
+      ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            'AntonioBM $index',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Text(
+            '2:16 PM',
+            style: TextStyle(
+              fontSize: Sizes.size12,
+              color: Colors.grey.shade500,
+            ),
+          ),
+        ],
+      ),
+      subtitle: const Text(
+        'Say hi to AntonioBM',
+      ),
+    );
+  }
+```
