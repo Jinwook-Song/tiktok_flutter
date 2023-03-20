@@ -1805,3 +1805,40 @@ void _deleteItem(int index) {
     );
   }
 ```
+
+### CustomScrollView
+
+scroll이 가능한 위젯을 만들 수 있다
+
+slivers는 List<Widget> 이지만, 모든 위젯이 가능한것은 아니다
+
+```dart
+return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          floating: true,
+          stretch: true,
+          backgroundColor: Colors.orange,
+          collapsedHeight: 80,
+          expandedHeight: 200,
+          flexibleSpace: FlexibleSpaceBar(
+            stretchModes: const [
+              StretchMode.blurBackground,
+              StretchMode.fadeTitle,
+              StretchMode.zoomBackground,
+            ],
+            title: const Text(
+              'Hello',
+              style: TextStyle(
+                color: Colors.yellow,
+              ),
+            ),
+            background: Image.asset(
+              'assets/images/placeholder.jpeg',
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ],
+    );
+```
