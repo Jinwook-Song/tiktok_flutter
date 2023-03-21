@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -14,74 +16,121 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          floating: true, // 스크롤을 올리면 최상단이 아니더라도 appbar가 나타남
-          snap: true, // 스크롤을 올리면 expandedHeight 영역이까지 모두 나타남
-          stretch: true, // 최상단에서 스크롤을 올리면 appbar를 늘릴 수 있음
-          pinned: true, // 스크롤을 내리더라도 collapseHeight는 유지함
-          backgroundColor: Colors.orange,
-          collapsedHeight: 80,
-          expandedHeight: 200,
-          flexibleSpace: FlexibleSpaceBar(
-            stretchModes: const [
-              StretchMode.blurBackground,
-              StretchMode.fadeTitle,
-              StretchMode.zoomBackground,
-            ],
-            title: const Text(
-              'Hello',
-              style: TextStyle(
-                color: Colors.yellow,
+          title: const Text('JW'),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const FaIcon(
+                FontAwesomeIcons.gear,
+                size: Sizes.size20,
               ),
             ),
-            background: Image.asset(
-              'assets/images/placeholder.jpeg',
-              fit: BoxFit.cover,
-            ),
-          ),
+          ],
         ),
         SliverToBoxAdapter(
           child: Column(
-            children: const [
-              CircleAvatar(
-                backgroundColor: Colors.teal,
-                radius: Sizes.size20,
+            children: [
+              const CircleAvatar(
+                radius: Sizes.size52,
+                foregroundColor: Colors.teal,
+                foregroundImage: NetworkImage(
+                  'https://avatars.githubusercontent.com/u/78011042?v=4',
+                ),
+                child: Text(
+                  'JW',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Gaps.v20,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "@JW",
+                    style: TextStyle(
+                      fontSize: Sizes.size16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Gaps.h8,
+                  FaIcon(
+                    FontAwesomeIcons.solidCircleCheck,
+                    size: Sizes.size14,
+                    color: Colors.cyan.withOpacity(0.6),
+                  ),
+                ],
+              ),
+              Gaps.v24,
+              SizedBox(
+                height: Sizes.size40,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const FollowState(
+                      value: '37',
+                      state: 'Following',
+                    ),
+                    VerticalDivider(
+                      width: Sizes.size32,
+                      thickness: Sizes.size1,
+                      indent: Sizes.size12,
+                      endIndent: Sizes.size12,
+                      color: Colors.grey.shade200,
+                    ),
+                    const FollowState(
+                      value: '10.5M',
+                      state: 'Followers',
+                    ),
+                    VerticalDivider(
+                      width: Sizes.size32,
+                      thickness: Sizes.size1,
+                      indent: Sizes.size12,
+                      endIndent: Sizes.size12,
+                      color: Colors.grey.shade200,
+                    ),
+                    const FollowState(
+                      value: '149.3M',
+                      state: 'Likes',
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-        ),
-        SliverFixedExtentList(
-          delegate: SliverChildBuilderDelegate(
-            childCount: 50,
-            (context, index) => Container(
-              alignment: Alignment.center,
-              color: Colors.amber[100 * (index % 9)],
-              child: Text(
-                'Item $index',
-              ),
-            ),
+        )
+      ],
+    );
+  }
+}
+
+class FollowState extends StatelessWidget {
+  final String value, state;
+
+  const FollowState({
+    Key? key,
+    required this.value,
+    required this.state,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: Sizes.size16,
+            fontWeight: FontWeight.w800,
           ),
-          itemExtent: 100,
         ),
-        SliverPersistentHeader(
-          delegate: CustomDelegate(),
-          pinned: true,
-        ),
-        SliverGrid(
-          delegate: SliverChildBuilderDelegate(
-            childCount: 50,
-            (context, index) => Container(
-              alignment: Alignment.center,
-              color: Colors.cyan[100 * (index % 9)],
-              child: Text(
-                'Item $index',
-              ),
-            ),
-          ),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 100,
-            mainAxisSpacing: Sizes.size20,
-            crossAxisSpacing: Sizes.size20,
-            childAspectRatio: 1,
+        Gaps.v3,
+        Text(
+          state,
+          style: TextStyle(
+            color: Colors.grey.shade500,
           ),
         ),
       ],

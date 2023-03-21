@@ -1953,3 +1953,17 @@ SliverToBoxAdapter(
           ),
         ),
 ```
+
+### VerticalDivider (with SizedBox)
+
+divider이며 height는 father widget의 높이이다
+
+```dart
+VerticalDivider(
+                      width: Sizes.size32,
+                      thickness: Sizes.size1,
+                      indent: Sizes.size8,
+                      endIndent: Sizes.size8,
+                      color: Colors.grey.shade200,
+                    ),
+```
