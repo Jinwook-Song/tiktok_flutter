@@ -52,6 +52,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           ),
           itemExtent: 100,
         ),
+        SliverPersistentHeader(
+          delegate: CustomDelegate(),
+          pinned: true,
+        ),
         SliverGrid(
           delegate: SliverChildBuilderDelegate(
             childCount: 50,
@@ -64,12 +68,47 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             ),
           ),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 100,
-              mainAxisSpacing: Sizes.size20,
-              crossAxisSpacing: Sizes.size20,
-              childAspectRatio: 1),
+            maxCrossAxisExtent: 100,
+            mainAxisSpacing: Sizes.size20,
+            crossAxisSpacing: Sizes.size20,
+            childAspectRatio: 1,
+          ),
         ),
       ],
     );
+  }
+}
+
+class CustomDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Colors.pink,
+      child: const FractionallySizedBox(
+        heightFactor: 1,
+        child: Center(
+          child: Text(
+            'subtitle',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: Sizes.size16,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 100;
+
+  @override
+  double get minExtent => 50;
+
+  // maxExtent, minExtent 값을 변경하고 싶을 떄, true
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }

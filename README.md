@@ -1893,3 +1893,46 @@ SliverGrid(
               childAspectRatio: 1),
         ),
 ```
+
+### SliverPersistentHeader
+
+```dart
+SliverPersistentHeader(
+          delegate: CustomDelegate(),
+          pinned: true,
+        ),
+
+class CustomDelegate extends SliverPersistentHeaderDelegate {
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: Colors.pink,
+      child: const FractionallySizedBox(
+        heightFactor: 1,
+        child: Center(
+          child: Text(
+            'subtitle',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: Sizes.size16,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  double get maxExtent => 100;
+
+  @override
+  double get minExtent => 50;
+
+  // maxExtent, minExtent 값을 변경하고 싶을 떄, true
+  @override
+  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
+  }
+}
+```
