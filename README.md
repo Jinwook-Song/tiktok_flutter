@@ -1936,3 +1936,20 @@ class CustomDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 ```
+
+### SliverToBoxAdapter
+
+sliver안에서 random한 widget을 사용하고 싶은 경우
+
+```dart
+SliverToBoxAdapter(
+          child: Column(
+            children: const [
+              CircleAvatar(
+                backgroundColor: Colors.teal,
+                radius: Sizes.size20,
+              ),
+            ],
+          ),
+        ),
+```
