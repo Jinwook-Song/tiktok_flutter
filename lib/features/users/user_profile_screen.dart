@@ -13,8 +13,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          floating: true,
-          stretch: true,
+          floating: true, // 스크롤을 올리면 최상단이 아니더라도 appbar가 나타남
+          snap: true, // 스크롤을 올리면 expandedHeight 영역이까지 모두 나타남
+          stretch: true, // 최상단에서 스크롤을 올리면 appbar를 늘릴 수 있음
+          pinned: true, // 스크롤을 내리더라도 collapseHeight는 유지함
           backgroundColor: Colors.orange,
           collapsedHeight: 80,
           expandedHeight: 200,
@@ -35,6 +37,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               fit: BoxFit.cover,
             ),
           ),
+        ),
+        SliverFixedExtentList(
+          delegate: SliverChildBuilderDelegate(
+            childCount: 50,
+            (context, index) => Container(
+              alignment: Alignment.center,
+              color: Colors.amber[100 * (index % 9)],
+              child: Text(
+                'Item $index',
+              ),
+            ),
+          ),
+          itemExtent: 100,
         ),
       ],
     );
