@@ -1871,3 +1871,25 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 }
 ```
+
+### SliverGrid
+
+```dart
+SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            childCount: 50,
+            (context, index) => Container(
+              alignment: Alignment.center,
+              color: Colors.cyan[100 * (index % 9)],
+              child: Text(
+                'Item $index',
+              ),
+            ),
+          ),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 100,
+              mainAxisSpacing: Sizes.size20,
+              crossAxisSpacing: Sizes.size20,
+              childAspectRatio: 1),
+        ),
+```
