@@ -1967,3 +1967,11 @@ VerticalDivider(
                       color: Colors.grey.shade200,
                     ),
 ```
+
+### Nested Scroll View
+
+두개의 스크롤이 사용되는 경우
+
+headerSliverBuilder
+
+body
