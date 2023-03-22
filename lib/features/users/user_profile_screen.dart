@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/users/widgets/follow_state.dart';
+import 'package:tiktok_flutter/features/users/widgets/persistent_tab_bar.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -16,268 +17,241 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
-      child: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              title: const Text('JW'),
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const FaIcon(
-                    FontAwesomeIcons.gear,
-                    size: Sizes.size20,
-                  ),
-                ),
-              ],
-            ),
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  const CircleAvatar(
-                    radius: Sizes.size52,
-                    foregroundColor: Colors.teal,
-                    foregroundImage: NetworkImage(
-                      'https://avatars.githubusercontent.com/u/78011042?v=4',
+      child: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                title: const Text('JW'),
+                actions: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const FaIcon(
+                      FontAwesomeIcons.gear,
+                      size: Sizes.size20,
                     ),
-                    child: Text(
-                      'JW',
-                      style: TextStyle(
-                        color: Colors.white,
+                  ),
+                ],
+              ),
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    const CircleAvatar(
+                      radius: Sizes.size52,
+                      foregroundColor: Colors.teal,
+                      foregroundImage: NetworkImage(
+                        'https://avatars.githubusercontent.com/u/78011042?v=4',
                       ),
-                    ),
-                  ),
-                  Gaps.v20,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "@JW",
+                      child: Text(
+                        'JW',
                         style: TextStyle(
-                          fontSize: Sizes.size16,
-                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
                         ),
                       ),
-                      Gaps.h8,
-                      FaIcon(
-                        FontAwesomeIcons.solidCircleCheck,
-                        size: Sizes.size14,
-                        color: Colors.cyan.withOpacity(0.6),
-                      ),
-                    ],
-                  ),
-                  Gaps.v24,
-                  SizedBox(
-                    height: Sizes.size40,
-                    child: Row(
+                    ),
+                    Gaps.v20,
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const FollowState(
-                          value: '37',
-                          state: 'Following',
+                        const Text(
+                          "@JW",
+                          style: TextStyle(
+                            fontSize: Sizes.size16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                        VerticalDivider(
-                          width: Sizes.size32,
-                          thickness: Sizes.size1,
-                          indent: Sizes.size12,
-                          endIndent: Sizes.size12,
-                          color: Colors.grey.shade200,
-                        ),
-                        const FollowState(
-                          value: '10.5M',
-                          state: 'Followers',
-                        ),
-                        VerticalDivider(
-                          width: Sizes.size32,
-                          thickness: Sizes.size1,
-                          indent: Sizes.size12,
-                          endIndent: Sizes.size12,
-                          color: Colors.grey.shade200,
-                        ),
-                        const FollowState(
-                          value: '149.3M',
-                          state: 'Likes',
+                        Gaps.h8,
+                        FaIcon(
+                          FontAwesomeIcons.solidCircleCheck,
+                          size: Sizes.size14,
+                          color: Colors.cyan.withOpacity(0.6),
                         ),
                       ],
                     ),
-                  ),
-                  Gaps.v14,
-                  FractionallySizedBox(
-                    widthFactor: 2 / 3,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: Sizes.size48,
-                            vertical: Sizes.size12,
+                    Gaps.v24,
+                    SizedBox(
+                      height: Sizes.size40,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const FollowState(
+                            value: '37',
+                            state: 'Following',
                           ),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(Sizes.size2),
+                          VerticalDivider(
+                            width: Sizes.size32,
+                            thickness: Sizes.size1,
+                            indent: Sizes.size12,
+                            endIndent: Sizes.size12,
+                            color: Colors.grey.shade200,
+                          ),
+                          const FollowState(
+                            value: '10.5M',
+                            state: 'Followers',
+                          ),
+                          VerticalDivider(
+                            width: Sizes.size32,
+                            thickness: Sizes.size1,
+                            indent: Sizes.size12,
+                            endIndent: Sizes.size12,
+                            color: Colors.grey.shade200,
+                          ),
+                          const FollowState(
+                            value: '149.3M',
+                            state: 'Likes',
+                          ),
+                        ],
+                      ),
+                    ),
+                    Gaps.v14,
+                    FractionallySizedBox(
+                      widthFactor: 2 / 3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: Sizes.size48,
+                              vertical: Sizes.size12,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(Sizes.size2),
+                              ),
+                            ),
+                            child: const Text(
+                              'Follow',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                          child: const Text(
-                            'Follow',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                          Gaps.h4,
+                          Container(
+                            padding: const EdgeInsets.all(Sizes.size10),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                              ),
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Gaps.h4,
-                        Container(
-                          padding: const EdgeInsets.all(Sizes.size10),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey.shade300,
-                            ),
-                          ),
-                          child: const Center(
-                            child: FaIcon(
-                              FontAwesomeIcons.youtube,
-                              size: Sizes.size18,
-                            ),
-                          ),
-                        ),
-                        Gaps.h4,
-                        Container(
-                          padding: const EdgeInsets.all(Sizes.size10),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey.shade300,
-                            ),
-                          ),
-                          child: const Center(
-                            child: RotatedBox(
-                              quarterTurns: 45,
-                              child: Icon(
-                                Icons.play_arrow_sharp,
+                            child: const Center(
+                              child: FaIcon(
+                                FontAwesomeIcons.youtube,
                                 size: Sizes.size18,
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Gaps.v14,
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Sizes.size36),
-                    child: Text(
-                      'All highlights and where to watch live matches on FIFA+',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Gaps.v14,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      FaIcon(
-                        FontAwesomeIcons.link,
-                        size: Sizes.size16,
-                      ),
-                      Gaps.h10,
-                      Text(
-                        'https://www.fifa.com/fifaplus/en/home',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )
-                    ],
-                  ),
-                  Gaps.v20,
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.grey.shade200,
-                          width: Sizes.size1,
-                        ),
-                      ),
-                    ),
-                    child: const TabBar(
-                      labelPadding: EdgeInsets.symmetric(
-                        vertical: Sizes.size10,
-                      ),
-                      indicatorColor: Colors.black,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      tabs: [
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: Sizes.size12),
-                          child: Icon(
-                            Icons.grid_4x4_outlined,
-                            color: Colors.black87,
+                          Gaps.h4,
+                          Container(
+                            padding: const EdgeInsets.all(Sizes.size10),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                              ),
+                            ),
+                            child: const Center(
+                              child: RotatedBox(
+                                quarterTurns: 45,
+                                child: Icon(
+                                  Icons.play_arrow_sharp,
+                                  size: Sizes.size18,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: Sizes.size12),
-                          child: FaIcon(
-                            FontAwesomeIcons.heart,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ];
-        },
-        body: TabBarView(
-          children: [
-            GridView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              itemCount: 20,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 3 / 4,
-                crossAxisSpacing: Sizes.size2,
-                mainAxisSpacing: Sizes.size2,
-              ),
-              itemBuilder: (context, index) => Stack(
-                children: [
-                  AspectRatio(
-                    aspectRatio: 3 / 4,
-                    child: FadeInImage.assetNetwork(
-                      fit: BoxFit.cover,
-                      placeholderFit: BoxFit.cover,
-                      placeholder: 'assets/images/placeholder.jpeg',
-                      image:
-                          'https://source.unsplash.com/random/200x${355 + index}',
+                    Gaps.v14,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: Sizes.size36),
+                      child: Text(
+                        'All highlights and where to watch live matches on FIFA+',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    bottom: 0,
-                    child: Row(
+                    Gaps.v14,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Icon(
-                          Icons.play_arrow_outlined,
-                          color: Colors.white,
+                        FaIcon(
+                          FontAwesomeIcons.link,
+                          size: Sizes.size16,
                         ),
+                        Gaps.h10,
                         Text(
-                          '4.1M',
+                          'https://www.fifa.com/fifaplus/en/home',
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w600),
-                        ),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
                       ],
                     ),
-                  )
-                ],
+                    Gaps.v20,
+                  ],
+                ),
               ),
-            ),
-            const Center(
-              child: Text('tab 2'),
-            ),
-          ],
+              SliverPersistentHeader(
+                delegate: PersistentTabBar(),
+                pinned: true,
+              ),
+            ];
+          },
+          body: TabBarView(
+            children: [
+              GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                itemCount: 20,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 3 / 4,
+                  crossAxisSpacing: Sizes.size2,
+                  mainAxisSpacing: Sizes.size2,
+                ),
+                itemBuilder: (context, index) => Stack(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 3 / 4,
+                      child: FadeInImage.assetNetwork(
+                        fit: BoxFit.cover,
+                        placeholderFit: BoxFit.cover,
+                        placeholder: 'assets/images/placeholder.jpeg',
+                        image:
+                            'https://source.unsplash.com/random/200x${355 + index}',
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      bottom: 0,
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.play_arrow_outlined,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            '4.1M',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const Center(
+                child: Text('tab 2'),
+              ),
+            ],
+          ),
         ),
       ),
     );
