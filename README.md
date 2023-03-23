@@ -2004,3 +2004,7 @@ body: ListWheelScrollView(
         ],
       ),
 ```
+
+### CircularProgressIndicator.adaptive()
+
+사용자가 사용중이 플랫폼에 따라 ios, android 디자인
