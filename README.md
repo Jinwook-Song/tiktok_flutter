@@ -1975,3 +1975,32 @@ VerticalDivider(
 headerSliverBuilder
 
 body
+
+### ListWheelScrollView
+
+```dart
+body: ListWheelScrollView(
+        diameterRatio: 1.5,
+        offAxisFraction: -0.5,
+        useMagnifier: true,
+        magnification: 1.5,
+        itemExtent: 200,
+        children: [
+          for (var _ in [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
+            FractionallySizedBox(
+              widthFactor: 1,
+              child: Container(
+                color: Colors.cyan,
+                alignment: Alignment.center,
+                child: const Text(
+                  'Options',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: Sizes.size20,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+```
