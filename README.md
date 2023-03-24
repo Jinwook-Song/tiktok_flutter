@@ -2092,3 +2092,23 @@ CheckboxListTile(
             title: const Text('Enable notifications'),
           ),
 ```
+
+### Switch, CupertinoSwitch, Switch.adaptive
+
+```dart
+Switch.adaptive(
+            value: _notifications,
+            onChanged: _onNotificationsChanged,
+            activeColor: Colors.black,
+          ),
+          CupertinoSwitch(
+            value: _notifications,
+            onChanged: _onNotificationsChanged,
+            activeColor: Colors.black,
+          ),
+          Switch(
+            value: _notifications,
+            onChanged: _onNotificationsChanged,
+            activeColor: Colors.black,
+          ),
+```
