@@ -2072,3 +2072,23 @@ onTap: () async {
               print(booking);
             },
 ```
+
+### CheckboxListTile
+
+```dart
+bool _notifications = false;
+
+  void _onNotificationsChanged(bool? value) {
+    if (value == null) return;
+    setState(() {
+      _notifications = value;
+    });
+  }
+
+CheckboxListTile(
+            value: _notifications,
+            onChanged: _onNotificationsChanged,
+            activeColor: Colors.black,
+            title: const Text('Enable notifications'),
+          ),
+```
