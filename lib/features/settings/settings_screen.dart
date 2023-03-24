@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -7,17 +6,30 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Settings",
-          ),
+      appBar: AppBar(
+        title: const Text(
+          "Settings",
         ),
-        body: Column(
-          children: const [
-            CupertinoActivityIndicator(),
-            CircularProgressIndicator(),
-            CircularProgressIndicator.adaptive() // 유저의 플랫폼에 따라 ios 혹은 android
-          ],
-        ));
+      ),
+      body: ListView(
+        children: [
+          ListTile(
+            onTap: () => showAboutDialog(
+              context: context,
+              applicationVersion: '0.1.0',
+              applicationLegalese: 'All rights reserved',
+            ),
+            title: const Text(
+              'About',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            subtitle: const Text('About this app...'),
+          ),
+          const AboutListTile()
+        ],
+      ),
+    );
   }
 }

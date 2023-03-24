@@ -2008,3 +2008,27 @@ body: ListWheelScrollView(
 ### CircularProgressIndicator.adaptive()
 
 사용자가 사용중이 플랫폼에 따라 ios, android 디자인
+
+### showAboutDialog(), AboutListTile
+
+```dart
+body: ListView(
+        children: [
+          ListTile(
+            onTap: () => showAboutDialog(
+              context: context,
+              applicationVersion: '0.1.0',
+              applicationLegalese: 'All rights reserved',
+            ),
+            title: const Text(
+              'About',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            subtitle: const Text('About this app...'),
+          ),
+          const AboutListTile()
+        ],
+      ),
+```
