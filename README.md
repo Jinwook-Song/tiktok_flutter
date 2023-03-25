@@ -2287,3 +2287,43 @@ crossAxisCount: width < BreakPoints.sm
                           ? 4
                           : 5,
 ```
+
+### LayoutBuilder
+
+context, constraints
+
+constraints.maxWidth: Container가 가질 수 있는 최대 너비 ↔ 화면 크기와는 구분된다
+
+```dart
+class LayoutBuilderCodeLab extends StatelessWidget {
+  const LayoutBuilderCodeLab({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      body: SizedBox(
+        width: size.width / 2,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Container(
+              width: constraints.maxWidth,
+              height: constraints.maxHeight,
+              color: Colors.teal,
+              child: Center(
+                child: Text(
+                  '${size.width} ${constraints.maxWidth}',
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+```
