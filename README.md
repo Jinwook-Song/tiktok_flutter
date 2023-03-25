@@ -2219,3 +2219,49 @@ ListTile(
             ),
           ),
 ```
+
+## Responsive Design
+
+가로모드, 세로모드, 화면 크기, Dark mode 등에 대해서는 처음부터 고려해야한다.
+
+```dart
+class BreakPoints {
+  static const sm = 640;
+  static const md = 768;
+  static const lg = 1024;
+  static const xl = 1280;
+  static const xxl = 1536;
+}
+```
+
+Collection if(for)는 하나의 대상에만 동작하기 때문에 여러 대상에 적용하기 위해서는
+List + destruction을 이용한다. `…[itemA, itemB, itemC]`
+
+### OrientationBuilder
+
+_if_ (_orientation_ == Orientation.portrait) → 세로 모드
+
+_if_ (_orientation_ == Orientation.landscape) → 가로 모드
+
+앱 시작전에 state를 바꾸고 싶다면
+
+engine 그리고 engine과 widget 의 연결을 초기화 해야한다
+
+```dart
+void main() async {
+  // App 실행전에 초기화하고 binding 해야한다
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 세로 고정
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+
+// 앱의 최상단에서 할 필요는 없고, 각 Screen마다 따로 설정할 수 있다
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle.dark,
+  );
+
+  runApp(const TikTokApp());
+}
+```

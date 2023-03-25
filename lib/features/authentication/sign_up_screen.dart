@@ -18,80 +18,106 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.size40,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: const [
-              Gaps.v80,
-              Text(
-                "Sign up for TikTok",
-                style: TextStyle(
-                  fontSize: Sizes.size24,
-                  fontWeight: FontWeight.w700,
-                ),
+    return OrientationBuilder(
+      builder: (context, orientation) {
+        return Scaffold(
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.size40,
               ),
-              Gaps.v20,
-              Text(
-                "Create a profile, follow other accounts, make your own videos, and more.",
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                  color: Colors.black45,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              Gaps.v40,
-              AuthButton(
-                icon: FaIcon(FontAwesomeIcons.user),
-                text: 'Use email & password',
-                destination: Destination.emailSignup,
-              ),
-              Gaps.v16,
-              AuthButton(
-                icon: FaIcon(FontAwesomeIcons.apple),
-                text: 'Continue with Apple',
-                destination: Destination.appleSignup,
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: Sizes.size32,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Already have an account?',
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                ),
-              ),
-              Gaps.h5,
-              GestureDetector(
-                onTap: () => onLoginTap(context),
-                child: Text(
-                  'Log in',
-                  style: TextStyle(
-                    fontSize: Sizes.size16,
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).primaryColor,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Gaps.v80,
+                  const Text(
+                    "Sign up for TikTok",
+                    style: TextStyle(
+                      fontSize: Sizes.size24,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
+                  Gaps.v20,
+                  const Text(
+                    "Create a profile, follow other accounts, make your own videos, and more.",
+                    style: TextStyle(
+                      fontSize: Sizes.size16,
+                      color: Colors.black45,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Gaps.v40,
+                  if (orientation == Orientation.portrait) ...[
+                    const AuthButton(
+                      icon: FaIcon(FontAwesomeIcons.user),
+                      text: 'Use email & password',
+                      destination: Destination.emailSignup,
+                    ),
+                    Gaps.v16,
+                    const AuthButton(
+                      icon: FaIcon(FontAwesomeIcons.apple),
+                      text: 'Continue with Apple',
+                      destination: Destination.appleSignup,
+                    ),
+                  ],
+                  if (orientation == Orientation.landscape)
+                    Row(
+                      children: const [
+                        Expanded(
+                          child: AuthButton(
+                            icon: FaIcon(FontAwesomeIcons.user),
+                            text: 'Use email & password',
+                            destination: Destination.emailSignup,
+                          ),
+                        ),
+                        Gaps.h16,
+                        Expanded(
+                          child: AuthButton(
+                            icon: FaIcon(FontAwesomeIcons.apple),
+                            text: 'Continue with Apple',
+                            destination: Destination.appleSignup,
+                          ),
+                        ),
+                      ],
+                    )
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+          bottomNavigationBar: BottomAppBar(
+            color: Colors.grey.shade50,
+            elevation: 2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: Sizes.size32,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Already have an account?',
+                    style: TextStyle(
+                      fontSize: Sizes.size16,
+                    ),
+                  ),
+                  Gaps.h5,
+                  GestureDetector(
+                    onTap: () => onLoginTap(context),
+                    child: Text(
+                      'Log in',
+                      style: TextStyle(
+                        fontSize: Sizes.size16,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
