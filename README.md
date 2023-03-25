@@ -2271,3 +2271,19 @@ void main() async {
 web인경우, 초기설정을 mute
 
 대부분의 브라우저에서는 음성이 있는 영상을 자동재생 할 수 없다. (광고나 큰 소리로 악용될 여지가 있기 때문에)
+
+### MediaQuery
+
+처음 한번 값을 가져오는 것이 아닌 창 크기가 변하는것을 감지할 수 있다
+
+```dart
+*final* width = MediaQuery.of(*context*).size.width;
+
+crossAxisCount: width < BreakPoints.sm
+                  ? 2
+                  : width < BreakPoints.md
+                      ? 3
+                      : width < BreakPoints.lg
+                          ? 4
+                          : 5,
+```

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_flutter/constants/breakPoints.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 
@@ -45,6 +46,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
@@ -80,8 +82,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             padding: const EdgeInsets.all(Sizes.size8),
             itemCount: 20,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: width < BreakPoints.sm
+                  ? 2
+                  : width < BreakPoints.md
+                      ? 3
+                      : width < BreakPoints.lg
+                          ? 4
+                          : 5,
               childAspectRatio: 9 / 20,
               crossAxisSpacing: Sizes.size8,
               mainAxisSpacing: Sizes.size8,
