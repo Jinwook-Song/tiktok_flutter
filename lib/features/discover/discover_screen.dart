@@ -52,10 +52,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-            title: CupertinoSearchTextField(
-              controller: _textEditingController,
-              onChanged: _onSearchChanged,
-              onSubmitted: _onSearchSubmitted,
+            title: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: BreakPoints.sm,
+              ),
+              child: CupertinoSearchTextField(
+                controller: _textEditingController,
+                onChanged: _onSearchChanged,
+                onSubmitted: _onSearchSubmitted,
+              ),
             ),
             elevation: 1,
             bottom: TabBar(

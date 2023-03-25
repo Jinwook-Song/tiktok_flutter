@@ -2327,3 +2327,16 @@ class LayoutBuilderCodeLab extends StatelessWidget {
   }
 }
 ```
+
+### ConstrainedBox
+
+constraints: maxWidth, maxHeight, minWidth, minHeight 등을 지정할 수 있다.
+
+Container에도 constraints 속성이 있다
+
+```dart
+ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: BreakPoints.sm,
+              ),
+```

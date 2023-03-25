@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
+import 'package:tiktok_flutter/features/main_navigation/main_navigation_screen.dart';
 
 void main() async {
   // App 실행전에 초기화하고 binding 해야한다
@@ -44,39 +45,7 @@ class TikTokApp extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           )),
-      home: const LayoutBuilderCodeLab(),
-    );
-  }
-}
-
-class LayoutBuilderCodeLab extends StatelessWidget {
-  const LayoutBuilderCodeLab({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    return Scaffold(
-      body: SizedBox(
-        width: size.width / 2,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Container(
-              width: constraints.maxWidth,
-              height: constraints.maxHeight,
-              color: Colors.teal,
-              child: Center(
-                child: Text(
-                  '${size.width} ${constraints.maxWidth}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+      home: const MainNavigationScreen(),
     );
   }
 }
