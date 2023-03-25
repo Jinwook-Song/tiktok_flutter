@@ -2265,3 +2265,9 @@ void main() async {
   runApp(const TikTokApp());
 }
 ```
+
+### kIsWeb
+
+web인경우, 초기설정을 mute
+
+대부분의 브라우저에서는 음성이 있는 영상을 자동재생 할 수 없다. (광고나 큰 소리로 악용될 여지가 있기 때문에)
