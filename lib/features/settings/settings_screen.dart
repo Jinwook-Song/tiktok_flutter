@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -28,26 +29,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         children: [
-          Switch.adaptive(
+          SwitchListTile.adaptive(
             value: _notifications,
             onChanged: _onNotificationsChanged,
             activeColor: Colors.black,
-          ),
-          CupertinoSwitch(
-            value: _notifications,
-            onChanged: _onNotificationsChanged,
-            activeColor: Colors.black,
-          ),
-          Switch(
-            value: _notifications,
-            onChanged: _onNotificationsChanged,
-            activeColor: Colors.black,
+            title: const Text('Enable notifications'),
           ),
           CheckboxListTile(
             value: _notifications,
             onChanged: _onNotificationsChanged,
             activeColor: Colors.black,
-            title: const Text('Enable notifications'),
+            title: const Text('Marketing emails'),
+            subtitle: const Text("We won't spam you."),
           ),
           ListTile(
             onTap: () async {
@@ -82,6 +75,67 @@ class _SettingsScreenState extends State<SettingsScreen> {
               print(booking);
             },
             title: const Text('What is your birthday?'),
+          ),
+          ListTile(
+            onTap: () => showCupertinoDialog(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                title: const Text(
+                  'Are you sure to logout?',
+                ),
+                content: const Text('This action cannot be undone'),
+                actions: [
+                  CupertinoDialogAction(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text(
+                      'No',
+                    ),
+                  ),
+                  CupertinoDialogAction(
+                    onPressed: () => Navigator.of(context).pop(),
+                    isDestructiveAction: true,
+                    child: const Text(
+                      'Yes',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            title: const Text(
+              'Log out(iOS)',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          ),
+          ListTile(
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text(
+                  'Are you sure to logout?',
+                ),
+                content: const Text('This action cannot be undone'),
+                actions: [
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const FaIcon(FontAwesomeIcons.xmark),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text(
+                      'Yes',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            title: const Text(
+              'Log out(Android)',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
           ),
           const AboutListTile()
         ],

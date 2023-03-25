@@ -2112,3 +2112,73 @@ Switch.adaptive(
             activeColor: Colors.black,
           ),
 ```
+
+### Dialog
+
+ios design: CupertinoAlertDialog
+
+android design: AlertDialog
+
+```dart
+ListTile(
+            onTap: () => showCupertinoDialog(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                title: const Text(
+                  'Are you sure to logout?',
+                ),
+                content: const Text('This action cannot be undone'),
+                actions: [
+                  CupertinoDialogAction(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text(
+                      'No',
+                    ),
+                  ),
+                  CupertinoDialogAction(
+                    onPressed: () => Navigator.of(context).pop(),
+                    isDestructiveAction: true,
+                    child: const Text(
+                      'Yes',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            title: const Text(
+              'Log out(iOS)',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          ),
+          ListTile(
+            onTap: () => showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                title: const Text(
+                  'Are you sure to logout?',
+                ),
+                content: const Text('This action cannot be undone'),
+                actions: [
+                  IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const FaIcon(FontAwesomeIcons.xmark),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text(
+                      'Yes',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            title: const Text(
+              'Log out(Android)',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          ),
+```
