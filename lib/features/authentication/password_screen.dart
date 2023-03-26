@@ -105,9 +105,9 @@ class _PasswordScreenState extends State<PasswordScreen> {
                     children: [
                       GestureDetector(
                         onTap: _onClearTap,
-                        child: const FaIcon(
+                        child: FaIcon(
                           FontAwesomeIcons.solidCircleXmark,
-                          color: Colors.black26,
+                          color: Colors.grey.shade400,
                           size: Sizes.size20,
                         ),
                       ),
@@ -118,24 +118,22 @@ class _PasswordScreenState extends State<PasswordScreen> {
                           _obscureText
                               ? FontAwesomeIcons.eyeSlash
                               : FontAwesomeIcons.eye,
-                          color: Colors.black26,
+                          color: Colors.grey.shade400,
                           size: Sizes.size20,
                         ),
                       ),
                     ],
                   ),
                   hintText: 'Password',
-                  hintStyle: const TextStyle(
-                    color: Colors.black26,
-                  ),
-                  enabledBorder: const UnderlineInputBorder(
+                  hintStyle: const TextStyle(),
+                  enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.black12,
+                      color: Colors.grey.shade400,
                     ),
                   ),
-                  focusedBorder: const UnderlineInputBorder(
+                  focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.black12,
+                      color: Colors.grey.shade400,
                     ),
                   ),
                 ),
@@ -153,7 +151,9 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   FaIcon(
                     FontAwesomeIcons.circleCheck,
                     size: Sizes.size20,
-                    color: _isPasswordValid() ? Colors.green : Colors.black26,
+                    color: _isPasswordValid()
+                        ? Colors.green
+                        : Colors.grey.shade400,
                   ),
                   Gaps.h6,
                   const Text('8 to 20 characters')

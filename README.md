@@ -2421,3 +2421,11 @@ textTheme: GoogleFonts.itimTextTheme(
           ThemeData(brightness: Brightness.dark).textTheme,
         ),
 ```
+
+### Typography
+
+size, color, fontWeight 는 그대로 하고 오직 폰트값만 지정한다
+
+```dart
+textTheme: Typography.blackMountainView,
+```

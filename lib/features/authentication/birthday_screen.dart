@@ -75,7 +75,6 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
               'Your birthday won\'t be shown publicly.',
               style: TextStyle(
                 fontSize: Sizes.size16,
-                color: Colors.black54,
               ),
             ),
             Gaps.v40,

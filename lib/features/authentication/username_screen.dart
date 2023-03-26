@@ -75,26 +75,23 @@ class _UserNameScreenState extends State<UserNameScreen> {
               'You can always change this later.',
               style: TextStyle(
                 fontSize: Sizes.size16,
-                color: Colors.black54,
               ),
             ),
             Gaps.v40,
             TextField(
               controller: _usernameController,
               cursorColor: Theme.of(context).primaryColor,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Username',
-                hintStyle: TextStyle(
-                  color: Colors.black26,
-                ),
+                hintStyle: const TextStyle(),
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: Colors.black12,
+                    color: Colors.grey.shade400,
                   ),
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
-                    color: Colors.black12,
+                    color: Colors.grey.shade400,
                   ),
                 ),
               ),

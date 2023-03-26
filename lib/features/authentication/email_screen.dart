@@ -99,17 +99,15 @@ class _EmailScreenState extends State<EmailScreen> {
                 decoration: InputDecoration(
                   hintText: 'Email',
                   errorText: _isEmailValid(),
-                  hintStyle: const TextStyle(
-                    color: Colors.black26,
-                  ),
-                  enabledBorder: const UnderlineInputBorder(
+                  hintStyle: const TextStyle(),
+                  enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.black12,
+                      color: Colors.grey.shade400,
                     ),
                   ),
-                  focusedBorder: const UnderlineInputBorder(
+                  focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.black12,
+                      color: Colors.grey.shade400,
                     ),
                   ),
                 ),
