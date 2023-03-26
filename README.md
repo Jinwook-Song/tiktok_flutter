@@ -2409,3 +2409,15 @@ style: Theme.of(context)
                         .copyWith(color: Theme.of(context).primaryColor),
                   ),
 ```
+
+### Google Fonts
+
+[https://fonts.google.com/](https://fonts.google.com/)
+
+대부분의 유명한 font들은 GoogleFonts에서 지원한다
+
+```dart
+textTheme: GoogleFonts.itimTextTheme(
+          ThemeData(brightness: Brightness.dark).textTheme,
+        ),
+```
