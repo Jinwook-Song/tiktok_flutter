@@ -2340,3 +2340,24 @@ ConstrainedBox(
                 maxWidth: BreakPoints.sm,
               ),
 ```
+
+### Dark Mode
+
+light, dark에 따라 각각 color를 설정할 수 있다.
+
+이상적으로는 모든 컬러 정보를 theme에 setting 해두는것이 좋다
+
+```dart
+themeMode: ThemeMode.system,
+theme: ThemeData()
+darkTheme: ThemeData()
+```
+
+하지만 특정 화면이나 위젯에 대해서 컬러를 설정하게 되는 경우(hard coding) 사용중인 mode에 따라 컬러를 설정해 줄 수 있다.
+
+```dart
+
+bool isDarkMode(BuildContext context) {
+  return MediaQuery.of(context).platformBrightness == Brightness.dark;
+}
+```
