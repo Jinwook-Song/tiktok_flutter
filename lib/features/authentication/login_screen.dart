@@ -20,32 +20,31 @@ class LoginScreen extends StatelessWidget {
             horizontal: Sizes.size40,
           ),
           child: Column(
-            children: const [
+            children: [
               Gaps.v80,
               Text(
                 "Log in to TikTok",
-                style: TextStyle(
-                  fontSize: Sizes.size24,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Gaps.v20,
-              Text(
-                "Manage your account, check notifications, comment on videos, and more.",
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                  color: Colors.black45,
+              const Opacity(
+                opacity: 0.7,
+                child: Text(
+                  "Manage your account, check notifications, comment on videos, and more.",
+                  style: TextStyle(
+                    fontSize: Sizes.size16,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
               Gaps.v40,
-              AuthButton(
+              const AuthButton(
                 icon: FaIcon(FontAwesomeIcons.user),
                 text: 'Use email & password',
                 destination: Destination.emailLogin,
               ),
               Gaps.v16,
-              AuthButton(
+              const AuthButton(
                 icon: FaIcon(FontAwesomeIcons.apple),
                 text: 'Continue with Apple',
                 destination: Destination.appleLogin,
@@ -55,7 +54,6 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.symmetric(
