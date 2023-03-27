@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
-import 'package:tiktok_flutter/features/authentication/sign_up_screen.dart';
+import 'package:tiktok_flutter/features/main_navigation/main_navigation_screen.dart';
 
 void main() async {
   // App 실행전에 초기화하고 binding 해야한다
@@ -51,6 +51,15 @@ class TikTokApp extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.grey.shade500,
+          indicator: const UnderlineTabIndicator(
+            borderSide: BorderSide(
+              color: Colors.black,
+            ),
+          ),
+        ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
@@ -65,9 +74,18 @@ class TikTokApp extends StatelessWidget {
         bottomAppBarTheme: BottomAppBarTheme(
           color: Colors.grey.shade900,
         ),
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey.shade500,
+          indicator: const UnderlineTabIndicator(
+            borderSide: BorderSide(
+              color: Colors.white,
+            ),
+          ),
+        ),
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: const SignUpScreen(),
+      home: const MainNavigationScreen(),
     );
   }
 }

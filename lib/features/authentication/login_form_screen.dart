@@ -51,7 +51,14 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                 children: [
                   Gaps.v28,
                   TextFormField(
-                    decoration: const InputDecoration(hintText: 'Email'),
+                    decoration: InputDecoration(
+                      hintText: 'Email',
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade400,
+                        ),
+                      ),
+                    ),
                     validator: (value) {
                       if (value != null && value.isEmpty) {
                         return "Please write your email";
@@ -66,7 +73,14 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                   ),
                   Gaps.v16,
                   TextFormField(
-                    decoration: const InputDecoration(hintText: 'Password'),
+                    decoration: InputDecoration(
+                      hintText: 'Password',
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade400,
+                        ),
+                      ),
+                    ),
                     validator: (value) {
                       if (value != null && value.isEmpty) {
                         return "Please write your password";
