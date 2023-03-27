@@ -2429,3 +2429,28 @@ size, color, fontWeight 는 그대로 하고 오직 폰트값만 지정한다
 ```dart
 textTheme: Typography.blackMountainView,
 ```
+
+### Flex Color Scheme
+
+`flutter pub add flex_color_scheme`
+
+[docs](https://docs.flexcolorscheme.com/)
+
+```dart
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      // The Mandy red, light theme.
+      theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
+      // The Mandy red, dark theme.
+      darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
+      // Use dark or light theme based on system setting.
+      themeMode: ThemeMode.system,
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    );
+  }
+}
+```

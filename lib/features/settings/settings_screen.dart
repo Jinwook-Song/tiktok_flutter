@@ -39,7 +39,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
           CheckboxListTile(
             value: _notifications,
             onChanged: _onNotificationsChanged,
-            activeColor: Colors.black,
+            activeColor: isDark ? Colors.grey.shade800 : Colors.grey.shade300,
+            checkColor: Theme.of(context).primaryColor,
             title: const Text('Marketing emails'),
             subtitle: const Text("We won't spam you."),
           ),
