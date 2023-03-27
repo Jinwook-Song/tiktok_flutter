@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_flutter/utils.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -21,6 +22,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -32,7 +34,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           SwitchListTile.adaptive(
             value: _notifications,
             onChanged: _onNotificationsChanged,
-            activeColor: Colors.black,
             title: const Text('Enable notifications'),
           ),
           CheckboxListTile(
@@ -61,9 +62,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 builder: (context, child) {
                   return Theme(
                     data: ThemeData(
-                      appBarTheme: const AppBarTheme(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.black),
+                      appBarTheme: AppBarTheme(
+                          foregroundColor: isDark ? Colors.black : Colors.white,
+                          backgroundColor:
+                              isDark ? Colors.white : Colors.black),
                     ),
                     child: child!,
                   );

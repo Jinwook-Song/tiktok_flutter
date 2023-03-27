@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
+import 'package:tiktok_flutter/utils.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({super.key});
@@ -47,6 +48,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return Scaffold(
       appBar: AppBar(
           title: ListTile(
@@ -90,13 +92,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           children: const [
             FaIcon(
               FontAwesomeIcons.flag,
-              color: Colors.black,
               size: Sizes.size20,
             ),
             Gaps.h24,
             FaIcon(
               FontAwesomeIcons.ellipsis,
-              color: Colors.black,
               size: Sizes.size20,
             ),
           ],
@@ -152,7 +152,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               bottom: 0,
               width: MediaQuery.of(context).size.width,
               child: BottomAppBar(
-                color: Colors.grey.shade100,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: Sizes.size8,
@@ -189,7 +188,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 borderSide: BorderSide.none,
                               ),
                               filled: true,
-                              fillColor: Colors.white,
+                              fillColor: isDark
+                                  ? Colors.grey.shade800
+                                  : Colors.grey.shade200,
                               suffixIcon: Padding(
                                 padding: const EdgeInsets.only(
                                   right: Sizes.size14,
@@ -200,7 +201,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   children: [
                                     FaIcon(
                                       FontAwesomeIcons.faceSmile,
-                                      color: Colors.grey.shade900,
+                                      color: isDark
+                                          ? Colors.grey.shade200
+                                          : Colors.grey.shade900,
                                     ),
                                   ],
                                 ),
