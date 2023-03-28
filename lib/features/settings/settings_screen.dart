@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/utils.dart';
@@ -23,157 +24,168 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Settings",
+    return Localizations.override(
+      context: context,
+      locale: const Locale('es'),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Settings",
+          ),
         ),
-      ),
-      body: ListView(
-        children: [
-          SwitchListTile.adaptive(
-            value: _notifications,
-            onChanged: _onNotificationsChanged,
-            title: const Text('Enable notifications'),
-          ),
-          CheckboxListTile(
-            value: _notifications,
-            onChanged: _onNotificationsChanged,
-            activeColor: isDark ? Colors.grey.shade800 : Colors.grey.shade300,
-            checkColor: Theme.of(context).primaryColor,
-            title: const Text('Marketing emails'),
-            subtitle: const Text("We won't spam you."),
-          ),
-          ListTile(
-            onTap: () async {
-              final date = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1970),
-                lastDate: DateTime(2030),
-              );
-              print(date);
+        body: ListView(
+          children: [
+            SwitchListTile.adaptive(
+              value: _notifications,
+              onChanged: _onNotificationsChanged,
+              title: const Text('Enable notifications'),
+            ),
+            CheckboxListTile(
+              value: _notifications,
+              onChanged: _onNotificationsChanged,
+              activeColor: isDark ? Colors.grey.shade800 : Colors.grey.shade300,
+              checkColor: Theme.of(context).primaryColor,
+              title: const Text('Marketing emails'),
+              subtitle: const Text("We won't spam you."),
+            ),
+            ListTile(
+              onTap: () async {
+                final date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1970),
+                  lastDate: DateTime(2030),
+                );
+                if (kDebugMode) {
+                  print(date);
+                }
 
-              final time = await showTimePicker(
+                final time = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                );
+                if (kDebugMode) {
+                  print(time);
+                }
+                final booking = await showDateRangePicker(
+                  context: context,
+                  builder: (context, child) {
+                    return Theme(
+                      data: ThemeData(
+                        appBarTheme: AppBarTheme(
+                            foregroundColor:
+                                isDark ? Colors.black : Colors.white,
+                            backgroundColor:
+                                isDark ? Colors.white : Colors.black),
+                      ),
+                      child: child!,
+                    );
+                  },
+                  firstDate: DateTime(1970),
+                  lastDate: DateTime(2030),
+                );
+                if (kDebugMode) {
+                  print(booking);
+                }
+              },
+              title: const Text('What is your birthday?'),
+            ),
+            ListTile(
+              onTap: () => showCupertinoDialog(
                 context: context,
-                initialTime: TimeOfDay.now(),
-              );
-              print(time);
-              final booking = await showDateRangePicker(
-                builder: (context, child) {
-                  return Theme(
-                    data: ThemeData(
-                      appBarTheme: AppBarTheme(
-                          foregroundColor: isDark ? Colors.black : Colors.white,
-                          backgroundColor:
-                              isDark ? Colors.white : Colors.black),
+                builder: (context) => CupertinoAlertDialog(
+                  title: const Text(
+                    'Are you sure to logout?',
+                  ),
+                  content: const Text('This action cannot be undone'),
+                  actions: [
+                    CupertinoDialogAction(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text(
+                        'No',
+                      ),
                     ),
-                    child: child!,
-                  );
-                },
+                    CupertinoDialogAction(
+                      onPressed: () => Navigator.of(context).pop(),
+                      isDestructiveAction: true,
+                      child: const Text(
+                        'Yes',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              title: const Text(
+                'Log out(iOS)',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            ListTile(
+              onTap: () => showDialog(
                 context: context,
-                firstDate: DateTime(1970),
-                lastDate: DateTime(2030),
-              );
-              print(booking);
-            },
-            title: const Text('What is your birthday?'),
-          ),
-          ListTile(
-            onTap: () => showCupertinoDialog(
-              context: context,
-              builder: (context) => CupertinoAlertDialog(
-                title: const Text(
-                  'Are you sure to logout?',
+                builder: (context) => AlertDialog(
+                  title: const Text(
+                    'Are you sure to logout?',
+                  ),
+                  content: const Text('This action cannot be undone'),
+                  actions: [
+                    IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: const FaIcon(FontAwesomeIcons.xmark),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text(
+                        'Yes',
+                      ),
+                    ),
+                  ],
                 ),
-                content: const Text('This action cannot be undone'),
-                actions: [
-                  CupertinoDialogAction(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text(
-                      'No',
-                    ),
-                  ),
-                  CupertinoDialogAction(
-                    onPressed: () => Navigator.of(context).pop(),
-                    isDestructiveAction: true,
-                    child: const Text(
-                      'Yes',
-                    ),
-                  ),
-                ],
               ),
-            ),
-            title: const Text(
-              'Log out(iOS)',
-              style: TextStyle(
-                color: Colors.red,
-              ),
-            ),
-          ),
-          ListTile(
-            onTap: () => showDialog(
-              context: context,
-              builder: (context) => AlertDialog(
-                title: const Text(
-                  'Are you sure to logout?',
+              title: const Text(
+                'Log out(Android)',
+                style: TextStyle(
+                  color: Colors.red,
                 ),
-                content: const Text('This action cannot be undone'),
-                actions: [
-                  IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: const FaIcon(FontAwesomeIcons.xmark),
+              ),
+            ),
+            ListTile(
+              onTap: () => showCupertinoModalPopup(
+                context: context,
+                builder: (context) => CupertinoActionSheet(
+                  title: const Text(
+                    'Are you sure to logout?',
                   ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text(
-                      'Yes',
+                  actions: [
+                    CupertinoActionSheetAction(
+                      isDefaultAction: true,
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text(
+                        'No',
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            title: const Text(
-              'Log out(Android)',
-              style: TextStyle(
-                color: Colors.red,
-              ),
-            ),
-          ),
-          ListTile(
-            onTap: () => showCupertinoModalPopup(
-              context: context,
-              builder: (context) => CupertinoActionSheet(
-                title: const Text(
-                  'Are you sure to logout?',
+                    CupertinoActionSheetAction(
+                      isDestructiveAction: true,
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text(
+                        'Yes',
+                      ),
+                    ),
+                  ],
                 ),
-                actions: [
-                  CupertinoActionSheetAction(
-                    isDefaultAction: true,
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text(
-                      'No',
-                    ),
-                  ),
-                  CupertinoActionSheetAction(
-                    isDestructiveAction: true,
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text(
-                      'Yes',
-                    ),
-                  ),
-                ],
+              ),
+              title: const Text(
+                'Log out(iOS / Bottom)',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
               ),
             ),
-            title: const Text(
-              'Log out(iOS / Bottom)',
-              style: TextStyle(
-                color: Colors.red,
-              ),
-            ),
-          ),
-          const AboutListTile()
-        ],
+            const AboutListTile()
+          ],
+        ),
       ),
     );
   }

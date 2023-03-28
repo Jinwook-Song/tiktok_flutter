@@ -2454,3 +2454,42 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+
+## i18n, l10n (internationalization, localization)
+
+pubspec.yaml
+
+```dart
+flutter_localizations:
+    sdk: flutter
+  intl: any
+```
+
+main.dart
+
+이미 텍스트가 포함된 위젯이 존재하기 때문에
+
+```dart
+localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ko'),
+      ],
+```
+
+Current Locale
+
+`Localizations.localeOf(*context*);`
+
+### Localization.overide
+
+```dart
+Localizations.override(
+      context: context,
+      locale: const Locale('ko'),
+)
+```
