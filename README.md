@@ -2493,3 +2493,28 @@ Localizations.override(
       locale: const Locale('ko'),
 )
 ```
+
+### l10n.yaml
+
+```dart
+arb-dir: lib/intl # localizations 파일의 위치
+template-arb-file: intl_en.arb # 마스터 파일
+output-localization-file: intl_generated.dart # 생성될 파일
+```
+
+intl\_{ln}.arb 파일들은 같은 key를 사용해야 한다
+
+`flutter gen-l10n` localization file 생성
+
+.dart_tool > gen_l10n 폴더 하위에 파일 생성됨
+
+```dart
+localizationsDelegates: const [
+        // Default Widget
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        // Custom
+        AppLocalizations.delegate
+      ],
+```
