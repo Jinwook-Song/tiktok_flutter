@@ -2518,3 +2518,36 @@ localizationsDelegates: const [
         AppLocalizations.delegate
       ],
 ```
+
+생성된 파일을 보고 어떤 언어를 지원하는지 알고 있다
+
+```dart
+localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+```
+
+### Placeholder
+
+intl_en.arb
+
+```dart
+{
+  "signUpTitle": "Sign up for {appName}",
+  "@signUpTitle": {
+    "description": "The title people see when they open the app for the first time.",
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  }
+}
+```
+
+Usage
+
+```dart
+Text(
+	AppLocalizations.of(context)!.signUpTitle('TikTok'),
+    ),
+```
