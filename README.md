@@ -2551,3 +2551,33 @@ Text(
 	AppLocalizations.of(context)!.signUpTitle('TikTok'),
     ),
 ```
+
+### Extension: Flutter intl
+
+`flutter intl: intialize`
+
+`flutter intl: Add locale`
+
+locale 파일 변화를 감지하며, keyword 자동 생성도 가능하다
+
+```dart
+localizationsDelegates: const [S.delegate],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ko'),
+      ],
+```
+
+### plural (number)
+
+복수형 표현할때 {count, plural, 갯수에 따른 표현} → other은 필수
+
+```dart
+"signUpSubTitle": "Create a profile, follow other accounts, make your own {videoCount, plural, =0{no videos} =1{video} other{videos}}, and more.",
+```
+
+### select (string)
+
+```dart
+"logIn": "Log in {gender, select, male{sir} female{madam} other{human}}"
+```
