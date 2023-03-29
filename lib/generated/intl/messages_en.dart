@@ -28,7 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m2(videoCount) =>
       "Create a profile, follow other accounts, make your own ${Intl.plural(videoCount, zero: 'no videos', one: 'video', other: 'videos')}, and more.";
 
-  static String m3(appName) => "Sign up for ${appName}";
+  static String m3(appName, when) => "Sign up for ${appName} ${when}";
 
   static String m4(value) => "${value}";
 

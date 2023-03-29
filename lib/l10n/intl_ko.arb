@@ -1,5 +1,5 @@
 {
-  "signUpTitle": "{appName}에 가입하세요",
+  "signUpTitle": "{appName}에 가입하세요 {when}",
   "loginTitle": "{appName}에 로그인하세요",
   "signUpSubTitle": "Create a profile, follow other accounts, make your own videos, and more.",
   "emailPasswordSignUpButton": "Use email & password",
