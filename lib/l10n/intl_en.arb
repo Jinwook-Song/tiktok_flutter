@@ -21,5 +21,35 @@
   "emailPasswordSignUpButton": "Use email & password",
   "appleSignUpButton": "Continue with Apple",
   "alreadyHaveAnAccount": "Already have an account?",
-  "logIn": "Log in {gender, select, male{sir} female{madam} other{human}}"
+  "logIn": "Log in {gender, select, male{sir} female{madam} other{human}}",
+  "videoLikeCount": "{value}",
+  "@videoLikeCount": {
+    "description": "Video like count",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "videoCommentCount": "{value}",
+  "@videoCommentCount": {
+    "description": "Video comment count",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "videoCommentTitle": "{value} {value2, plural, =1{comment} other{comments}}",
+  "@videoCommentTitle": {
+    "description": "Video comment title",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  }
 }

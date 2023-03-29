@@ -30,6 +30,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(appName) => "Sign up for ${appName}";
 
+  static String m4(value) => "${value}";
+
+  static String m5(value, value2) =>
+      "${value} ${Intl.plural(value2, one: 'comment', other: 'comments')}";
+
+  static String m6(value) => "${value}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "alreadyHaveAnAccount":
@@ -41,6 +48,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "logIn": m0,
         "loginTitle": m1,
         "signUpSubTitle": m2,
-        "signUpTitle": m3
+        "signUpTitle": m3,
+        "videoCommentCount": m4,
+        "videoCommentTitle": m5,
+        "videoLikeCount": m6
       };
 }

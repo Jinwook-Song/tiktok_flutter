@@ -5,5 +5,8 @@
   "emailPasswordSignUpButton": "Use email & password",
   "appleSignUpButton": "Continue with Apple",
   "alreadyHaveAnAccount": "Already have an account?",
-  "logIn": "Log in"
+  "logIn": "Log in",
+  "videoLikeCount": "{value}",
+  "videoCommentCount": "{value}",
+  "videoCommentTitle": "{value} comments"
 }

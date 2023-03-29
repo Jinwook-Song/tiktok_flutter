@@ -2581,3 +2581,33 @@ localizationsDelegates: const [S.delegate],
 ```dart
 "logIn": "Log in {gender, select, male{sir} female{madam} other{human}}"
 ```
+
+### numbers l10n
+
+[format docs](https://docs.flutter.dev/development/accessibility-and-localization/internationalization#messages-with-numbers-and-currencies)
+
+| Message “format” value  | Output for 1200000 |
+| ----------------------- | ------------------ |
+| compact                 | “1.2M”             |
+| compactCurrency\*       | “$1.2M”            |
+| compactSimpleCurrency\* | “$1.2M”            |
+| compactLong             | “1.2 million”      |
+| currency\*              | “USD1,200,000.00”  |
+| decimalPattern          | “1,200,000”        |
+| decimalPercentPattern\* | “120,000,000%”     |
+| percentPattern          | “120,000,000%”     |
+| scientificPattern       | “1E6”              |
+| simpleCurrency\*        | “$1,200,000”       |
+
+```dart
+"videoLikeCount": "{value}",
+  "@videoLikeCount": {
+    "description": "Video like count",
+    "placeholders": {
+      "value": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+```
