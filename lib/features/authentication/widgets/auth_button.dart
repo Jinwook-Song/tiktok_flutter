@@ -23,8 +23,29 @@ class AuthButton extends StatelessWidget {
       case Destination.emailSignup:
         {
           Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const UserNameScreen(),
+            PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 300),
+              reverseTransitionDuration: const Duration(milliseconds: 300),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const UserNameScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                final offsetAnimation = Tween(
+                  begin: const Offset(1, -1),
+                  end: Offset.zero,
+                ).animate(animation);
+                final opacityAnimation = Tween(
+                  begin: 0.2,
+                  end: 1.0,
+                ).animate(animation);
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: FadeTransition(
+                    opacity: opacityAnimation,
+                    child: child,
+                  ),
+                );
+              },
             ),
           );
         }

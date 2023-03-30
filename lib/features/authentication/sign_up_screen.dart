@@ -9,12 +9,13 @@ import 'package:tiktok_flutter/generated/l10n.dart';
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
-  void onLoginTap(BuildContext context) {
-    Navigator.of(context).push(
+  void onLoginTap(BuildContext context) async {
+    final result = await Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const LoginScreen(),
       ),
     );
+    print(result);
   }
 
   @override

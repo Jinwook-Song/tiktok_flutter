@@ -2671,3 +2671,36 @@ ICU Name                   Skeleton
         "isCustomDateFormat": "true"
       }
 ```
+
+## Navigator
+
+### custom animate navigation
+
+```dart
+Navigator.of(context).push(
+            PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 300),
+              reverseTransitionDuration: const Duration(milliseconds: 300),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const UserNameScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                final offsetAnimation = Tween(
+                  begin: const Offset(1, -1),
+                  end: Offset.zero,
+                ).animate(animation);
+                final opacityAnimation = Tween(
+                  begin: 0.2,
+                  end: 1.0,
+                ).animate(animation);
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: FadeTransition(
+                    opacity: opacityAnimation,
+                    child: child,
+                  ),
+                );
+              },
+            ),
+          );
+```
