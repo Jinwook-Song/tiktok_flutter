@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/authentication/login_form_screen.dart';
-import 'package:tiktok_flutter/features/authentication/username_screen.dart';
 
 enum Destination { emailLogin, appleLogin, emailSignup, appleSignup }
 
@@ -22,32 +21,33 @@ class AuthButton extends StatelessWidget {
     switch (destination) {
       case Destination.emailSignup:
         {
-          Navigator.of(context).push(
-            PageRouteBuilder(
-              transitionDuration: const Duration(milliseconds: 300),
-              reverseTransitionDuration: const Duration(milliseconds: 300),
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  const UserNameScreen(),
-              transitionsBuilder:
-                  (context, animation, secondaryAnimation, child) {
-                final offsetAnimation = Tween(
-                  begin: const Offset(1, -1),
-                  end: Offset.zero,
-                ).animate(animation);
-                final opacityAnimation = Tween(
-                  begin: 0.2,
-                  end: 1.0,
-                ).animate(animation);
-                return SlideTransition(
-                  position: offsetAnimation,
-                  child: FadeTransition(
-                    opacity: opacityAnimation,
-                    child: child,
-                  ),
-                );
-              },
-            ),
-          );
+          // Navigator.of(context).push(
+          //   PageRouteBuilder(
+          //     transitionDuration: const Duration(milliseconds: 300),
+          //     reverseTransitionDuration: const Duration(milliseconds: 300),
+          //     pageBuilder: (context, animation, secondaryAnimation) =>
+          //         const UserNameScreen(),
+          //     transitionsBuilder:
+          //         (context, animation, secondaryAnimation, child) {
+          //       final offsetAnimation = Tween(
+          //         begin: const Offset(1, -1),
+          //         end: Offset.zero,
+          //       ).animate(animation);
+          //       final opacityAnimation = Tween(
+          //         begin: 0.2,
+          //         end: 1.0,
+          //       ).animate(animation);
+          //       return SlideTransition(
+          //         position: offsetAnimation,
+          //         child: FadeTransition(
+          //           opacity: opacityAnimation,
+          //           child: child,
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // );
+          Navigator.of(context).pushNamed('/username');
         }
         break;
       case Destination.emailLogin:

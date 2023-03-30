@@ -2,20 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
-import 'package:tiktok_flutter/features/authentication/login_screen.dart';
 import 'package:tiktok_flutter/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_flutter/generated/l10n.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static String routeName = '/';
   const SignUpScreen({super.key});
 
-  void onLoginTap(BuildContext context) async {
-    final result = await Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const LoginScreen(),
-      ),
-    );
-    print(result);
+  void onLoginTap(BuildContext context) {
+    Navigator.of(context).pushNamed('/login');
   }
 
   @override

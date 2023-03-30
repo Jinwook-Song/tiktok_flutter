@@ -2704,3 +2704,20 @@ Navigator.of(context).push(
             ),
           );
 ```
+
+### pushNamed
+
+main.dart
+
+```dart
+initialRoute: SignUpScreen.routeName,
+      routes: {
+        SignUpScreen.routeName: (context) => const SignUpScreen(),
+        '/username': (context) => const UserNameScreen(),
+        '/login': (context) => const LoginScreen()
+      },
+
+void onLoginTap(BuildContext context) {
+    Navigator.of(context).pushNamed('/login');
+  }
+```
