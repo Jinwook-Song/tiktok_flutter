@@ -2721,3 +2721,16 @@ void onLoginTap(BuildContext context) {
     Navigator.of(context).pushNamed('/login');
   }
 ```
+
+### pushNamed args
+
+```dart
+class EmailScreenArgs {
+  final String username;
+
+  EmailScreenArgs({required this.username});
+}
+
+final args = ModalRoute.of(context)!.settings.arguments as EmailScreenArgs;
+    print(args.username);
+```
