@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
-import 'package:tiktok_flutter/features/authentication/email_screen.dart';
-import 'package:tiktok_flutter/features/authentication/login_screen.dart';
-import 'package:tiktok_flutter/features/authentication/sign_up_screen.dart';
-import 'package:tiktok_flutter/features/authentication/username_screen.dart';
 import 'package:tiktok_flutter/generated/l10n.dart';
-import 'package:tiktok_flutter/routes.dart';
+import 'package:tiktok_flutter/router.dart';
 
 void main() async {
   // App 실행전에 초기화하고 binding 해야한다
@@ -32,7 +28,8 @@ class TikTokApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     S.load(const Locale('en'));
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       title: 'TikTok Clone',
       localizationsDelegates: const [
@@ -111,13 +108,6 @@ class TikTokApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Colors.black,
       ),
-      initialRoute: Routes.SignupScreen,
-      routes: {
-        Routes.SignupScreen: (context) => const SignUpScreen(),
-        Routes.LoginScreen: (context) => const LoginScreen(),
-        Routes.UserNameScreen: (context) => const UserNameScreen(),
-        Routes.EmailSignupScreen: (context) => const EmailScreen(),
-      },
     );
   }
 }

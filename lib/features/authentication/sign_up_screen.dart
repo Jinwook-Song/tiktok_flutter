@@ -4,13 +4,14 @@ import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/authentication/widgets/auth_button.dart';
 import 'package:tiktok_flutter/generated/l10n.dart';
+import 'package:tiktok_flutter/routes.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpScreen extends StatelessWidget {
-  static String routeName = '/';
   const SignUpScreen({super.key});
 
-  void onLoginTap(BuildContext context) {
-    Navigator.of(context).pushNamed('/login');
+  void _onLoginTap(BuildContext context) async {
+    context.push(Routes.LoginScreen);
   }
 
   @override
@@ -97,7 +98,7 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   Gaps.h5,
                   GestureDetector(
-                    onTap: () => onLoginTap(context),
+                    onTap: () => _onLoginTap(context),
                     child: Text(
                       S.of(context).logIn('male'),
                       style: TextStyle(

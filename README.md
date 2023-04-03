@@ -2734,3 +2734,64 @@ class EmailScreenArgs {
 final args = ModalRoute.of(context)!.settings.arguments as EmailScreenArgs;
     print(args.username);
 ```
+
+Navigator 1은 flutter web을 사용하게 되면 문제가 발생한다
+
+- named routes를 사용하는 경우 앞으로가기 버튼을 지원하지 않는다
+- Push를 사용하는 경우 url을 변경할 수 없다
+- dynamic routes를 사용할 수 없다
+
+`flutter pub add go_router` v6.5.2
+
+main.dart
+
+```dart
+return MaterialApp.router(
+      routerConfig: router,)
+
+```
+
+router.dart
+
+```dart
+import 'package:go_router/go_router.dart';
+import 'package:tiktok_flutter/features/authentication/email_screen.dart';
+import 'package:tiktok_flutter/features/authentication/login_screen.dart';
+import 'package:tiktok_flutter/features/authentication/sign_up_screen.dart';
+import 'package:tiktok_flutter/features/authentication/username_screen.dart';
+import 'package:tiktok_flutter/routes.dart';
+
+final GoRouter router = GoRouter(
+  routes: [
+    GoRoute(
+      path: Routes.SignupScreen,
+      builder: (context, state) => const SignUpScreen(),
+    ),
+    GoRoute(
+      path: Routes.LoginScreen,
+      builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: Routes.UserNameScreen,
+      builder: (context, state) => const UserNameScreen(),
+    ),
+    GoRoute(
+      path: Routes.EmailSignupScreen,
+      builder: (context, state) => const EmailScreen(),
+    ),
+  ],
+);
+```
+
+usage
+
+```dart
+void _onLoginTap(BuildContext context) async {
+    context.push(Routes.LoginScreen);
+  }
+```
+
+### push vs go
+
+- push: Push a location onto the page stack.
+- go: Navigate to a location.
