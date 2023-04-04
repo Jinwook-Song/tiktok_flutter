@@ -28,6 +28,7 @@ final GoRouter router = GoRouter(
       path: '/users/:username',
       builder: (context, state) {
         final username = state.params['username'];
+        final query = state.queryParams['show'];
         return UserProfileScreen(
           username: username ?? 'anonymous',
         );
