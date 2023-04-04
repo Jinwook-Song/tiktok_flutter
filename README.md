@@ -2755,3 +2755,20 @@ GoRoute(
 path: '/users/jw?show=likes'
 final query = state.queryParams['show'];
 ```
+
+### Extra
+
+```dart
+GoRoute(
+      path: Routes.EmailSignupScreen,
+      builder: (context, state) {
+        final args = state.extra as EmailScreenArgs;
+        return EmailScreen(
+          username: args.username,
+        );
+      },
+    ),
+
+context.push(Routes.EmailSignupScreen,
+        extra: EmailScreenArgs(username: _username));
+```

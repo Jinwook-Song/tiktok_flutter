@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/authentication/login_form_screen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiktok_flutter/routes.dart';
 
 enum Destination { emailLogin, appleLogin, emailSignup, appleSignup }
 
@@ -48,7 +49,7 @@ class AuthButton extends StatelessWidget {
           //     },
           //   ),
           // );
-          context.push('/users/jw');
+          context.push(Routes.UserNameScreen);
         }
         break;
       case Destination.emailLogin:
