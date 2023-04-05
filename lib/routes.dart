@@ -3,4 +3,8 @@ class Routes {
   static const LoginScreen = '/login';
   static const UserNameScreen = '/username';
   static const EmailSignupScreen = '/email';
+  static const TestScreen = {
+    'url': 'test',
+    'name': 'test',
+  };
 }
