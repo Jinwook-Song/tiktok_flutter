@@ -16,6 +16,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
 
   bool _isSelfieMode = false;
 
+  late FlashMode _flashMode;
+
   late CameraController _cameraController;
 
   Future<void> initCamera() async {
@@ -28,6 +30,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     );
 
     await _cameraController.initialize();
+
+    _flashMode = _cameraController.value.flashMode;
   }
 
   Future<void> initPermissions() async {
@@ -49,6 +53,12 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   Future<void> _toggleSelfieMode() async {
     _isSelfieMode = !_isSelfieMode;
     await initCamera();
+    setState(() {});
+  }
+
+  Future<void> _setFlashMode(FlashMode newFlashMode) async {
+    await _cameraController.setFlashMode(newFlashMode);
+    _flashMode = newFlashMode;
     setState(() {});
   }
 
@@ -88,15 +98,62 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                       _cameraController,
                     ),
                     Positioned(
-                        top: Sizes.size20,
-                        left: Sizes.size20,
-                        child: IconButton(
-                          color: Colors.white,
-                          onPressed: _toggleSelfieMode,
-                          icon: const Icon(
-                            Icons.cameraswitch_outlined,
+                      top: Sizes.size12,
+                      right: Sizes.size12,
+                      child: Column(
+                        children: [
+                          IconButton(
+                            color: Colors.white,
+                            onPressed: _toggleSelfieMode,
+                            icon: const Icon(
+                              Icons.cameraswitch_rounded,
+                            ),
                           ),
-                        ))
+                          Gaps.v10,
+                          IconButton(
+                            color: _flashMode == FlashMode.off
+                                ? Colors.amber
+                                : Colors.white,
+                            onPressed: () => _setFlashMode(FlashMode.off),
+                            icon: const Icon(
+                              Icons.flash_off_rounded,
+                            ),
+                          ),
+                          Gaps.v10,
+                          IconButton(
+                            color: _flashMode == FlashMode.always
+                                ? Colors.amber
+                                : Colors.white,
+                            onPressed: () => _setFlashMode(FlashMode.always),
+                            icon: const Icon(
+                              Icons.flash_on_rounded,
+                            ),
+                          ),
+                          Gaps.v10,
+                          IconButton(
+                            color: _flashMode == FlashMode.auto
+                                ? Colors.amber
+                                : Colors.white,
+                            onPressed: () => _setFlashMode(FlashMode.auto),
+                            icon: const Icon(
+                              Icons.flash_auto_rounded,
+                            ),
+                          ),
+                          Gaps.v10,
+                          IconButton(
+                            color: _flashMode == FlashMode.torch
+                                ? Colors.amber
+                                : Colors.white,
+                            onPressed: () => _setFlashMode(
+                              _flashMode == FlashMode.torch
+                                  ? FlashMode.off
+                                  : FlashMode.torch,
+                            ),
+                            icon: const Icon(Icons.flashlight_on_rounded),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -2811,10 +2811,14 @@
   자동적으로 유저에게 권한을 요청한다
   `flutter pub add permission_handler`
   유저에게 다양한 권한 요청을 할 수 있다
+
   ### toggle selfie mode
+
   camera
+
   - [0]: back
   - [1]: front
+
   ```dart
   Future<void> initCamera() async {
       final cameras = await availableCameras();
@@ -2831,6 +2835,18 @@
   Future<void> _toggleSelfieMode() async {
       _isSelfieMode = !_isSelfieMode;
       await initCamera();
+      setState(() {});
+    }
+  ```
+
+  ### Flash mode
+
+  ```dart
+  late FlashMode _flashMode;
+
+  Future<void> _setFlashMode(FlashMode newFlashMode) async {
+      await _cameraController.setFlashMode(newFlashMode);
+      _flashMode = newFlashMode;
       setState(() {});
     }
   ```
