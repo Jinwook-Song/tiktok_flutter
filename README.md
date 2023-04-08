@@ -10,13 +10,20 @@
 ---
 
 - Ui & Widgets
+
   ### SafeArea
+
   status bar 아래부터 ui가 나오도록
+
   ### BottomAppBar
+
   ### FractionallySizedBox
+
   _widthFactor_
   부모 사이즈에 반응
+
   ### Auth button
+
   ```dart
   import 'package:flutter/material.dart';
   import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -67,7 +74,9 @@
     }
   }
   ```
+
   ### TextField
+
   ```dart
   TextField(
                 cursorColor: Theme.of(context).primaryColor,
@@ -89,8 +98,11 @@
                 ),
               ),
   ```
+
   ### TextEditingController
+
   변화를 감지할 수 있음
+
   ```dart
   final TextEditingController _usernameController = TextEditingController();
 
@@ -109,7 +121,9 @@
       });
     }
   ```
+
   ### AnimatedContainer
+
   ```dart
   AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
@@ -129,7 +143,9 @@
                   ),
                 ),
   ```
+
   ### AnimatedDefaultTextStyle
+
   ```dart
   AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 150),
@@ -143,7 +159,9 @@
                     ),
                   ),
   ```
+
   ### Dispose
+
   ```dart
   @override
     void initState() {
@@ -165,11 +183,14 @@
       super.dispose();
     }
   ```
+
   ### Email screen
+
   - email validation (RegExp)
   - keyboard type
   - error text
   - onEditingComplete
+
   ```dart
   import 'package:flutter/material.dart';
   import 'package:tiktok_flutter/constants/gaps.dart';
@@ -302,10 +323,13 @@
     }
   }
   ```
+
   ### Form
+
   key를 통해 form을 제어할 수 있다
   \_formKey.currentState?.validate() → validator 실행
   \_formKey.currentState!.save() → onSaved 실행
+
   ```dart
   import 'package:flutter/material.dart';
   import 'package:tiktok_flutter/constants/gaps.dart';
@@ -384,7 +408,9 @@
     }
   }
   ```
+
   ### ScrollController
+
   ```dart
   final ScrollController _scrollController = ScrollController();
 
@@ -400,10 +426,13 @@
       super.dispose();
     }
   ```
+
   ### Swipe
+
   DefaultTabController
   TabBarView → controller를 필요로함
   TabPageSelector → indicator(tap의 현 위치를 보여줌)
+
   ```dart
   import 'package:flutter/material.dart';
   import 'package:tiktok_flutter/constants/gaps.dart';
@@ -522,10 +551,13 @@
     }
   }
   ```
+
   ### Swipe2
+
   AnimatedCrossFade
   onPanUpdate
   onPanEnd
+
   ```dart
   import 'package:flutter/material.dart';
   import 'package:tiktok_flutter/constants/gaps.dart';
@@ -630,7 +662,9 @@
     }
   }
   ```
+
   ### CupertinoButton
+
   ```dart
   AnimatedOpacity(
                   duration: const Duration(milliseconds: 300),
@@ -642,11 +676,14 @@
                   ),
                 )),
   ```
+
   ### pushAndRemoveUntil
+
   push는 이전 widget이 stack 되고있다. 따라서 유저는 뒤로가기가 가능하며 이를 방지하기 위해
   stack된 route를 제거할 수 있다.
   false → remove
   true → doesn’t remove
+
   ```dart
   Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
@@ -655,12 +692,18 @@
           (route) => false,
         );
   ```
+
   - Navigation Bar
+
     - Builtin
+
       - material 2
+
         ### BottomNavigationBar
+
         item은 필수이며 2개이상을 필요로 한다
         currentIndex와 onTap method를 통해 변환할 수 있다.
+
         ```dart
         import 'package:flutter/material.dart';
         import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -714,6 +757,7 @@
           }
         }
         ```
+
       - material 3
         ### NavigationBar(material design 3)
         ```dart
@@ -764,8 +808,10 @@
               tabBuilder: (context, index) => screens[index],
             );
         ```
+
     - Custom
       Nav tab widget
+
       ```dart
       import 'package:flutter/material.dart';
       import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -818,9 +864,12 @@
         }
       }
       ```
+
   ### Offstage (Creates a widget that visually hides its child.)
+
   default: build되지만 보이지는 않음
   유저가 다른 화면을 보고 오더라도 이전의 상태를 그대로 보존할 수있음
+
   ```dart
   body: Stack(
           children: [
@@ -847,8 +896,11 @@
           ],
         ),
   ```
+
   ### Infinite Scroll
+
   PageView를 통해 infinite scroll 구현
+
   ```dart
   import 'package:flutter/material.dart';
   import 'package:tiktok_flutter/constants/sizes.dart';
@@ -900,8 +952,11 @@
     }
   }
   ```
+
   ### PageController
+
   page 이동시에 anmation 효과 설정
+
   ```dart
   final PageController _pageController = PageController();
 
@@ -927,16 +982,23 @@
       }
     }
   ```
+
   ### Assets
+
   pubspec.yaml
+
   ```yaml
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/videos/
   ```
+
   ### Video Player
+
   `flutter pub add video_player` version (^2.5.1)
+
   ### Video Post Widget
+
   ```dart
   import 'package:flutter/material.dart';
   import 'package:video_player/video_player.dart';
@@ -1005,11 +1067,14 @@
     }
   }
   ```
+
   ### Visibility detector & IgnorePointer
+
   `flutter pub add visibility_detector`
   화면이 완전히 넘어간 후 비디오를 재생하기 위해
   visibleFraction: 0~1의 값을 가지며 전체 화면이 보이는 경우가 1
   IgnorePointer는 Icon의 tap이벤트를 무시
+
   ```dart
   void _onVisibilityChanged(VisibilityInfo info) {
       if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
@@ -1059,7 +1124,9 @@
     }
   }
   ```
+
   ### Animation controller
+
   ```dart
   class _VideoPostState extends State<VideoPost>
       with SingleTickerProviderStateMixin
@@ -1107,8 +1174,11 @@
                 ),
               ),
   ```
+
   ### AnimatedBuilder
+
   animation value의 변화를 감지하여 builder 실행
+
   ```dart
   child: AnimatedBuilder(
                 // animation value를 감지하여 build 실행
@@ -1132,11 +1202,16 @@
                 ),
               ),
   ```
+
   ### SingleTickerProviderStateMixin
+
   Provides a single [Ticker](https://api.flutter.dev/flutter/scheduler/Ticker-class.html) that is configured to only tick while the current tree is enabled, as defined by [TickerMode](https://api.flutter.dev/flutter/widgets/TickerMode-class.html).
   Ticker: Calls its callback once per animation frame
+
   ### RefreshIndicator
+
   새로고침
+
   ```dart
   Future<void> _onRefresh() {
       // Api call
@@ -1155,8 +1230,11 @@
         child: child
       );
   ```
+
   ### showModalBottomSheet
+
   flutter 내장 함수
+
   ```dart
   void _onCommentsTap(BuildContext context) async {
       if (_videoPlayerController.value.isPlaying) {
@@ -1171,9 +1249,13 @@
       _onTogglePlay();
     }
   ```
+
   ### ListView.separated
+
   ListView Builder의 item들의 간격을 설정할 수 있다.
+
   ### TextField
+
   textfield는 크기를 지정하거나, expanded 위젯을 사용하여야 한다.
   키보드가 나올경우, flutter는 body의 크기를 조정하기 때문에 화면이 찌그러지는 현상이 발생할 수 있다.
   이를 방지 하기위해 _`resizeToAvoidBottomInset`_ 설정을 false로 변경
@@ -1181,6 +1263,7 @@
   → Stack과 Positioned 위젯의 조합을 통해 원하는 결과를 얻을 수 있다.
   또한 모달의 사이즈를 조절하기 위해
   showModalBottomSheet의 _isScrollControlled 옵션을 true로 설정하고, Container 크기를 조정한다._
+
   ```dart
   @override
     Widget build(BuildContext context) {
@@ -1288,11 +1371,17 @@
     }
   }
   ```
+
   ### MediaQuery
+
   screen size 및 다양한 정보를 얻을 수 있다.
+
   ### ScrollBar
+
   ScrollbarController
+
   ### Tabbar
+
   ```dart
   import 'package:flutter/material.dart';
   import 'package:tiktok_flutter/constants/sizes.dart';
@@ -1354,7 +1443,9 @@
     }
   }
   ```
+
   ### GridView
+
   ```dart
   GridView.builder(
               padding: const EdgeInsets.all(Sizes.size8),
@@ -1373,18 +1464,25 @@
               ),
             ),
   ```
+
   ### Image
+
   - local
+
   ```dart
   Image.asset('assets/images/ruby.jpeg'),
   ```
+
   - network
+
   ```dart
   Image.network(
                   'https://source.unsplash.com/random/200x${355 + index}'),
             ),
   ```
+
   ### Image + AspectRatio
+
   ```dart
   itemBuilder: (context, index) => AspectRatio(
                 aspectRatio: 9 / 16,
@@ -1396,11 +1494,16 @@
                 ),
               ),
   ```
+
   ### DefaultTextStyle
+
   children의 style을 한번에 지정
   override 가능
+
   ### ListTile
+
   leading, title, subtitle, trailing
+
   ```dart
   ListTile(
               leading: Container(
@@ -1436,8 +1539,11 @@
               ),
             ),
   ```
+
   ### RichText
+
   text에 각각 다른 style을 사용해야하는 경우
+
   ```dart
   title: RichText(
                 text: TextSpan(
@@ -1464,13 +1570,18 @@
                 ),
               ),
   ```
+
   ### Dismissible
+
   swipe 하여 없앨 수 있다.
   onDismissed를 통해 어느 방향에서 제거됐는지 감지할 수 있고, 각각에 따른 기능을 구현할 수 있다
   실제로 위젯 트리에서 제거되지 않았기 때문에 위젯을 업데이트 해야함
+
   ### RotationTransition
+
   Animation<double>을 인자로 받는다.
   한바퀴 값이 1
+
   ```dart
   late final AnimationController _animationController = AnimationController(
       vsync: this,
@@ -1500,15 +1611,20 @@
                   ),
                 ),
   ```
+
   ### SlideTransition
+
   Animation<Offset>을 인자로 받는다
+
   ```dart
   late final Animation<Offset> _pannelAnimation = Tween(
       begin: const Offset(0, -1), // dx, dy
       end: Offset.zero,
     ).animate(_animationController);
   ```
+
   ### AnimatedModalBarrier
+
   ```dart
   late final Animation<Color?> _colorAnimation = ColorTween(
       begin: Colors.transparent,
@@ -1522,9 +1638,12 @@
                 onDismiss: _toggleAnimations,
               ),
   ```
+
   ### AnimatedList
+
   _itemBuilder_: (_context_, _index_, _animation_) {}
   Animation<double> animation
+
   ```dart
   import 'package:flutter/material.dart';
   import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -1617,9 +1736,12 @@
     }
   }
   ```
+
   ### Delete AnimatedList
+
   삭제할 때, 동일한 위젯을 return 하여 해당 위젯이 삭제되는 것처럼 보이도록 한다.
   (makeTile 함수로 동일한 위젯을 사용)
+
   ```dart
   void _deleteItem(int index) {
       if (_key.currentState != null) {
@@ -1673,9 +1795,12 @@
       );
     }
   ```
+
   ### CustomScrollView & SliverFixedExtentList
+
   scroll이 가능한 위젯을 만들 수 있다
   slivers는 List<Widget> 이지만, 모든 위젯이 가능한것은 아니다
+
   ```dart
   import 'package:flutter/material.dart';
 
@@ -1735,7 +1860,9 @@
     }
   }
   ```
+
   ### SliverGrid
+
   ```dart
   SliverGrid(
             delegate: SliverChildBuilderDelegate(
@@ -1755,7 +1882,9 @@
                 childAspectRatio: 1),
           ),
   ```
+
   ### SliverPersistentHeader
+
   ```dart
   SliverPersistentHeader(
             delegate: CustomDelegate(),
@@ -1796,8 +1925,11 @@
     }
   }
   ```
+
   ### SliverToBoxAdapter
+
   sliver안에서 random한 widget을 사용하고 싶은 경우
+
   ```dart
   SliverToBoxAdapter(
             child: Column(
@@ -1810,8 +1942,11 @@
             ),
           ),
   ```
+
   ### VerticalDivider (with SizedBox)
+
   divider이며 height는 father widget의 높이이다
+
   ```dart
   VerticalDivider(
                         width: Sizes.size32,
@@ -1821,11 +1956,15 @@
                         color: Colors.grey.shade200,
                       ),
   ```
+
   ### Nested Scroll View
+
   두개의 스크롤이 사용되는 경우
   headerSliverBuilder
   body
+
   ### ListWheelScrollView
+
   ```dart
   body: ListWheelScrollView(
           diameterRatio: 1.5,
@@ -1852,9 +1991,13 @@
           ],
         ),
   ```
+
   ### CircularProgressIndicator.adaptive()
+
   사용자가 사용중이 플랫폼에 따라 ios, android 디자인
+
   ### showAboutDialog(), AboutListTile
+
   ```dart
   body: ListView(
           children: [
@@ -1876,10 +2019,13 @@
           ],
         ),
   ```
+
   ### Date functions
+
   - showDatePicker
   - showTimePicker
   - showDateRangePicker
+
   ```dart
   onTap: () async {
                 final date = await showDatePicker(
@@ -1913,7 +2059,9 @@
                 print(booking);
               },
   ```
+
   ### CheckboxListTile
+
   ```dart
   bool _notifications = false;
 
@@ -1931,7 +2079,9 @@
               title: const Text('Enable notifications'),
             ),
   ```
+
   ### Switch, CupertinoSwitch, Switch.adaptive
+
   ```dart
   Switch.adaptive(
               value: _notifications,
@@ -1949,9 +2099,12 @@
               activeColor: Colors.black,
             ),
   ```
+
   ### Dialog
+
   ios design: CupertinoAlertDialog
   android design: AlertDialog
+
   ```dart
   ListTile(
               onTap: () => showCupertinoDialog(
@@ -2015,7 +2168,9 @@
               ),
             ),
   ```
+
   ### showCupertinoModalPopup
+
   ```dart
   ListTile(
               onTap: () => showCupertinoModalPopup(
@@ -2050,8 +2205,10 @@
               ),
             ),
   ```
+
 - Responsive Design
   가로모드, 세로모드, 화면 크기, Dark mode 등에 대해서는 처음부터 고려해야한다.
+
   ```dart
   class BreakPoints {
     static const sm = 640;
@@ -2061,13 +2218,17 @@
     static const xxl = 1536;
   }
   ```
+
   Collection if(for)는 하나의 대상에만 동작하기 때문에 여러 대상에 적용하기 위해서는
   List + destruction을 이용한다. `…[itemA, itemB, itemC]`
+
   ### OrientationBuilder
+
   _if_ (_orientation_ == Orientation.portrait) → 세로 모드
   _if_ (_orientation_ == Orientation.landscape) → 가로 모드
   앱 시작전에 state를 바꾸고 싶다면
   engine 그리고 engine과 widget 의 연결을 초기화 해야한다
+
   ```dart
   void main() async {
     // App 실행전에 초기화하고 binding 해야한다
@@ -2086,11 +2247,16 @@
     runApp(const TikTokApp());
   }
   ```
+
   ### kIsWeb
+
   web인경우, 초기설정을 mute
   대부분의 브라우저에서는 음성이 있는 영상을 자동재생 할 수 없다. (광고나 큰 소리로 악용될 여지가 있기 때문에)
+
   ### MediaQuery
+
   처음 한번 값을 가져오는 것이 아닌 창 크기가 변하는것을 감지할 수 있다
+
   ```dart
   *final* width = MediaQuery.of(*context*).size.width;
 
@@ -2102,9 +2268,12 @@
                             ? 4
                             : 5,
   ```
+
   ### LayoutBuilder
+
   context, constraints
   constraints.maxWidth: Container가 가질 수 있는 최대 너비 ↔ 화면 크기와는 구분된다
+
   ```dart
   class LayoutBuilderCodeLab extends StatelessWidget {
     const LayoutBuilderCodeLab({super.key});
@@ -2138,36 +2307,48 @@
     }
   }
   ```
+
   ### ConstrainedBox
+
   constraints: maxWidth, maxHeight, minWidth, minHeight 등을 지정할 수 있다.
   Container에도 constraints 속성이 있다
+
   ```dart
   ConstrainedBox(
                 constraints: const BoxConstraints(
                   maxWidth: BreakPoints.sm,
                 ),
   ```
+
   ### Dark Mode
+
   light, dark에 따라 각각 color를 설정할 수 있다.
   이상적으로는 모든 컬러 정보를 theme에 setting 해두는것이 좋다
+
   ```dart
   themeMode: ThemeMode.system,
   theme: ThemeData()
   darkTheme: ThemeData()
   ```
+
   하지만 특정 화면이나 위젯에 대해서 컬러를 설정하게 되는 경우(hard coding) 사용중인 mode에 따라 컬러를 설정해 줄 수 있다.
+
   ```dart
 
   bool isDarkMode(BuildContext context) {
     return MediaQuery.of(context).platformBrightness == Brightness.dark;
   }
   ```
+
   ### TextTheme
+
   `flutter pub add google_fonts` version 4.0.1
   docs
+
   - [m2](https://m2.material.io/design/typography/the-type-system.html#type-scale)
   - [m3](https://m3.material.io/styles/typography/overview)
-  copyWith를 통해 특정 theme 속성에 추가할 수 있다. (color, fontWeigth 등)
+    copyWith를 통해 특정 theme 속성에 추가할 수 있다. (color, fontWeigth 등)
+
   ```dart
   textTheme: TextTheme(
             headline1: GoogleFonts.openSans(
@@ -2204,22 +2385,31 @@
                           .copyWith(color: Theme.of(context).primaryColor),
                     ),
   ```
+
   ### Google Fonts
+
   [https://fonts.google.com/](https://fonts.google.com/)
   대부분의 유명한 font들은 GoogleFonts에서 지원한다
+
   ```dart
   textTheme: GoogleFonts.itimTextTheme(
             ThemeData(brightness: Brightness.dark).textTheme,
           ),
   ```
+
   ### Typography
+
   size, color, fontWeight 는 그대로 하고 오직 폰트값만 지정한다
+
   ```dart
   textTheme: Typography.blackMountainView,
   ```
+
   ### Flex Color Scheme
+
   `flutter pub add flex_color_scheme`
   [docs](https://docs.flexcolorscheme.com/)
+
   ```dart
   class MyApp extends StatelessWidget {
     const MyApp({Key? key}) : super(key: key);
@@ -2238,6 +2428,7 @@
     }
   }
   ```
+
 - i18n, l10n (internationalization, localization)
   pubspec.yaml
   ```dart
@@ -2334,18 +2525,18 @@
   ```
   ### numbers l10n
   [format docs](https://docs.flutter.dev/development/accessibility-and-localization/internationalization#messages-with-numbers-and-currencies)
-  | Message “format” value  | Output for 1200000 |
+  | Message “format” value | Output for 1200000 |
   | ----------------------- | ------------------ |
-  | compact                 | “1.2M”             |
-  | compactCurrency\*       | “$1.2M”            |
-  | compactSimpleCurrency\* | “$1.2M”            |
-  | compactLong             | “1.2 million”      |
-  | currency\*              | “USD1,200,000.00”  |
-  | decimalPattern          | “1,200,000”        |
-  | decimalPercentPattern\* | “120,000,000%”     |
-  | percentPattern          | “120,000,000%”     |
-  | scientificPattern       | “1E6”              |
-  | simpleCurrency\*        | “$1,200,000”       |
+  | compact | “1.2M” |
+  | compactCurrency\* | “$1.2M” |
+  | compactSimpleCurrency\* | “$1.2M” |
+  | compactLong | “1.2 million” |
+  | currency\* | “USD1,200,000.00” |
+  | decimalPattern | “1,200,000” |
+  | decimalPercentPattern\* | “120,000,000%” |
+  | percentPattern | “120,000,000%” |
+  | scientificPattern | “1E6” |
+  | simpleCurrency\* | “$1,200,000” |
   ```dart
   "videoLikeCount": "{value}",
     "@videoLikeCount": {
@@ -2414,7 +2605,9 @@
         }
   ```
 - Navigator
+
   ### custom animate navigation
+
   ```dart
   Navigator.of(context).push(
               PageRouteBuilder(
@@ -2443,8 +2636,11 @@
               ),
             );
   ```
+
   ### pushNamed
+
   main.dart
+
   ```dart
   initialRoute: SignUpScreen.routeName,
         routes: {
@@ -2457,7 +2653,9 @@
       Navigator.of(context).pushNamed('/login');
     }
   ```
+
   routes.dart
+
   ```dart
   class Routes {
     static const SignupScreen = '/';
@@ -2465,6 +2663,7 @@
     static const UserNameScreen = '/username';
   }
   ```
+
   ```dart
   initialRoute: Routes.SignupScreen,
         routes: {
@@ -2473,7 +2672,9 @@
           Routes.UserNameScreen: (context) => const UserNameScreen(),
         },
   ```
+
   ### pushNamed args
+
   ```dart
   class EmailScreenArgs {
     final String username;
@@ -2484,19 +2685,24 @@
   final args = ModalRoute.of(context)!.settings.arguments as EmailScreenArgs;
       print(args.username);
   ```
+
 - Navigator 2
   Navigator 1은 flutter web을 사용하게 되면 문제가 발생한다
+
   - named routes를 사용하는 경우 앞으로가기 버튼을 지원하지 않는다
   - Push를 사용하는 경우 url을 변경할 수 없다
   - dynamic routes를 사용할 수 없다
-  `flutter pub add go_router` v6.5.2
-  main.dart
+    `flutter pub add go_router` v6.5.2
+    main.dart
+
   ```dart
   return MaterialApp.router(
         routerConfig: router,)
 
   ```
+
   router.dart
+
   ```dart
   import 'package:go_router/go_router.dart';
   import 'package:tiktok_flutter/features/authentication/email_screen.dart';
@@ -2526,16 +2732,22 @@
     ],
   );
   ```
+
   usage
+
   ```dart
   void _onLoginTap(BuildContext context) async {
       context.push(Routes.LoginScreen);
     }
   ```
+
   ### push vs go
+
   - push: Push a location onto the page stack.
   - go: Navigate to a location.
+
   ### Parameters
+
   ```dart
   GoRoute(
         path: '/users/:username',
@@ -2547,12 +2759,16 @@
         },
       ),
   ```
+
   ### Query
+
   ```dart
   path: '/users/jw?show=likes'
   final query = state.queryParams['show'];
   ```
+
   ### Extra
+
   ```dart
   GoRoute(
         path: Routes.EmailSignupScreen,
@@ -2567,7 +2783,9 @@
   context.push(Routes.EmailSignupScreen,
           extra: EmailScreenArgs(username: _username));
   ```
+
   ### CustomTransitionPage
+
   ```dart
   GoRoute(
         path: Routes.UserNameScreen,
@@ -2587,4 +2805,9 @@
         },
       ),
   ```
+
 - Video Recording
+  `flutter pub add camera`
+  자동적으로 유저에게 권한을 요청한다
+  `flutter pub add permission_handler`
+  유저에게 다양한 권한 요청을 할 수 있다
