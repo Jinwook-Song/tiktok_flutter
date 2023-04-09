@@ -2850,3 +2850,152 @@
       setState(() {});
     }
   ```
+
+  ### Recording Button (animation)
+
+  tapDown → start recording
+  tapUp → stop recording
+
+  addStatusListener를 통해 animation status를 알 수 있다.
+
+  duration(10초)이 완료되면 stop recording
+
+  ```dart
+  late final AnimationController _buttonAnimationController =
+        AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 150,
+      ),
+    );
+
+    late final AnimationController _progressAnimationController =
+        AnimationController(
+      vsync: this,
+      duration: const Duration(
+        seconds: 10,
+      ),
+      lowerBound: 0.0,
+      upperBound: 1.0,
+    );
+
+    late final Animation<double> _buttonAniation = Tween(
+      begin: 1.0,
+      end: 0.9,
+    ).animate(_buttonAnimationController);
+
+  @override
+    void initState() {
+      super.initState();
+      initPermissions();
+      _progressAnimationController.addListener(() {
+        setState(() {});
+      });
+      _progressAnimationController.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _stopRecording();
+        }
+      });
+    }
+
+    void _startRecording(TapDownDetails _) {
+      _buttonAnimationController.forward();
+      _progressAnimationController.forward();
+    }
+
+    void _stopRecording() {
+      _buttonAnimationController.reverse();
+      _progressAnimationController.reset();
+    }
+  ```
+
+  ### VIdeo Recording
+
+  ```dart
+  Future<void> _startRecording(TapDownDetails _) async {
+      if (_cameraController.value.isRecordingVideo) return;
+
+      await _cameraController.startVideoRecording();
+
+      _buttonAnimationController.forward();
+      _progressAnimationController.forward();
+    }
+
+    Future<void> _stopRecording() async {
+      if (!_cameraController.value.isRecordingVideo) return;
+
+      _buttonAnimationController.reverse();
+      _progressAnimationController.reset();
+
+      final video = await _cameraController.stopVideoRecording();
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VideoPreviewScreen(video: video),
+        ),
+      );
+    }
+  ```
+
+  ### Preview Recorded Video
+
+  ```dart
+  import 'dart:io';
+
+  import 'package:camera/camera.dart';
+  import 'package:flutter/material.dart';
+  import 'package:video_player/video_player.dart';
+
+  class VideoPreviewScreen extends StatefulWidget {
+    final XFile video;
+
+    const VideoPreviewScreen({
+      super.key,
+      required this.video,
+    });
+
+    @override
+    State<VideoPreviewScreen> createState() => _VideoPreviewScreenState();
+  }
+
+  class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
+    late final VideoPlayerController _videoPlayerController;
+
+    Future<void> _initVideo() async {
+      _videoPlayerController = VideoPlayerController.file(
+        File(widget.video.path),
+      );
+
+      await _videoPlayerController.initialize();
+
+      await _videoPlayerController.setLooping(true);
+
+      await _videoPlayerController.play();
+
+      // build method가 상태 변화를 알도록
+      setState(() {});
+    }
+
+    @override
+    void initState() {
+      super.initState();
+
+      _initVideo();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+          backgroundColor: Colors.black,
+          appBar: AppBar(
+            title: const Text(
+              'Preview video',
+            ),
+          ),
+          body: _videoPlayerController.value.isInitialized
+              ? VideoPlayer(_videoPlayerController)
+              : null);
+    }
+  }
+  ```

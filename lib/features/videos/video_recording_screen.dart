@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
+import 'package:tiktok_flutter/features/videos/video_preview_screen.dart';
 import 'package:tiktok_flutter/features/videos/widgets/video_flash_button.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
@@ -12,10 +13,34 @@ class VideoRecordingScreen extends StatefulWidget {
   State<VideoRecordingScreen> createState() => _VideoRecordingScreenState();
 }
 
-class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
+class _VideoRecordingScreenState extends State<VideoRecordingScreen>
+    with TickerProviderStateMixin {
   bool _hasPermission = false;
 
   bool _isSelfieMode = false;
+
+  late final AnimationController _buttonAnimationController =
+      AnimationController(
+    vsync: this,
+    duration: const Duration(
+      milliseconds: 150,
+    ),
+  );
+
+  late final AnimationController _progressAnimationController =
+      AnimationController(
+    vsync: this,
+    duration: const Duration(
+      seconds: 10,
+    ),
+    lowerBound: 0.0,
+    upperBound: 1.0,
+  );
+
+  late final Animation<double> _buttonAniation = Tween(
+    begin: 1.0,
+    end: 0.9,
+  ).animate(_buttonAnimationController);
 
   late FlashMode _flashMode;
 
@@ -31,6 +56,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     );
 
     await _cameraController.initialize();
+
+    // only for IOS
+    await _cameraController.prepareForVideoRecording();
 
     _flashMode = _cameraController.value.flashMode;
   }
@@ -67,11 +95,48 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
   void initState() {
     super.initState();
     initPermissions();
+    _progressAnimationController.addListener(() {
+      setState(() {});
+    });
+    _progressAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _stopRecording();
+      }
+    });
   }
 
-  void _onTapDown(TapDownDetails _) {}
+  Future<void> _startRecording(TapDownDetails _) async {
+    if (_cameraController.value.isRecordingVideo) return;
 
-  void _onTapUp(TapUpDetails _) {}
+    await _cameraController.startVideoRecording();
+
+    _buttonAnimationController.forward();
+    _progressAnimationController.forward();
+  }
+
+  Future<void> _stopRecording() async {
+    if (!_cameraController.value.isRecordingVideo) return;
+
+    _buttonAnimationController.reverse();
+    _progressAnimationController.reset();
+
+    final video = await _cameraController.stopVideoRecording();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VideoPreviewScreen(video: video),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    _buttonAnimationController.dispose();
+    _progressAnimationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,18 +218,31 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                     Positioned(
                       bottom: Sizes.size20,
                       child: GestureDetector(
-                        onTapDown: _onTapDown,
-                        onTapUp: _onTapUp,
-                        child: Container(
-                          width: Sizes.size60,
-                          height: Sizes.size60,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.red,
-                            border: Border.all(
-                              color: Colors.grey.shade300,
-                              width: Sizes.size3,
-                            ),
+                        onTapDown: _startRecording,
+                        onTapUp: (details) => _stopRecording(),
+                        child: ScaleTransition(
+                          scale: _buttonAniation,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              SizedBox(
+                                width: Sizes.size72,
+                                height: Sizes.size72,
+                                child: CircularProgressIndicator(
+                                  color: Colors.red.shade400,
+                                  strokeWidth: Sizes.size6,
+                                  value: _progressAnimationController.value,
+                                ),
+                              ),
+                              Container(
+                                width: Sizes.size60,
+                                height: Sizes.size60,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.red.shade400,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
