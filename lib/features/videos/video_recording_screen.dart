@@ -69,6 +69,10 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
     initPermissions();
   }
 
+  void _onTapDown(TapDownDetails _) {}
+
+  void _onTapUp(TapUpDetails _) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,6 +148,25 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
                                   ),
                               icon: Icons.flashlight_on_rounded),
                         ],
+                      ),
+                    ),
+                    Positioned(
+                      bottom: Sizes.size20,
+                      child: GestureDetector(
+                        onTapDown: _onTapDown,
+                        onTapUp: _onTapUp,
+                        child: Container(
+                          width: Sizes.size60,
+                          height: Sizes.size60,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                            border: Border.all(
+                              color: Colors.grey.shade300,
+                              width: Sizes.size3,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
