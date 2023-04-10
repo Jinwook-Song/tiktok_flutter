@@ -16,10 +16,10 @@ class VideoRecordingScreen extends StatefulWidget {
 }
 
 class _VideoRecordingScreenState extends State<VideoRecordingScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   bool _hasPermission = false;
-
   bool _isSelfieMode = false;
+  bool _prepareDispose = false;
 
   late final AnimationController _buttonAnimationController =
       AnimationController(
@@ -48,6 +48,43 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   late CameraController _cameraController;
 
+  @override
+  void initState() {
+    super.initState();
+    initPermissions();
+    WidgetsBinding.instance.addObserver(this);
+    _progressAnimationController.addListener(() {
+      setState(() {});
+    });
+    _progressAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _stopRecording();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    _buttonAnimationController.dispose();
+    _progressAnimationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!_hasPermission || !_cameraController.value.isInitialized) return;
+
+    if (state == AppLifecycleState.paused) {
+      _prepareDispose = true;
+      setState(() {});
+      _cameraController.dispose();
+    } else if (state == AppLifecycleState.resumed) {
+      _prepareDispose = false;
+      initCamera();
+    }
+  }
+
   Future<void> initCamera() async {
     final cameras = await availableCameras();
     if (cameras.isEmpty) return;
@@ -64,6 +101,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     await _cameraController.prepareForVideoRecording();
 
     _flashMode = _cameraController.value.flashMode;
+
+    setState(() {});
   }
 
   Future<void> initPermissions() async {
@@ -94,20 +133,6 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     setState(() {});
   }
 
-  @override
-  void initState() {
-    super.initState();
-    initPermissions();
-    _progressAnimationController.addListener(() {
-      setState(() {});
-    });
-    _progressAnimationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _stopRecording();
-      }
-    });
-  }
-
   Future<void> _startRecording(TapDownDetails _) async {
     if (_cameraController.value.isRecordingVideo) return;
 
@@ -125,45 +150,37 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
     final video = await _cameraController.stopVideoRecording();
 
-    if (!mounted) return;
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => VideoPreviewScreen(
-          video: video,
-          isFromGallery: false,
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VideoPreviewScreen(
+            video: video,
+            isFromGallery: false,
+          ),
         ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _cameraController.dispose();
-    _buttonAnimationController.dispose();
-    _progressAnimationController.dispose();
-    super.dispose();
+      );
+    }
   }
 
   Future<void> _onGalleryPressed() async {
     final video = await ImagePicker().pickVideo(
-      source: ImageSource.gallery,
+      source: ImageSource.gallery, // gallery or camera 선택
     );
 
     if (video == null) return;
 
-    if (!mounted) return;
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => VideoPreviewScreen(
-          video: video,
-          isFromGallery: true,
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VideoPreviewScreen(
+            video: video,
+            isFromGallery: true,
+          ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   @override
@@ -192,9 +209,10 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    CameraPreview(
-                      _cameraController,
-                    ),
+                    if (!_prepareDispose)
+                      CameraPreview(
+                        _cameraController,
+                      ),
                     Positioned(
                       top: Sizes.size12,
                       right: Sizes.size12,

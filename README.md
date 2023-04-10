@@ -3045,3 +3045,42 @@
       );
     }
   ```
+
+- App Lifecycle
+  background 상태를 감지하고 핸들링
+  cameraContorller를 dispose하기전에 `CameraPreview` 위젯을 렌더 트리에서 제거해야 한다.
+  ```dart
+  @override
+    void initState() {
+      super.initState();
+      initPermissions();
+      WidgetsBinding.instance.addObserver(this); // app 상태 감지
+      _progressAnimationController.addListener(() {
+        setState(() {});
+      });
+      _progressAnimationController.addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _stopRecording();
+        }
+      });
+    }
+
+  @override
+    void didChangeAppLifecycleState(AppLifecycleState state) {
+      if (!_hasPermission || !_cameraController.value.isInitialized) return;
+
+      if (state == AppLifecycleState.paused) {
+        _prepareDispose = true;
+        setState(() {});
+        _cameraController.dispose();
+      } else if (state == AppLifecycleState.resumed) {
+        _prepareDispose = false;
+        initCamera();
+      }
+    }
+
+  if (!_prepareDispose)
+                        CameraPreview(
+                          _cameraController,
+                        ),
+  ```
