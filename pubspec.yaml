@@ -57,6 +57,8 @@ dependencies:
 
   gallery_saver: ^2.3.2
 
+  image_picker: ^0.8.7+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

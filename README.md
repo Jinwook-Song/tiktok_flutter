@@ -3019,3 +3019,29 @@
       if (_savedVideo) return;
     }
   ```
+
+  ### Pick from gallery
+
+  `image_picker: ^0.8.7+1`
+
+  ```dart
+  Future<void> _onGalleryPressed() async {
+      final video = await ImagePicker().pickVideo(
+        source: ImageSource.gallery,
+      );
+
+      if (video == null) return;
+
+      if (!mounted) return;
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VideoPreviewScreen(
+            video: video,
+            isFromGallery: true,
+          ),
+        ),
+      );
+    }
+  ```
