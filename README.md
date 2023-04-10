@@ -2999,3 +2999,23 @@
     }
   }
   ```
+
+  ### Save to gallery
+
+  `gallery_saver: ^2.3.2`
+
+  갤러리에 저장하기 위한 라이브러리
+
+  ```dart
+  Future<void> _saveToGallery() async {
+      _savedVideo = true;
+      setState(() {});
+
+      await GallerySaver.saveVideo(
+        widget.video.path,
+        albumName: "TikTok!",
+      );
+
+      if (_savedVideo) return;
+    }
+  ```
