@@ -43,8 +43,13 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
   @override
   void initState() {
     super.initState();
-
     _initVideo();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _videoPlayerController.dispose();
   }
 
   Future<void> _saveToGallery() async {

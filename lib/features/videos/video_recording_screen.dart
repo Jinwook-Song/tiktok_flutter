@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,6 +24,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   bool _hasPermission = false;
   bool _isSelfieMode = false;
   bool _prepareDispose = false;
+  late final bool _useCamera = !kDebugMode || !Platform.isIOS;
 
   late final AnimationController _buttonAnimationController =
       AnimationController(
@@ -56,6 +59,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   void initState() {
     super.initState();
     initPermissions();
+
     WidgetsBinding.instance.addObserver(this);
     _progressAnimationController.addListener(() {
       setState(() {});
@@ -77,7 +81,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (!_hasPermission || !_cameraController.value.isInitialized) return;
+    if (!_useCamera ||
+        !_hasPermission ||
+        !_cameraController.value.isInitialized) return;
 
     if (state == AppLifecycleState.paused) {
       _prepareDispose = true;
@@ -121,7 +127,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
     if (!cameraDenied && !microphoneDenied) {
       _hasPermission = true;
-      await initCamera();
+      if (_useCamera) {
+        await initCamera();
+      }
       setState(() {});
     }
   }
@@ -139,7 +147,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   }
 
   Future<void> _startRecording(TapDownDetails _) async {
-    if (_cameraController.value.isRecordingVideo) return;
+    if (!_useCamera || _cameraController.value.isRecordingVideo) return;
 
     await _cameraController.startVideoRecording();
 
@@ -148,7 +156,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   }
 
   Future<void> _stopRecording() async {
-    if (!_cameraController.value.isRecordingVideo) return;
+    if (!_useCamera || !_cameraController.value.isRecordingVideo) return;
 
     _buttonAnimationController.reverse();
     _progressAnimationController.reset();
@@ -208,7 +216,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       backgroundColor: Colors.black,
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: !_hasPermission || !_cameraController.value.isInitialized
+        child: !_hasPermission
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -228,58 +236,60 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    if (!_prepareDispose)
+                    if (_useCamera && !_prepareDispose)
                       CameraPreview(
                         _cameraController,
                       ),
-                    Positioned(
-                      top: Sizes.size12,
-                      right: Sizes.size12,
-                      child: Column(
-                        children: [
-                          IconButton(
-                            color: Colors.white,
-                            onPressed: _toggleSelfieMode,
-                            icon: const Icon(
-                              Icons.cameraswitch_rounded,
+                    if (_useCamera)
+                      Positioned(
+                        top: Sizes.size12,
+                        right: Sizes.size12,
+                        child: Column(
+                          children: [
+                            IconButton(
+                              color: Colors.white,
+                              onPressed: _toggleSelfieMode,
+                              icon: const Icon(
+                                Icons.cameraswitch_rounded,
+                              ),
                             ),
-                          ),
-                          Gaps.v10,
-                          VideoFlashButton(
-                              color: _flashMode == FlashMode.off
-                                  ? Colors.amber
-                                  : Colors.white,
-                              onpressedFn: () => _setFlashMode(FlashMode.off),
-                              icon: Icons.flash_off_rounded),
-                          Gaps.v10,
-                          VideoFlashButton(
-                              color: _flashMode == FlashMode.always
-                                  ? Colors.amber
-                                  : Colors.white,
-                              onpressedFn: () =>
-                                  _setFlashMode(FlashMode.always),
-                              icon: Icons.flash_on_rounded),
-                          Gaps.v10,
-                          VideoFlashButton(
-                              color: _flashMode == FlashMode.auto
-                                  ? Colors.amber
-                                  : Colors.white,
-                              onpressedFn: () => _setFlashMode(FlashMode.auto),
-                              icon: Icons.flash_auto_rounded),
-                          Gaps.v10,
-                          VideoFlashButton(
-                              color: _flashMode == FlashMode.torch
-                                  ? Colors.amber
-                                  : Colors.white,
-                              onpressedFn: () => _setFlashMode(
-                                    _flashMode == FlashMode.torch
-                                        ? FlashMode.off
-                                        : FlashMode.torch,
-                                  ),
-                              icon: Icons.flashlight_on_rounded),
-                        ],
+                            Gaps.v10,
+                            VideoFlashButton(
+                                color: _flashMode == FlashMode.off
+                                    ? Colors.amber
+                                    : Colors.white,
+                                onpressedFn: () => _setFlashMode(FlashMode.off),
+                                icon: Icons.flash_off_rounded),
+                            Gaps.v10,
+                            VideoFlashButton(
+                                color: _flashMode == FlashMode.always
+                                    ? Colors.amber
+                                    : Colors.white,
+                                onpressedFn: () =>
+                                    _setFlashMode(FlashMode.always),
+                                icon: Icons.flash_on_rounded),
+                            Gaps.v10,
+                            VideoFlashButton(
+                                color: _flashMode == FlashMode.auto
+                                    ? Colors.amber
+                                    : Colors.white,
+                                onpressedFn: () =>
+                                    _setFlashMode(FlashMode.auto),
+                                icon: Icons.flash_auto_rounded),
+                            Gaps.v10,
+                            VideoFlashButton(
+                                color: _flashMode == FlashMode.torch
+                                    ? Colors.amber
+                                    : Colors.white,
+                                onpressedFn: () => _setFlashMode(
+                                      _flashMode == FlashMode.torch
+                                          ? FlashMode.off
+                                          : FlashMode.torch,
+                                    ),
+                                icon: Icons.flashlight_on_rounded),
+                          ],
+                        ),
                       ),
-                    ),
                     Positioned(
                       bottom: Sizes.size20,
                       width: MediaQuery.of(context).size.width,
