@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -47,6 +49,8 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   late FlashMode _flashMode;
 
   late CameraController _cameraController;
+  late double _cameraMaxZoomLevel;
+  double _currentZoomLevel = 1.0;
 
   @override
   void initState() {
@@ -96,6 +100,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     );
 
     await _cameraController.initialize();
+    _cameraMaxZoomLevel = await _cameraController.getMaxZoomLevel();
 
     // only for IOS
     await _cameraController.prepareForVideoRecording();
@@ -160,6 +165,20 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
           ),
         ),
       );
+    }
+  }
+
+  Future<void> _handleZoomLevel(DragUpdateDetails details) async {
+    var verticalOffset = details.delta.dy.round();
+
+    if (verticalOffset < -3) {
+      _currentZoomLevel = min(_cameraMaxZoomLevel, _currentZoomLevel + 1);
+      await _cameraController.setZoomLevel(_currentZoomLevel);
+      setState(() {});
+    } else if (verticalOffset > 2) {
+      _currentZoomLevel = _currentZoomLevel - 1 < 1 ? 1 : _currentZoomLevel - 1;
+      await _cameraController.setZoomLevel(_currentZoomLevel);
+      setState(() {});
     }
   }
 
@@ -268,6 +287,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                         children: [
                           const Spacer(),
                           GestureDetector(
+                            onPanUpdate: _handleZoomLevel,
                             onTapDown: _startRecording,
                             onTapUp: (details) => _stopRecording(),
                             child: ScaleTransition(
