@@ -155,8 +155,8 @@ class _InterestsScreenState extends State<InterestsScreen> {
                 vertical: Sizes.size16 + Sizes.size2,
               ),
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.circular(Sizes.size5)),
               child: const Text(
                 'Next',
                 textAlign: TextAlign.center,

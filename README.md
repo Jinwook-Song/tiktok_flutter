@@ -3131,3 +3131,12 @@
       ],
     );
     ```
+  - After Auth
+    main navigation
+    ```dart
+    // ✅ Login
+      static const mainNavigationScreen = {
+        'name': 'mainNavigation',
+        'url': '/:tab(home|discover|inbox|profile)',
+      };
+    ```

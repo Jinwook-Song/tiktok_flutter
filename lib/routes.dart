@@ -1,4 +1,5 @@
 class Routes {
+  // ❌ Login
   static const signUpScreen = {
     'name': 'signUp',
     'url': '/',
@@ -12,5 +13,11 @@ class Routes {
   static const interestsScreen = {
     'name': 'interests',
     'url': '/tutorial',
+  };
+
+  // ✅ Login
+  static const mainNavigationScreen = {
+    'name': 'mainNavigation',
+    'url': '/:tab(home|discover|inbox|profile)',
   };
 }

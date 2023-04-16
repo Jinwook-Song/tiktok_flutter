@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/authentication/widgets/form_button.dart';
-import 'package:tiktok_flutter/features/onboarding/interests_screen.dart';
+import 'package:tiktok_flutter/routes.dart';
 
 class LoginFormScreen extends StatefulWidget {
   const LoginFormScreen({super.key});
@@ -24,12 +25,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     bool? validated = _formKey.currentState?.validate();
     if (validated == true) {
       _formKey.currentState!.save();
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const InterestsScreen(),
-        ),
-        (route) => false,
-      );
+      context.goNamed(Routes.interestsScreen['name']!);
     }
   }
 
