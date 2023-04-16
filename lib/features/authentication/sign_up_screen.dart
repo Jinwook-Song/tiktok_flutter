@@ -11,7 +11,7 @@ class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
   void _onLoginTap(BuildContext context) async {
-    context.push(Routes.LoginScreen);
+    context.pushNamed(Routes.logInScreen['name']!);
   }
 
   @override

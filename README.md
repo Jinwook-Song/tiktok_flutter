@@ -3049,6 +3049,7 @@
 - App Lifecycle
   background 상태를 감지하고 핸들링
   cameraContorller를 dispose하기전에 `CameraPreview` 위젯을 렌더 트리에서 제거해야 한다.
+
   ```dart
   @override
     void initState() {
@@ -3084,3 +3085,49 @@
                           _cameraController,
                         ),
   ```
+
+- Router (웹의 url 접근 고려)
+  goRouter: url을 변경할때
+  navigator: 그 외
+  - Before Auth (signup or login)
+    routes.dart
+    ```dart
+    class Routes {
+      static const signUpScreen = {
+        'name': 'signUp',
+        'url': '/',
+      };
+
+      static const logInScreen = {
+        'name': 'logIn',
+        'url': '/login',
+      };
+
+      static const interestsScreen = {
+        'name': 'interests',
+        'url': '/tutorial',
+      };
+    }
+    ```
+    router.dart
+    ```dart
+    final GoRouter router = GoRouter(
+      routes: [
+        GoRoute(
+          name: Routes.signUpScreen['name'],
+          path: Routes.signUpScreen['url']!,
+          builder: (context, state) => const SignUpScreen(),
+        ),
+        GoRoute(
+          name: Routes.logInScreen['name'],
+          path: Routes.logInScreen['url']!,
+          builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          name: Routes.interestsScreen['name'],
+          path: Routes.interestsScreen['url']!,
+          builder: (context, state) => const InterestsScreen(),
+        ),
+      ],
+    );
+    ```

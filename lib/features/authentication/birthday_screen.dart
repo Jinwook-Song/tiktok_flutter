@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/authentication/widgets/form_button.dart';
-import 'package:tiktok_flutter/features/onboarding/interests_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tiktok_flutter/routes.dart';
 
 class BirthdayScreen extends StatefulWidget {
   const BirthdayScreen({super.key});
@@ -34,12 +35,8 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   // stateful이기 때문에 context를 어디서든 사용할 수 있다
   void _onNextTap() {
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(
-        builder: (context) => const InterestsScreen(),
-      ),
-      (route) => false,
-    );
+    // stack을 제거해 이동 후 뒤로가기를 허용하지 않는다
+    context.pushReplacementNamed(Routes.interestsScreen['name']!);
   }
 
   void _setTextFeildDate(DateTime date) {

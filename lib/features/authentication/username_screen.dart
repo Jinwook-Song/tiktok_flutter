@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/authentication/email_screen.dart';
 import 'package:tiktok_flutter/features/authentication/widgets/form_button.dart';
-import 'package:tiktok_flutter/routes.dart';
 
 class UserNameScreen extends StatefulWidget {
   const UserNameScreen({super.key});
@@ -42,8 +40,13 @@ class _UserNameScreenState extends State<UserNameScreen> {
   // stateful이기 때문에 context를 어디서든 사용할 수 있다
   void _onNextTap() {
     if (!isValid) return;
-    context.push(Routes.EmailSignupScreen,
-        extra: EmailScreenArgs(username: _username));
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EmailScreen(
+          username: _username,
+        ),
+      ),
+    );
   }
 
   @override
