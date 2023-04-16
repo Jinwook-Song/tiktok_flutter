@@ -20,4 +20,24 @@ class Routes {
     'name': 'mainNavigation',
     'url': '/:tab(home|discover|inbox|profile)',
   };
+
+  static const activityScreen = {
+    'name': 'activity',
+    'url': '/activity',
+  };
+
+  static const chatsScreen = {
+    'name': 'chats',
+    'url': '/chats',
+  };
+
+  static const chatDetailScreen = {
+    'name': 'chatDetail',
+    'url': ':chatId',
+  };
+
+  static const videoRecordingScreen = {
+    'name': 'recordVideo',
+    'url': '/upload',
+  };
 }

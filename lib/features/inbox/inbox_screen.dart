@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
-import 'package:tiktok_flutter/features/inbox/activity_screen.dart';
-import 'package:tiktok_flutter/features/inbox/chats_screen.dart';
+import 'package:tiktok_flutter/routes.dart';
 
 class InboxScreen extends StatelessWidget {
   const InboxScreen({super.key});
 
   void _onDmPressed(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const ChatsScreen(),
-    ));
+    context.pushNamed(Routes.chatsScreen['name']!);
   }
 
   void _onActivityTap(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => const ActivityScreen(),
-    ));
+    context.pushNamed(Routes.activityScreen['name']!);
   }
 
   @override

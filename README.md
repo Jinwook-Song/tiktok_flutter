@@ -3140,3 +3140,31 @@
         'url': '/:tab(home|discover|inbox|profile)',
       };
     ```
+  - nested routes
+    ```dart
+    static const chatsScreen = {
+        'name': 'chats',
+        'url': '/chats',
+      };
+
+    static const chatDetailScreen = {
+      'name': 'chatDetail',
+      'url': ':chatId',
+    };
+
+    GoRoute(
+          name: Routes.chatsScreen['name'],
+          path: Routes.chatsScreen['url']!,
+          builder: (context, state) => const ChatsScreen(),
+          routes: [
+            GoRoute(
+              name: Routes.chatDetailScreen['name'],
+              path: Routes.chatDetailScreen['url']!,
+              builder: (context, state) {
+                final chatId = state.params['chatId']!;
+                return ChatDetailScreen(chatId: chatId);
+              },
+            ),
+          ],
+        ),
+    ```
