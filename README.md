@@ -3224,3 +3224,8 @@
   ```
   of method를 통해 하위 위젯에서 사용할 수 있다
   _`final_ autoMute = VideoConfig.of(_context_).autoMute;`
+  ### change value
+  inheritedWidget은 모든 위젯에서 값을 공유할 수 있지만 값을 바꿀 수는 없다.
+  statefull widget과 결합을 통해 값을 변경할 수 있다
+  statefullWidget: 데이터 수정 및 제공
+  inheritedWidget: 모든곳에서의 접근 권한 제공
