@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_flutter/common/widget/video_configuration/video_config.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/videos/widgets/video_button.dart';
@@ -119,6 +120,7 @@ class _VideoPostState extends State<VideoPost>
 
   @override
   Widget build(BuildContext context) {
+    final autoMute = VideoConfig.of(context).autoMute;
     return VisibilityDetector(
       key: Key('${widget.videoIndex}'),
       onVisibilityChanged: _onVisibilityChanged,
@@ -136,29 +138,42 @@ class _VideoPostState extends State<VideoPost>
             onTap: _onTogglePlay,
           )),
           Positioned.fill(
-              child: IgnorePointer(
-            child: AnimatedBuilder(
-              // animation value를 감지하여 build 실행
-              animation: _animationController,
-              builder: (context, child) {
-                return Transform.scale(
-                  scale: _animationController.value,
-                  child: child, // AnimatedOpacity
-                );
-              },
-              child: AnimatedOpacity(
-                opacity: _isPaused ? 1 : 0,
-                duration: _animationDuration,
-                child: const Center(
-                  child: FaIcon(
-                    FontAwesomeIcons.play,
-                    size: Sizes.size52,
-                    color: Colors.white,
+            child: IgnorePointer(
+              child: AnimatedBuilder(
+                // animation value를 감지하여 build 실행
+                animation: _animationController,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: _animationController.value,
+                    child: child, // AnimatedOpacity
+                  );
+                },
+                child: AnimatedOpacity(
+                  opacity: _isPaused ? 1 : 0,
+                  duration: _animationDuration,
+                  child: const Center(
+                    child: FaIcon(
+                      FontAwesomeIcons.play,
+                      size: Sizes.size52,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
-          )),
+          ),
+          Positioned(
+              top: Sizes.size40,
+              left: Sizes.size14,
+              child: IconButton(
+                onPressed: () {},
+                icon: FaIcon(
+                  autoMute
+                      ? FontAwesomeIcons.volumeOff
+                      : FontAwesomeIcons.volumeHigh,
+                  color: Colors.white,
+                ),
+              )),
           Positioned(
             bottom: Sizes.size20,
             left: Sizes.size14,

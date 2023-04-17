@@ -1,7 +1,7 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,7 +23,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   bool _hasPermission = false;
   bool _isSelfieMode = false;
   bool _prepareDispose = false;
-  late final bool _useCamera = !kDebugMode; // || !Platform.isIOS;
+  late final bool _useCamera = Platform.isIOS;
 
   late final AnimationController _buttonAnimationController =
       AnimationController(

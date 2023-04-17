@@ -3089,8 +3089,10 @@
 - Router (웹의 url 접근 고려)
   goRouter: url을 변경할때
   navigator: 그 외
+
   - Before Auth (signup or login)
     routes.dart
+
     ```dart
     class Routes {
       static const signUpScreen = {
@@ -3109,7 +3111,9 @@
       };
     }
     ```
+
     router.dart
+
     ```dart
     final GoRouter router = GoRouter(
       routes: [
@@ -3131,6 +3135,7 @@
       ],
     );
     ```
+
   - After Auth
     main navigation
     ```dart
@@ -3141,6 +3146,7 @@
       };
     ```
   - nested routes
+
     ```dart
     static const chatsScreen = {
         'name': 'chats',
@@ -3168,6 +3174,7 @@
           ],
         ),
     ```
+
   - Page transition animation
     ```dart
     GoRoute(
@@ -3188,3 +3195,32 @@
               }),
         ),
     ```
+
+- InheritedWidget
+  ```dart
+  import 'package:flutter/material.dart';
+
+  class VideoConfig extends InheritedWidget {
+    const VideoConfig({super.key, required super.child});
+
+    final bool autoMute = false;
+
+    static VideoConfig of(BuildContext context) {
+      return context.dependOnInheritedWidgetOfExactType<VideoConfig>()!;
+    }
+
+    @override
+    bool updateShouldNotify(covariant InheritedWidget oldWidget) {
+      // 위젯을 상속하는 위젯들에게 변경 사항을 알려줄것인지?
+      return true;
+    }
+  }
+  ```
+  최상위 트리를 감싸준다
+  ```dart
+  return VideoConfig(
+        child: MaterialApp.router(
+  ...
+  ```
+  of method를 통해 하위 위젯에서 사용할 수 있다
+  _`final_ autoMute = VideoConfig.of(_context_).autoMute;`
