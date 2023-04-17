@@ -48,16 +48,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   void _onPostVideoButtonTap() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: const Text('Record video'),
-          ),
-        ),
-        fullscreenDialog: true,
-      ),
-    );
+    context.pushNamed(Routes.videoRecordingScreen['name']!);
   }
 
   @override
@@ -77,10 +68,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           Offstage(
             offstage: _selectedIndex != 1,
             child: const DiscoverScreen(),
-          ),
-          Offstage(
-            offstage: _selectedIndex != 2,
-            child: Container(),
           ),
           Offstage(
             offstage: _selectedIndex != 3,

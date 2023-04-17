@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:camera/camera.dart';
@@ -24,7 +23,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   bool _hasPermission = false;
   bool _isSelfieMode = false;
   bool _prepareDispose = false;
-  late final bool _useCamera = !kDebugMode || !Platform.isIOS;
+  late final bool _useCamera = !kDebugMode; // || !Platform.isIOS;
 
   late final AnimationController _buttonAnimationController =
       AnimationController(
@@ -73,7 +72,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    if (_useCamera) {
+      _cameraController.dispose();
+    }
     _buttonAnimationController.dispose();
     _progressAnimationController.dispose();
     super.dispose();
@@ -240,6 +241,11 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                       CameraPreview(
                         _cameraController,
                       ),
+                    const Positioned(
+                      top: Sizes.size12,
+                      left: Sizes.size12,
+                      child: CloseButton(),
+                    ),
                     if (_useCamera)
                       Positioned(
                         top: Sizes.size12,

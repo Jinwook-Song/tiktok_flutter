@@ -3168,3 +3168,23 @@
           ],
         ),
     ```
+  - Page transition animation
+    ```dart
+    GoRoute(
+          name: Routes.videoRecordingScreen['name'],
+          path: Routes.videoRecordingScreen['url']!,
+          pageBuilder: (context, state) => CustomTransitionPage(
+              child: const VideoRecordingScreen(),
+              transitionDuration: const Duration(milliseconds: 150),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                final position = Tween(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                ).animate(animation);
+                return SlideTransition(
+                  position: position,
+                  child: child,
+                );
+              }),
+        ),
+    ```
