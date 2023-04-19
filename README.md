@@ -3196,36 +3196,82 @@
         ),
     ```
 
-- InheritedWidget
-  ```dart
-  import 'package:flutter/material.dart';
+- State Management
+  - InheritedWidget
+    ```dart
+    import 'package:flutter/material.dart';
 
-  class VideoConfig extends InheritedWidget {
-    const VideoConfig({super.key, required super.child});
+    class VideoConfig extends InheritedWidget {
+      const VideoConfig({super.key, required super.child});
 
-    final bool autoMute = false;
+      final bool autoMute = false;
 
-    static VideoConfig of(BuildContext context) {
-      return context.dependOnInheritedWidgetOfExactType<VideoConfig>()!;
+      static VideoConfig of(BuildContext context) {
+        return context.dependOnInheritedWidgetOfExactType<VideoConfig>()!;
+      }
+
+      @override
+      bool updateShouldNotify(covariant InheritedWidget oldWidget) {
+        // 위젯을 상속하는 위젯들에게 변경 사항을 알려줄것인지?
+        return true;
+      }
+    }
+    ```
+    최상위 트리를 감싸준다
+    ```dart
+    return VideoConfig(
+          child: MaterialApp.router(
+    ...
+    ```
+    of method를 통해 하위 위젯에서 사용할 수 있다
+    _`final_ autoMute = VideoConfig.of(_context_).autoMute;`
+    ### change value
+    inheritedWidget은 모든 위젯에서 값을 공유할 수 있지만 값을 바꿀 수는 없다.
+    statefull widget과 결합을 통해 값을 변경할 수 있다
+    statefullWidget: 데이터 수정 및 제공
+    inheritedWidget: 모든곳에서의 접근 권한 제공, 데이터 전송자의 역할
+  - ChangeNotifier
+    ```dart
+    import 'package:flutter/material.dart';
+
+    // API를 사용하거나 데이터가 많을 때 유용하다
+    class VideoConfig extends ChangeNotifier {
+      bool autoMute = false;
+
+      void toggleAutoMute() {
+        autoMute = !autoMute;
+        // autoMute값을 듣고있는 곧에서 변경사항을 알 수 있도록
+        notifyListeners();
+      }
     }
 
-    @override
-    bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-      // 위젯을 상속하는 위젯들에게 변경 사항을 알려줄것인지?
-      return true;
-    }
-  }
-  ```
-  최상위 트리를 감싸준다
-  ```dart
-  return VideoConfig(
-        child: MaterialApp.router(
-  ...
-  ```
-  of method를 통해 하위 위젯에서 사용할 수 있다
-  _`final_ autoMute = VideoConfig.of(_context_).autoMute;`
-  ### change value
-  inheritedWidget은 모든 위젯에서 값을 공유할 수 있지만 값을 바꿀 수는 없다.
-  statefull widget과 결합을 통해 값을 변경할 수 있다
-  statefullWidget: 데이터 수정 및 제공
-  inheritedWidget: 모든곳에서의 접근 권한 제공
+    final vidoeConfig = VideoConfig();
+    ```
+    변경사항을 듣는 방법은 listener를 사용하거나 AnimatedBuilder를 사용할 수 있다.
+    - listener
+      ```dart
+      bool _autoMute = vidoeConfig.autoMute;
+
+        @override
+        void initState() {
+          // listen notification
+          vidoeConfig.addListener(() {
+            setState(() {
+              _autoMute = vidoeConfig.autoMute;
+            });
+          });
+        }
+      ```
+    - AnimatedBuilder
+      이름과 안어울리지만 변경되는 부분만 다시 빌드하기 때문에 오히려 성능면에서도 좋다
+      [docs](https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html)
+      ```dart
+      AnimatedBuilder(
+                  animation: vidoeConfig,
+                  builder: (context, child) => SwitchListTile.adaptive(
+                    value: vidoeConfig.autoMute,
+                    onChanged: (value) => vidoeConfig.toggleAutoMute(),
+                    title: const Text('Videos wil be muted by default'),
+                  ),
+                ),
+      ```
