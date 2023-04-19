@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok_flutter/common/widget/theme_configuration/theme_config.dart';
 import 'package:tiktok_flutter/common/widget/video_configuration/video_config.dart';
 import 'package:tiktok_flutter/utils.dart';
 
@@ -41,10 +42,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: const Text('Videos wil be muted by default'),
             ),
           ),
-          SwitchListTile.adaptive(
-            value: _notifications,
-            onChanged: _onNotificationsChanged,
-            title: const Text('Enable notifications'),
+          ValueListenableBuilder(
+            valueListenable: useDarkThemeConfig,
+            builder: (context, value, child) => SwitchListTile.adaptive(
+              value: useDarkThemeConfig.value,
+              onChanged: (value) =>
+                  useDarkThemeConfig.value = !useDarkThemeConfig.value,
+              title: const Text('Use dark mode'),
+            ),
           ),
           CheckboxListTile(
             value: _notifications,
