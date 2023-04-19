@@ -33,11 +33,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         children: [
-          AnimatedBuilder(
-            animation: vidoeConfig,
-            builder: (context, child) => SwitchListTile.adaptive(
-              value: vidoeConfig.autoMute,
-              onChanged: (value) => vidoeConfig.toggleAutoMute(),
+          ValueListenableBuilder(
+            valueListenable: videoConfig,
+            builder: (context, value, child) => SwitchListTile.adaptive(
+              value: videoConfig.value,
+              onChanged: (value) => videoConfig.value = !videoConfig.value,
               title: const Text('Videos wil be muted by default'),
             ),
           ),

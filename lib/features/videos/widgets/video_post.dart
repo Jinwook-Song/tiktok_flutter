@@ -31,7 +31,7 @@ class _VideoPostState extends State<VideoPost>
 
   bool _isPaused = false;
 
-  bool _autoMute = vidoeConfig.autoMute;
+  bool _autoMute = videoConfig.value;
 
   final Duration _animationDuration = const Duration(milliseconds: 150);
 
@@ -70,9 +70,9 @@ class _VideoPostState extends State<VideoPost>
     );
 
     // listen notification
-    vidoeConfig.addListener(() {
+    videoConfig.addListener(() {
       setState(() {
-        _autoMute = vidoeConfig.autoMute;
+        _autoMute = videoConfig.value;
       });
     });
   }
@@ -174,9 +174,9 @@ class _VideoPostState extends State<VideoPost>
               top: Sizes.size40,
               left: Sizes.size14,
               child: IconButton(
-                onPressed: vidoeConfig.toggleAutoMute,
+                onPressed: () => videoConfig.value = !videoConfig.value,
                 icon: FaIcon(
-                  vidoeConfig.autoMute
+                  videoConfig.value
                       ? FontAwesomeIcons.volumeOff
                       : FontAwesomeIcons.volumeHigh,
                   color: Colors.white,

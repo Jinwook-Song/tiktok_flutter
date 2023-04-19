@@ -3275,3 +3275,22 @@
                   ),
                 ),
       ```
+  - ValueNotifier
+    하나의 값을 사용하는 경우, 훨씬 간단하게 사용할 수 있다.
+    ```dart
+    import 'package:flutter/material.dart';
+
+    // 값이 하나인 경우 사용
+    final videoConfig = ValueNotifier(false);
+    ```
+    AnimatedBuilder 이외에도 ValueListenableBuilder를 사용할 수 있다
+    ```dart
+    ValueListenableBuilder(
+                valueListenable: videoConfig,
+                builder: (context, value, child) => SwitchListTile.adaptive(
+                  value: videoConfig.value,
+                  onChanged: (value) => videoConfig.value = !videoConfig.value,
+                  title: const Text('Videos wil be muted by default'),
+                ),
+              ),
+    ```
