@@ -3294,3 +3294,26 @@
                 ),
               ),
     ```
+  - Provider
+    `provider: 6.0.5`
+    wrap inheritedWidget
+    main.dart
+    ```dart
+    MultiProvider(
+      providers: [
+        Provider<Something>(create: (_) => Something()),
+        Provider<SomethingElse>(create: (_) => SomethingElse()),
+        Provider<AnotherThing>(create: (_) => AnotherThing()),
+      ],
+      child: someWidget,
+    )
+    ```
+    context.watch(): listen
+    context.read(): can be freely called *outside*of these methods.
+    ```dart
+    SwitchListTile.adaptive(
+      value: context.watch<VideoConfig>().isMuted,
+      onChanged: (value) => context.read<VideoConfig>().toggleIsMuted(),
+      title: const Text('Auto mute'),
+    ),
+    ```
