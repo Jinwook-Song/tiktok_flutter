@@ -3417,3 +3417,39 @@
         ),
       );
     ```
+  - views
+    ```dart
+    @override
+      void initState() {
+        super.initState();
+        _initVideoPlayer();
+        _animationController = AnimationController(
+          vsync: this,
+          duration: _animationDuration,
+          lowerBound: 1,
+          upperBound: 1.5,
+          value: 1.5, // start point
+        );
+
+        context
+            .read<PlaybackConfigViewModel>()
+            .addListener(_onPlaybackConfigChanged);
+      }
+
+      @override
+      void dispose() {
+        _videoPlayerController.dispose();
+        _animationController.dispose();
+        super.dispose();
+      }
+
+      void _onPlaybackConfigChanged() {
+        if (!mounted) return;
+        final muted = context.read<PlaybackConfigViewModel>().muted;
+        if (muted) {
+          _videoPlayerController.setVolume(0);
+        } else {
+          _videoPlayerController.setVolume(0.5);
+        }
+      }
+    ```
