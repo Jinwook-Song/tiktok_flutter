@@ -13,7 +13,9 @@ class PlaybackConfigViewModel extends ChangeNotifier {
   );
 
   // getter
-  bool get muted => _model.muted;
+  // repository가 api를 사용하고 있다면 매번 api 요청을 하게되므로 반드시 피해야한다
+  // bool get muted => _repository.isMuted(); ❌
+  bool get muted => _model.muted; // ✅ caching
   bool get autoPlay => _model.autoPlay;
 
   // setter

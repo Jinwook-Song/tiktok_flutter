@@ -31,6 +31,7 @@ class _VideoPostState extends State<VideoPost>
   late final AnimationController _animationController;
 
   bool _isPaused = false;
+  late bool _isMuted = context.read<PlaybackConfigViewModel>().muted;
 
   final Duration _animationDuration = const Duration(milliseconds: 150);
 
@@ -52,6 +53,7 @@ class _VideoPostState extends State<VideoPost>
     if (kIsWeb) {
       await _videoPlayerController.setVolume(0);
     }
+    _videoPlayerController.setVolume(_isMuted ? 0 : 1);
     _videoPlayerController.addListener(_onVideoChanged);
     setState(() {});
   }
@@ -82,19 +84,18 @@ class _VideoPostState extends State<VideoPost>
 
   void _onPlaybackConfigChanged() {
     if (!mounted) return;
-    final muted = context.read<PlaybackConfigViewModel>().muted;
-    if (muted) {
-      _videoPlayerController.setVolume(0);
-    } else {
-      _videoPlayerController.setVolume(0.5);
-    }
+    _isMuted = context.read<PlaybackConfigViewModel>().muted;
+    setState(() {});
+    _videoPlayerController.setVolume(_isMuted ? 0 : 1);
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
     if (!mounted) return;
+
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
+      _isMuted = context.read<PlaybackConfigViewModel>().muted;
       final autoPlay = context.read<PlaybackConfigViewModel>().autoPlay;
       if (autoPlay) {
         _videoPlayerController.play();
@@ -108,6 +109,13 @@ class _VideoPostState extends State<VideoPost>
       _onTogglePlay();
       _videoPlayerController.seekTo(const Duration(seconds: 0));
     }
+  }
+
+  void _onToggleMute() {
+    if (!mounted) return;
+    _isMuted = !_isMuted;
+    _videoPlayerController.setVolume(_isMuted ? 0 : 1);
+    setState(() {});
   }
 
   void _onTogglePlay() {
@@ -186,13 +194,9 @@ class _VideoPostState extends State<VideoPost>
               top: Sizes.size40,
               left: Sizes.size14,
               child: IconButton(
-                onPressed: () {
-                  context.read<PlaybackConfigViewModel>().setMuted(
-                        !context.read<PlaybackConfigViewModel>().muted,
-                      );
-                },
+                onPressed: _onToggleMute,
                 icon: FaIcon(
-                  context.watch<PlaybackConfigViewModel>().muted
+                  _isMuted
                       ? FontAwesomeIcons.volumeOff
                       : FontAwesomeIcons.volumeHigh,
                   color: Colors.white,
