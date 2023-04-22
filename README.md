@@ -3197,7 +3197,9 @@
     ```
 
 - State Management
+
   - InheritedWidget
+
     ```dart
     import 'package:flutter/material.dart';
 
@@ -3217,20 +3219,27 @@
       }
     }
     ```
+
     최상위 트리를 감싸준다
+
     ```dart
     return VideoConfig(
           child: MaterialApp.router(
     ...
     ```
+
     of method를 통해 하위 위젯에서 사용할 수 있다
     _`final_ autoMute = VideoConfig.of(_context_).autoMute;`
+
     ### change value
+
     inheritedWidget은 모든 위젯에서 값을 공유할 수 있지만 값을 바꿀 수는 없다.
     statefull widget과 결합을 통해 값을 변경할 수 있다
     statefullWidget: 데이터 수정 및 제공
     inheritedWidget: 모든곳에서의 접근 권한 제공, 데이터 전송자의 역할
+
   - ChangeNotifier
+
     ```dart
     import 'package:flutter/material.dart';
 
@@ -3247,8 +3256,11 @@
 
     final vidoeConfig = VideoConfig();
     ```
+
     변경사항을 듣는 방법은 listener를 사용하거나 AnimatedBuilder를 사용할 수 있다.
+
     - listener
+
       ```dart
       bool _autoMute = vidoeConfig.autoMute;
 
@@ -3262,6 +3274,7 @@
           });
         }
       ```
+
     - AnimatedBuilder
       이름과 안어울리지만 변경되는 부분만 다시 빌드하기 때문에 오히려 성능면에서도 좋다
       [docs](https://api.flutter.dev/flutter/foundation/ChangeNotifier-class.html)
@@ -3275,15 +3288,19 @@
                   ),
                 ),
       ```
+
   - ValueNotifier
     하나의 값을 사용하는 경우, 훨씬 간단하게 사용할 수 있다.
+
     ```dart
     import 'package:flutter/material.dart';
 
     // 값이 하나인 경우 사용
     final videoConfig = ValueNotifier(false);
     ```
+
     AnimatedBuilder 이외에도 ValueListenableBuilder를 사용할 수 있다
+
     ```dart
     ValueListenableBuilder(
                 valueListenable: videoConfig,
@@ -3294,6 +3311,7 @@
                 ),
               ),
     ```
+
   - Provider
     `provider: 6.0.5`
     wrap inheritedWidget
@@ -3317,3 +3335,32 @@
       title: const Text('Auto mute'),
     ),
     ```
+
+- MVVM
+  관심사 분리
+  Screen은 UI 역할만 하고, 로직에 대한 처리가 이루어지면 안된다
+  다양한 아키텍쳐들이 존재하고, 정답은 없다
+  아키텍쳐 선택 기준
+  1. 빠르게 개발 할 수 있어야 한다
+  2. 코드를 정리할 수 있어야 한다
+  3. 직관적이여야 한다
+  4. 확장할 수 있어야 한다
+     MVVM + repository(데이터 저장의 역할만 수행)
+  - Structure
+  ```dart
+  ├── models
+  │   └── playback_config_model.dart
+  ├── repositories
+  │   └── video_playback_config_repository.dart
+  ├── view_models
+  │   └── playback_config_vm.dart
+  └── views
+      ├── video_preview_screen.dart
+      ├── video_recording_screen.dart
+      ├── video_timeline_screen.dart
+      └── widgets
+          ├── video_button.dart
+          ├── video_comments.dart
+          ├── video_flash_button.dart
+          └── video_post.dart
+  ```
