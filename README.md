@@ -3345,13 +3345,13 @@
   2. 코드를 정리할 수 있어야 한다
   3. 직관적이여야 한다
   4. 확장할 수 있어야 한다
-     MVVM + repository(데이터 저장의 역할만 수행)
+  MVVM + repository(데이터 저장의 역할만 수행)
   - Structure
   ```dart
   ├── models
   │   └── playback_config_model.dart
   ├── repositories
-  │   └── video_playback_config_repository.dart
+  │   └── playback_config_repository.dart
   ├── view_models
   │   └── playback_config_vm.dart
   └── views
@@ -3364,3 +3364,56 @@
           ├── video_flash_button.dart
           └── video_post.dart
   ```
+  - ViewModel
+    ```dart
+    import 'package:flutter/material.dart';
+    import 'package:tiktok_flutter/features/videos/models/playback_config_model.dart';
+    import 'package:tiktok_flutter/features/videos/repositories/playback_config_repository.dart';
+
+    class PlaybackConfigViewModel extends ChangeNotifier {
+      final PlaybackConfigRepository _repository;
+
+      PlaybackConfigViewModel(this._repository);
+
+      late final PlaybackConfigModel _model = PlaybackConfigModel(
+        muted: _repository.isMuted(),
+        autoPlay: _repository.isAutoPlay(),
+      );
+
+      // getter
+      bool get muted => _model.muted;
+      bool get autoPlay => _model.autoPlay;
+
+      // setter
+      void setMuted(bool value) {
+        // set on disk
+        _repository.setMuted(value);
+        // modify data
+        _model.muted = value;
+        // expose to views
+        notifyListeners();
+      }
+
+      void setAutoPlay(bool value) {
+        _repository.setAutoPlay(value);
+        _model.autoPlay = value;
+        notifyListeners();
+      }
+    }
+    ```
+  - initialize
+    ```dart
+    final preferences = await SharedPreferences.getInstance();
+      final repository = PlaybackConfigRepository(preferences);
+
+      runApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => PlaybackConfigViewModel(repository),
+            ),
+          ],
+          child: const TikTokApp(),
+        ),
+      );
+    ```

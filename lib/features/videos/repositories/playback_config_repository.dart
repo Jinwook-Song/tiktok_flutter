@@ -1,12 +1,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class VideoPlaybackConfigRepository {
+class PlaybackConfigRepository {
   static const String _autoPlay = "autoPlay";
   static const String _muted = "muted";
 
   final SharedPreferences _preferences;
 
-  VideoPlaybackConfigRepository(this._preferences);
+  PlaybackConfigRepository(this._preferences);
 
   Future<void> setAutoPlay(bool value) async {
     _preferences.setBool(_autoPlay, value);
