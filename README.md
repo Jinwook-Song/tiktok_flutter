@@ -3341,12 +3341,15 @@
   Screen은 UI 역할만 하고, 로직에 대한 처리가 이루어지면 안된다
   다양한 아키텍쳐들이 존재하고, 정답은 없다
   아키텍쳐 선택 기준
+
   1. 빠르게 개발 할 수 있어야 한다
   2. 코드를 정리할 수 있어야 한다
   3. 직관적이여야 한다
   4. 확장할 수 있어야 한다
-  MVVM + repository(데이터 저장의 역할만 수행)
+     MVVM + repository(데이터 저장의 역할만 수행)
+
   - Structure
+
   ```dart
   ├── models
   │   └── playback_config_model.dart
@@ -3364,7 +3367,9 @@
           ├── video_flash_button.dart
           └── video_post.dart
   ```
+
   - ViewModel
+
     ```dart
     import 'package:flutter/material.dart';
     import 'package:tiktok_flutter/features/videos/models/playback_config_model.dart';
@@ -3401,7 +3406,9 @@
       }
     }
     ```
+
   - initialize
+
     ```dart
     final preferences = await SharedPreferences.getInstance();
       final repository = PlaybackConfigRepository(preferences);
@@ -3417,7 +3424,9 @@
         ),
       );
     ```
+
   - views
+
     ```dart
     @override
       void initState() {
@@ -3453,3 +3462,66 @@
         }
       }
     ```
+
+- Riverpod (provider를 계승)
+  `riverpod: ^2.3.5`
+  [docs](https://docs-v2.riverpod.dev/docs/getting_started)
+  main.dart
+  ```dart
+  runApp(
+      ProviderScope(
+        overrides: [
+          playbackConfigProvider.overrideWith(
+            () => PlaybackConfigViewModel(
+              repository,
+            ),
+          )
+        ],
+        child: const TikTokApp(),
+      ),
+    );
+  ```
+  view_model
+  ```dart
+  import 'package:flutter_riverpod/flutter_riverpod.dart';
+  import 'package:tiktok_flutter/features/videos/models/playback_config_model.dart';
+  import 'package:tiktok_flutter/features/videos/repositories/playback_config_repository.dart';
+
+  class PlaybackConfigViewModel extends Notifier<PlaybackConfigModel> {
+    final PlaybackConfigRepository _repository;
+
+    PlaybackConfigViewModel(this._repository);
+
+    void setMuted(bool value) {
+      // set on disk
+      _repository.setMuted(value);
+      // modify data (immutable)
+      state = PlaybackConfigModel(
+        muted: value,
+        autoPlay: state.autoPlay,
+      );
+    }
+
+    void setAutoPlay(bool value) {
+      _repository.setAutoPlay(value);
+      state = PlaybackConfigModel(
+        muted: state.muted,
+        autoPlay: value,
+      );
+    }
+
+    // initial data state user will get
+    @override
+    PlaybackConfigModel build() {
+      return PlaybackConfigModel(
+        muted: _repository.isMuted(),
+        autoPlay: _repository.isAutoPlay(),
+      );
+    }
+  }
+
+  final playbackConfigProvider =
+      NotifierProvider<PlaybackConfigViewModel, PlaybackConfigModel>(
+    () => throw UnimplementedError(), // repository를 await 해야하기 때문에
+  );
+  ```
