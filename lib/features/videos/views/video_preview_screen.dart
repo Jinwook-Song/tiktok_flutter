@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:tiktok_flutter/features/videos/view_models/video_timeline_vm.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoPreviewScreen extends StatefulWidget {
+class VideoPreviewScreen extends ConsumerStatefulWidget {
   final XFile video;
   final bool isFromGallery;
 
@@ -17,13 +19,14 @@ class VideoPreviewScreen extends StatefulWidget {
   });
 
   @override
-  State<VideoPreviewScreen> createState() => _VideoPreviewScreenState();
+  VideoPreviewScreenState createState() => VideoPreviewScreenState();
 }
 
-class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
+class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   late final VideoPlayerController _videoPlayerController;
 
   bool _savedVideo = false;
+  bool _isUploaded = false;
 
   Future<void> _initVideo() async {
     _videoPlayerController = VideoPlayerController.file(
@@ -32,7 +35,7 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
 
     await _videoPlayerController.initialize();
 
-    await _videoPlayerController.setLooping(true);
+    await _videoPlayerController.setLooping(false);
 
     await _videoPlayerController.play();
 
@@ -64,6 +67,13 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
     if (_savedVideo) return;
   }
 
+  void _onUploadPressed() {
+    if (ref.watch(videoTimelineProvider).isLoading) return;
+    ref.read(videoTimelineProvider.notifier).uploadVideo();
+    _isUploaded = true;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +92,22 @@ class _VideoPreviewScreenState extends State<VideoPreviewScreen> {
                       : FontAwesomeIcons.download,
                 ),
               ),
+            if (_isUploaded && !ref.watch(videoTimelineProvider).isLoading)
+              IconButton(
+                onPressed: () {},
+                icon: const FaIcon(
+                  FontAwesomeIcons.check,
+                ),
+              )
+            else
+              IconButton(
+                onPressed: _onUploadPressed,
+                icon: ref.watch(videoTimelineProvider).isLoading
+                    ? const CircularProgressIndicator.adaptive()
+                    : const FaIcon(
+                        FontAwesomeIcons.cloudArrowUp,
+                      ),
+              )
           ],
         ),
         body: _videoPlayerController.value.isInitialized

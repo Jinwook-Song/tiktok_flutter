@@ -3525,8 +3525,7 @@
     () => throw UnimplementedError(), // repository를 await 해야하기 때문에
   );
   ```
-  - listen & use method
-  ConsumerWidget, ref
+  - ConsumerWidget, ref
   ```dart
   class SettingsScreen extends ConsumerWidget {
 
@@ -3540,5 +3539,77 @@
               title: const Text('Auto mute'),
             ),
   ```
-  ConsumerStatefulWidget
-  - build method 이외에도 어디서든 ref를 사용할 수 있다
+  - ConsumerStatefulWidget
+    build method 이외에도 어디서든 ref를 사용할 수 있다
+  - AsyncNotifierProvider
+    view_model
+    ```dart
+    import 'dart:async';
+
+    import 'package:flutter_riverpod/flutter_riverpod.dart';
+    import 'package:tiktok_flutter/features/videos/models/video_model.dart';
+
+    class VideoTimelineViewModel extends AsyncNotifier<List<VideoModel>> {
+      List<VideoModel> _videoList = [VideoModel(title: 'First video')];
+
+      void uploadVideo() async {
+        state = const AsyncValue.loading(); // trigger loading
+        await Future.delayed(const Duration(seconds: 2));
+
+        final newVideo = VideoModel(title: '${DateTime.now()}}');
+        _videoList = [..._videoList, newVideo];
+        state = AsyncValue.data(_videoList);
+      }
+
+      @override
+      FutureOr<List<VideoModel>> build() async {
+        // fake api call
+        await Future.delayed(const Duration(seconds: 3));
+
+        // throw Exception('❌ Fetch failed');
+        return _videoList;
+      }
+    }
+
+    final videoTimelineProvider =
+        AsyncNotifierProvider<VideoTimelineViewModel, List<VideoModel>>(
+      () => VideoTimelineViewModel(),
+    );
+    ```
+    loading, error, data에 따라 각 각 render 할 수 있다
+    ```dart
+    @override
+      Widget build(
+        BuildContext context,
+      ) {
+        return ref.watch(videoTimelineProvider).when(
+              loading: () => const Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+              error: (error, stackTrace) => Center(
+                child: Text(
+                  'Could not load video: $error',
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              data: (videos) => RefreshIndicator(
+                onRefresh: _onRefresh,
+                displacement: Sizes.size52,
+                edgeOffset: Sizes.size20,
+                color: Theme.of(context).primaryColor,
+                child: PageView.builder(
+                  controller: _pageController,
+                  scrollDirection: Axis.vertical,
+                  onPageChanged: _onPageChanged,
+                  itemCount: videos.length,
+                  itemBuilder: (context, index) => VideoPost(
+                    onVideoFinished: _onVideoFinished,
+                    videoIndex: index,
+                  ),
+                ),
+              ),
+            );
+      }
+    ```
