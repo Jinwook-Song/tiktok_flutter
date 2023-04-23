@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -7,12 +8,18 @@ import 'package:tiktok_flutter/common/widget/theme_configuration/theme_config.da
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/videos/repositories/playback_config_repository.dart';
 import 'package:tiktok_flutter/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok_flutter/firebase_options.dart';
 import 'package:tiktok_flutter/generated/l10n.dart';
 import 'package:tiktok_flutter/router.dart';
 
 void main() async {
   // App 실행전에 초기화하고 binding 해야한다
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // 세로 고정
   await SystemChrome.setPreferredOrientations([
@@ -41,17 +48,17 @@ void main() async {
   );
 }
 
-class TikTokApp extends StatelessWidget {
+class TikTokApp extends ConsumerWidget {
   const TikTokApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     S.load(const Locale('en'));
     return ValueListenableBuilder(
       valueListenable: useDarkThemeConfig,
       builder: (context, value, child) => MaterialApp.router(
         themeMode: useDarkThemeConfig.value ? ThemeMode.dark : ThemeMode.light,
-        routerConfig: router,
+        routerConfig: ref.watch(routerProvider),
         debugShowCheckedModeBanner: false,
         title: 'TikTok Clone',
         localizationsDelegates: const [

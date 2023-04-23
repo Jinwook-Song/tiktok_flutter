@@ -3467,6 +3467,7 @@
   `riverpod: ^2.3.5`
   [docs](https://docs-v2.riverpod.dev/docs/getting_started)
   main.dart
+
   ```dart
   runApp(
       ProviderScope(
@@ -3481,7 +3482,9 @@
       ),
     );
   ```
+
   view_model
+
   ```dart
   import 'package:flutter_riverpod/flutter_riverpod.dart';
   import 'package:tiktok_flutter/features/videos/models/playback_config_model.dart';
@@ -3525,7 +3528,9 @@
     () => throw UnimplementedError(), // repository를 await 해야하기 때문에
   );
   ```
+
   - ConsumerWidget, ref
+
   ```dart
   class SettingsScreen extends ConsumerWidget {
 
@@ -3539,10 +3544,12 @@
               title: const Text('Auto mute'),
             ),
   ```
+
   - ConsumerStatefulWidget
     build method 이외에도 어디서든 ref를 사용할 수 있다
   - AsyncNotifierProvider
     view_model
+
     ```dart
     import 'dart:async';
 
@@ -3576,7 +3583,9 @@
       () => VideoTimelineViewModel(),
     );
     ```
+
     loading, error, data에 따라 각 각 render 할 수 있다
+
     ```dart
     @override
       Widget build(
@@ -3612,4 +3621,132 @@
               ),
             );
       }
+    ```
+
+- Firebase
+  [docs](https://firebase.google.com/docs/flutter/setup?hl=ko&platform=ios)
+  `dart pub global activate flutterfire_cli`
+  `flutterfire configure`
+  `flutter pub add firebase_core`
+  이후, plugin 설치할때마다 `flutterfire configure` 실행
+  initialize
+  ```dart
+  // Initialize Firebase
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  ```
+  - Authentication
+    ```dart
+    import 'package:firebase_auth/firebase_auth.dart';
+    import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+    class AuthenticationRepository {
+      final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+      User? get user => _firebaseAuth.currentUser;
+      bool get isLoggedIn => user != null;
+    }
+
+    final authenticationRepository = Provider(
+      (ref) => AuthenticationRepository(),
+    );
+    ```
+    router
+    ```dart
+    import 'package:flutter/material.dart';
+    import 'package:flutter_riverpod/flutter_riverpod.dart';
+    import 'package:go_router/go_router.dart';
+    import 'package:tiktok_flutter/common/widget/main_navigation/main_navigation_screen.dart';
+    import 'package:tiktok_flutter/features/authentication/login_screen.dart';
+    import 'package:tiktok_flutter/features/authentication/repositories/authentication_repository.dart';
+    import 'package:tiktok_flutter/features/authentication/sign_up_screen.dart';
+    import 'package:tiktok_flutter/features/inbox/activity_screen.dart';
+    import 'package:tiktok_flutter/features/inbox/chat_detail_screen.dart';
+    import 'package:tiktok_flutter/features/inbox/chats_screen.dart';
+    import 'package:tiktok_flutter/features/onboarding/interests_screen.dart';
+    import 'package:tiktok_flutter/features/videos/views/video_recording_screen.dart';
+    import 'package:tiktok_flutter/routes.dart';
+
+    final routerProvider = Provider((ref) {
+      ref.read(authenticationRepository);
+      return GoRouter(
+        initialLocation: '/home',
+        redirect: (context, state) {
+          final isLoggedIn = ref.read(authenticationRepository).isLoggedIn;
+          if (!isLoggedIn) {
+            if (state.subloc != Routes.signUpScreen['url'] &&
+                state.subloc != Routes.logInScreen['url']) {
+              return Routes.signUpScreen['url'];
+            }
+          }
+          return null;
+        },
+        routes: [
+          // ❌ Login
+          GoRoute(
+            name: Routes.signUpScreen['name'],
+            path: Routes.signUpScreen['url']!,
+            builder: (context, state) => const SignUpScreen(),
+          ),
+          GoRoute(
+            name: Routes.logInScreen['name'],
+            path: Routes.logInScreen['url']!,
+            builder: (context, state) => const LoginScreen(),
+          ),
+          GoRoute(
+            name: Routes.interestsScreen['name'],
+            path: Routes.interestsScreen['url']!,
+            builder: (context, state) => const InterestsScreen(),
+          ),
+          // ✅ Login
+          GoRoute(
+            name: Routes.mainNavigationScreen['name'],
+            path: Routes.mainNavigationScreen['url']!,
+            builder: (context, state) {
+              final tab = state.params['tab'] ?? 'home';
+              return MainNavigationScreen(tab: tab);
+            },
+          ),
+          GoRoute(
+            name: Routes.activityScreen['name'],
+            path: Routes.activityScreen['url']!,
+            builder: (context, state) => const ActivityScreen(),
+          ),
+          GoRoute(
+            name: Routes.chatsScreen['name'],
+            path: Routes.chatsScreen['url']!,
+            builder: (context, state) => const ChatsScreen(),
+            routes: [
+              GoRoute(
+                name: Routes.chatDetailScreen['name'],
+                path: Routes.chatDetailScreen['url']!,
+                builder: (context, state) {
+                  final chatId = state.params['chatId']!;
+                  return ChatDetailScreen(chatId: chatId);
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            name: Routes.videoRecordingScreen['name'],
+            path: Routes.videoRecordingScreen['url']!,
+            pageBuilder: (context, state) => CustomTransitionPage(
+                child: const VideoRecordingScreen(),
+                transitionDuration: const Duration(milliseconds: 150),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  final position = Tween(
+                    begin: const Offset(0, 1),
+                    end: Offset.zero,
+                  ).animate(animation);
+                  return SlideTransition(
+                    position: position,
+                    child: child,
+                  );
+                }),
+          ),
+        ],
+      );
+    });
     ```
