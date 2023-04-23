@@ -3525,3 +3525,20 @@
     () => throw UnimplementedError(), // repository를 await 해야하기 때문에
   );
   ```
+  - listen & use method
+  ConsumerWidget, ref
+  ```dart
+  class SettingsScreen extends ConsumerWidget {
+
+  Widget build(BuildContext context, WidgetRef ref) {
+
+  SwitchListTile.adaptive(
+              value: ref.watch(playbackConfigProvider).muted,
+              onChanged: (value) => {
+                ref.read(playbackConfigProvider.notifier).setMuted(value),
+              },
+              title: const Text('Auto mute'),
+            ),
+  ```
+  ConsumerStatefulWidget
+  - build method 이외에도 어디서든 ref를 사용할 수 있다

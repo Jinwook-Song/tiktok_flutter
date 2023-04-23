@@ -1,29 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/common/widget/theme_configuration/theme_config.dart';
+import 'package:tiktok_flutter/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_flutter/utils.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notifications = false;
-
-  void _onNotificationsChanged(bool? value) {
-    if (value == null) return;
-    setState(() {
-      _notifications = value;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDark = isDarkMode(context);
     return Scaffold(
       appBar: AppBar(
@@ -43,18 +31,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           SwitchListTile.adaptive(
-            value: false,
-            onChanged: (value) => {},
+            value: ref.watch(playbackConfigProvider).muted,
+            onChanged: (value) => {
+              ref.read(playbackConfigProvider.notifier).setMuted(value),
+            },
             title: const Text('Auto mute'),
           ),
           SwitchListTile.adaptive(
-            value: false,
-            onChanged: (value) => {},
+            value: ref.watch(playbackConfigProvider).autoPlay,
+            onChanged: (value) => {
+              ref.read(playbackConfigProvider.notifier).setAutoPlay(value),
+            },
             title: const Text('Auto play'),
           ),
           CheckboxListTile(
-            value: _notifications,
-            onChanged: _onNotificationsChanged,
+            value: false,
+            onChanged: (value) {},
             activeColor: isDark ? Colors.grey.shade800 : Colors.grey.shade300,
             checkColor: Theme.of(context).primaryColor,
             title: const Text('Marketing emails'),

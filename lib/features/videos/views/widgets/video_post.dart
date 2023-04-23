@@ -1,15 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
+import 'package:tiktok_flutter/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_flutter/features/videos/views/widgets/video_button.dart';
 import 'package:tiktok_flutter/features/videos/views/widgets/video_comments.dart';
 import 'package:tiktok_flutter/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int videoIndex;
 
@@ -20,16 +22,16 @@ class VideoPost extends StatefulWidget {
   });
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
   late final AnimationController _animationController;
 
   bool _isPaused = false;
-  bool _isMuted = false;
+  late bool _isMuted = ref.read(playbackConfigProvider).muted;
 
   final Duration _animationDuration = const Duration(milliseconds: 150);
 
@@ -76,19 +78,14 @@ class _VideoPostState extends State<VideoPost>
     super.dispose();
   }
 
-  void _onPlaybackConfigChanged() {
-    if (!mounted) return;
-    _videoPlayerController.setVolume(_isMuted ? 0 : 1);
-    setState(() {});
-  }
-
   void _onVisibilityChanged(VisibilityInfo info) {
     if (!mounted) return;
 
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      if (false) {
+      _isMuted = ref.read(playbackConfigProvider).muted;
+      if (ref.read(playbackConfigProvider).autoPlay) {
         _videoPlayerController.play();
       } else {
         _isPaused = true;
