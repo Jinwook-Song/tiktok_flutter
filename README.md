@@ -3750,3 +3750,63 @@
       );
     });
     ```
+  - Sign Up
+    - user의 form을 받아 firebase auth로 회원가입
+    ```dart
+    import 'dart:async';
+
+    import 'package:flutter_riverpod/flutter_riverpod.dart';
+    import 'package:tiktok_flutter/features/authentication/repositories/authentication_repository.dart';
+
+    class SignUpViewModel extends AsyncNotifier<void> {
+      late final AuthenticationRepository _authenticationRepository;
+
+      @override
+      FutureOr<void> build() {
+        _authenticationRepository = ref.read(authenticationRepository);
+      }
+
+      Future<void> signUp() async {
+        state = const AsyncValue.loading();
+        final form = ref.read(signUpFormProvider);
+
+        // error handling (내부적으로 try catch 사용)
+        state = await AsyncValue.guard(
+          () async => await _authenticationRepository.signUp(
+            form['email'],
+            form['password'],
+          ),
+        );
+      }
+    }
+
+    final signUpFormProvider = StateProvider(
+      (ref) => {},
+    );
+
+    final signUpProvider = AsyncNotifierProvider<SignUpViewModel, void>(
+      () => SignUpViewModel(),
+    );
+    ```
+    ```dart
+    import 'package:firebase_auth/firebase_auth.dart';
+    import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+    class AuthenticationRepository {
+      final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+      User? get user => _firebaseAuth.currentUser;
+      bool get isLoggedIn => user != null;
+
+      Future<void> signUp(String email, String password) async {
+        await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+      }
+    }
+
+    final authenticationRepository = Provider(
+      (ref) => AuthenticationRepository(),
+    );
+    ```

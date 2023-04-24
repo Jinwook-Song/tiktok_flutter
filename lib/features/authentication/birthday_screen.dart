@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
+import 'package:tiktok_flutter/features/authentication/view_models/sign_up_vm.dart';
 import 'package:tiktok_flutter/features/authentication/widgets/form_button.dart';
-import 'package:go_router/go_router.dart';
-import 'package:tiktok_flutter/routes.dart';
 
-class BirthdayScreen extends StatefulWidget {
+class BirthdayScreen extends ConsumerStatefulWidget {
   const BirthdayScreen({super.key});
 
   @override
-  State<BirthdayScreen> createState() => _BirthdayScreenState();
+  BirthdayScreenState createState() => BirthdayScreenState();
 }
 
-class _BirthdayScreenState extends State<BirthdayScreen> {
+class BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   final TextEditingController _birthdayController = TextEditingController();
 
   DateTime today = DateTime.now();
@@ -35,8 +35,9 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   // stateful이기 때문에 context를 어디서든 사용할 수 있다
   void _onNextTap() {
+    ref.read(signUpProvider.notifier).signUp();
     // stack을 제거해 이동 후 뒤로가기를 허용하지 않는다
-    context.goNamed(Routes.interestsScreen['name']!);
+    // context.goNamed(Routes.interestsScreen['name']!);
   }
 
   void _setTextFeildDate(DateTime date) {
@@ -98,8 +99,8 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
             Gaps.v32,
             GestureDetector(
               onTap: _onNextTap,
-              child: const FormButton(
-                isValid: true,
+              child: FormButton(
+                isValid: !ref.watch(signUpProvider).isLoading,
               ),
             )
           ],
