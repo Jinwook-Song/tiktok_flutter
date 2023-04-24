@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok_flutter/common/widget/theme_configuration/theme_config.dart';
+import 'package:tiktok_flutter/features/authentication/repositories/authentication_repository.dart';
 import 'package:tiktok_flutter/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_flutter/utils.dart';
 
@@ -171,7 +173,10 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                   CupertinoActionSheetAction(
                     isDestructiveAction: true,
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () {
+                      ref.read(authenticationRepository).signOut();
+                      context.go('/');
+                    },
                     child: const Text(
                       'Yes',
                     ),

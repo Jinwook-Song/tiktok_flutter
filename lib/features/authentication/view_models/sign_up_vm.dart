@@ -17,7 +17,7 @@ class SignUpViewModel extends AsyncNotifier<void> {
 
     // error handling (내부적으로 try catch 사용)
     state = await AsyncValue.guard(
-      () async => await _authenticationRepository.signUp(
+      () async => await _authenticationRepository.emailSignUp(
         form['email'],
         form['password'],
       ),

@@ -13,7 +13,9 @@ import 'package:tiktok_flutter/features/videos/views/video_recording_screen.dart
 import 'package:tiktok_flutter/routes.dart';
 
 final routerProvider = Provider((ref) {
-  ref.read(authenticationRepository);
+  // authState가 변하면 rebuild된다
+  // ref.watch(authState);
+
   return GoRouter(
     initialLocation: '/home',
     redirect: (context, state) {
