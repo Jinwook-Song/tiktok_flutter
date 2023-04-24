@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_flutter/features/authentication/repositories/authentication_repository.dart';
-import 'package:tiktok_flutter/routes.dart';
 import 'package:tiktok_flutter/utils.dart';
 
-class SignUpViewModel extends AsyncNotifier<void> {
+class LoginViewModel extends AsyncNotifier<void> {
   late final AuthenticationRepository _authenticationRepository;
 
   @override
@@ -15,30 +14,23 @@ class SignUpViewModel extends AsyncNotifier<void> {
     _authenticationRepository = ref.read(authenticationRepository);
   }
 
-  Future<void> signUp(BuildContext context) async {
+  Future<void> login(
+      String email, String password, BuildContext context) async {
     state = const AsyncValue.loading();
-    final form = ref.read(signUpFormProvider);
-
-    // error handling (내부적으로 try catch 사용)
     state = await AsyncValue.guard(
-      () async => await _authenticationRepository.emailSignUp(
-        form['email'],
-        form['password'],
+      () async => _authenticationRepository.emailSignIn(
+        email,
+        password,
       ),
     );
-
     if (state.hasError) {
       showFirebaseErrorSnack(context, state.error!);
     } else {
-      context.goNamed(Routes.interestsScreen['name']!);
+      context.go('/home');
     }
   }
 }
 
-final signUpFormProvider = StateProvider(
-  (ref) => {},
-);
-
-final signUpProvider = AsyncNotifierProvider<SignUpViewModel, void>(
-  () => SignUpViewModel(),
+final loginProvider = AsyncNotifierProvider<LoginViewModel, void>(
+  () => LoginViewModel(),
 );
