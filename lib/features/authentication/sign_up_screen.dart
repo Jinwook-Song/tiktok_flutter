@@ -52,9 +52,9 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     Gaps.v16,
                     AuthButton(
-                      icon: const FaIcon(FontAwesomeIcons.apple),
-                      text: S.of(context).appleSignUpButton,
-                      destination: Destination.appleSignup,
+                      icon: const FaIcon(FontAwesomeIcons.github),
+                      text: S.of(context).githubSignUpButton,
+                      destination: Destination.githubSignup,
                     ),
                   ],
                   if (orientation == Orientation.landscape)
@@ -70,9 +70,9 @@ class SignUpScreen extends StatelessWidget {
                         Gaps.h16,
                         Expanded(
                           child: AuthButton(
-                            icon: const FaIcon(FontAwesomeIcons.apple),
-                            text: S.of(context).appleSignUpButton,
-                            destination: Destination.appleSignup,
+                            icon: const FaIcon(FontAwesomeIcons.github),
+                            text: S.of(context).githubSignUpButton,
+                            destination: Destination.githubSignup,
                           ),
                         ),
                       ],

@@ -3810,3 +3810,19 @@
       (ref) => AuthenticationRepository(),
     );
     ```
+  - OAuth(github)
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f1e84b31-7592-4f4e-905c-cfff4ec2c5a0/Untitled.png)
+    ```dart
+    Future<void> githubSignIn(BuildContext context) async {
+        state = const AsyncValue.loading();
+        state = await AsyncValue.guard(
+          () async => await _authenticationRepository.githubSignIn(),
+        );
+
+        if (state.hasError) {
+          showFirebaseErrorSnack(context, state.error!);
+        } else {
+          context.goNamed(Routes.interestsScreen['name']!);
+        }
+      }
+    ```

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/authentication/login_form_screen.dart';
 import 'package:tiktok_flutter/features/authentication/username_screen.dart';
+import 'package:tiktok_flutter/features/authentication/view_models/social_auth_vm.dart';
 
-enum Destination { emailLogin, appleLogin, emailSignup, appleSignup }
+enum Destination { emailLogin, githubLogin, emailSignup, githubSignup }
 
-class AuthButton extends StatelessWidget {
+class AuthButton extends ConsumerWidget {
   final String text;
   final FaIcon icon;
   final Destination destination;
@@ -18,7 +20,7 @@ class AuthButton extends StatelessWidget {
     required this.destination,
   });
 
-  void handleTap(BuildContext context) {
+  void handleTap(BuildContext context, WidgetRef ref) {
     switch (destination) {
       case Destination.emailSignup:
         {
@@ -38,19 +40,19 @@ class AuthButton extends StatelessWidget {
           );
         }
         break;
-      case Destination.appleSignup:
-        {}
-        break;
-      case Destination.appleLogin:
-        {}
+      case Destination.githubSignup:
+      case Destination.githubLogin:
+        {
+          ref.read(socialAuthProvider.notifier).githubSignIn(context);
+        }
         break;
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: () => handleTap(context),
+      onTap: () => handleTap(context, ref),
       child: FractionallySizedBox(
         widthFactor: 1,
         child: Container(

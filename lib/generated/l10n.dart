@@ -94,11 +94,11 @@ class S {
     );
   }
 
-  /// `Continue with Apple`
-  String get appleSignUpButton {
+  /// `Continue with Gitgub`
+  String get githubSignUpButton {
     return Intl.message(
-      'Continue with Apple',
-      name: 'appleSignUpButton',
+      'Continue with Github',
+      name: 'githubSignUpButton',
       desc: '',
       args: [],
     );
@@ -132,7 +132,7 @@ class S {
     final String valueString = valueNumberFormat.format(value);
 
     return Intl.message(
-      '$valueString',
+      valueString,
       name: 'videoLikeCount',
       desc: 'Video like count',
       args: [valueString],
@@ -147,7 +147,7 @@ class S {
     final String valueString = valueNumberFormat.format(value);
 
     return Intl.message(
-      '$valueString',
+      valueString,
       name: 'videoCommentCount',
       desc: 'Video comment count',
       args: [valueString],

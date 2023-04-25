@@ -46,9 +46,9 @@ class LoginScreen extends StatelessWidget {
               ),
               Gaps.v16,
               const AuthButton(
-                icon: FaIcon(FontAwesomeIcons.apple),
-                text: 'Continue with Apple',
-                destination: Destination.appleLogin,
+                icon: FaIcon(FontAwesomeIcons.github),
+                text: 'Continue with Github',
+                destination: Destination.githubLogin,
               ),
             ],
           ),
