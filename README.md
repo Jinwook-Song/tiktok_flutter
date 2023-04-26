@@ -3826,3 +3826,34 @@
         }
       }
     ```
+  - findProfile
+    backend 부터 시작 userRepository → userViewModel → userModel (작업순서)
+    ```dart
+    Future<Map<String, dynamic>?> findProfile(String uid) async {
+        final doc = await _firestore.collection('users').doc(uid).get();
+        return doc.data();
+      }
+    ```
+    ```dart
+    FutureOr<UserProfileModel> build() async {
+        _userRepository = ref.read(userRepository);
+        _authenticationRepository = ref.read(authenticationRepository);
+
+        if (_authenticationRepository.isLoggedIn) {
+          final profile = await _userRepository
+              .findProfile(_authenticationRepository.user!.uid);
+          if (profile != null) {
+            return UserProfileModel.fromJson(profile);
+          }
+        }
+        return UserProfileModel.empty();
+      }
+    ```
+    ```dart
+    UserProfileModel.fromJson(Map<String, dynamic> json)
+          : uid = json['uid'],
+            email = json['email'],
+            name = json['name'],
+            bio = json['bio'],
+            link = json['link'];
+    ```

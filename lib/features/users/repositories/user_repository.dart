@@ -11,6 +11,11 @@ class UserRepository {
         .doc(profile.uid)
         .set(profile.toJson());
   }
+
+  Future<Map<String, dynamic>?> findProfile(String uid) async {
+    final doc = await _firestore.collection('users').doc(uid).get();
+    return doc.data();
+  }
 }
 
 final userRepository = Provider(
