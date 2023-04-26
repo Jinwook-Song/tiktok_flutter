@@ -3,7 +3,7 @@
   "loginTitle": "{appName}에 로그인하세요",
   "signUpSubTitle": "Create a profile, follow other accounts, make your own videos, and more.",
   "emailPasswordSignUpButton": "Use email & password",
-  "appleSignUpButton": "Continue with Apple",
+  "githubSignUpButton": "Continue with Github",
   "alreadyHaveAnAccount": "Already have an account?",
   "logIn": "Log in",
   "videoLikeCount": "{value}",

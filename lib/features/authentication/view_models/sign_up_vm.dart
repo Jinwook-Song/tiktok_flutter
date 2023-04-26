@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_flutter/features/authentication/repositories/authentication_repository.dart';
+import 'package:tiktok_flutter/features/users/view_models/user_vm.dart';
 import 'package:tiktok_flutter/routes.dart';
 import 'package:tiktok_flutter/utils.dart';
 
@@ -18,13 +19,15 @@ class SignUpViewModel extends AsyncNotifier<void> {
   Future<void> signUp(BuildContext context) async {
     state = const AsyncValue.loading();
     final form = ref.read(signUpFormProvider);
-
-    // error handling (내부적으로 try catch 사용)
+    final user = ref.read(userProvider.notifier);
     state = await AsyncValue.guard(
-      () async => await _authenticationRepository.emailSignUp(
-        form['email'],
-        form['password'],
-      ),
+      () async {
+        final userCredential = await _authenticationRepository.emailSignUp(
+          form['email'],
+          form['password'],
+        );
+        await user.createProfile(userCredential);
+      },
     );
 
     if (state.hasError) {

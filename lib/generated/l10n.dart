@@ -94,7 +94,7 @@ class S {
     );
   }
 
-  /// `Continue with Gitgub`
+  /// `Continue with Github`
   String get githubSignUpButton {
     return Intl.message(
       'Continue with Github',
@@ -132,7 +132,7 @@ class S {
     final String valueString = valueNumberFormat.format(value);
 
     return Intl.message(
-      valueString,
+      '$valueString',
       name: 'videoLikeCount',
       desc: 'Video like count',
       args: [valueString],
@@ -147,7 +147,7 @@ class S {
     final String valueString = valueNumberFormat.format(value);
 
     return Intl.message(
-      valueString,
+      '$valueString',
       name: 'videoCommentCount',
       desc: 'Video comment count',
       args: [valueString],
