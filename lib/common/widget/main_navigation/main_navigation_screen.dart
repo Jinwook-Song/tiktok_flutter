@@ -9,7 +9,7 @@ import 'package:tiktok_flutter/features/discover/discover_screen.dart';
 import 'package:tiktok_flutter/features/inbox/inbox_screen.dart';
 import 'package:tiktok_flutter/common/widget/main_navigation/widgets/nav_tab.dart';
 import 'package:tiktok_flutter/common/widget/main_navigation/widgets/post_video_button.dart';
-import 'package:tiktok_flutter/features/users/user_profile_screen.dart';
+import 'package:tiktok_flutter/features/users/views/user_profile_screen.dart';
 import 'package:tiktok_flutter/features/videos/views/video_timeline_screen.dart';
 import 'package:tiktok_flutter/routes.dart';
 import 'package:tiktok_flutter/utils.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/authentication/view_models/login_vm.dart';
-import 'package:tiktok_flutter/features/authentication/widgets/form_button.dart';
+import 'package:tiktok_flutter/features/authentication/views/widgets/form_button.dart';
 
 class LoginFormScreen extends ConsumerStatefulWidget {
   const LoginFormScreen({super.key});

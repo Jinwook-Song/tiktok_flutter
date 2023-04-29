@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
-import 'package:tiktok_flutter/features/authentication/widgets/auth_button.dart';
+import 'package:tiktok_flutter/features/authentication/views/widgets/auth_button.dart';
 import 'package:tiktok_flutter/generated/l10n.dart';
 import 'package:tiktok_flutter/routes.dart';
 import 'package:go_router/go_router.dart';

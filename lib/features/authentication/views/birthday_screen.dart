@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
 import 'package:tiktok_flutter/features/authentication/view_models/sign_up_vm.dart';
-import 'package:tiktok_flutter/features/authentication/widgets/form_button.dart';
+import 'package:tiktok_flutter/features/authentication/views/widgets/form_button.dart';
 
 class BirthdayScreen extends ConsumerStatefulWidget {
   const BirthdayScreen({super.key});

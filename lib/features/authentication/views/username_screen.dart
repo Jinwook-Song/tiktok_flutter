@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
-import 'package:tiktok_flutter/features/authentication/email_screen.dart';
-import 'package:tiktok_flutter/features/authentication/widgets/form_button.dart';
+import 'package:tiktok_flutter/features/authentication/views/email_screen.dart';
+import 'package:tiktok_flutter/features/authentication/views/widgets/form_button.dart';
 
 class UserNameScreen extends StatefulWidget {
   const UserNameScreen({super.key});

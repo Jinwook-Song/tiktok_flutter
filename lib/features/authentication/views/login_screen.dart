@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
-import 'package:tiktok_flutter/features/authentication/widgets/auth_button.dart';
+import 'package:tiktok_flutter/features/authentication/views/widgets/auth_button.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

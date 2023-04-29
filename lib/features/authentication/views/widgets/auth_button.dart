@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
-import 'package:tiktok_flutter/features/authentication/login_form_screen.dart';
-import 'package:tiktok_flutter/features/authentication/username_screen.dart';
 import 'package:tiktok_flutter/features/authentication/view_models/social_auth_vm.dart';
+import 'package:tiktok_flutter/features/authentication/views/login_form_screen.dart';
+import 'package:tiktok_flutter/features/authentication/views/username_screen.dart';
 
 enum Destination { emailLogin, githubLogin, emailSignup, githubSignup }
 
