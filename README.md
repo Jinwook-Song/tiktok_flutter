@@ -3894,3 +3894,11 @@
       }
     }
     ```
+    Bug fix
+    NetworkImage는 fetch후 캐쉬하기 때문에 이미지를 변경해도 변경사항이 적용되지 않는다.
+    url을 매번 변경하기 위해 `no-cache=${DateTime.now().toString()` 트릭 사용
+    ```dart
+    NetworkImage(
+                          'https://firebasestorage.googleapis.com/v0/b/tiktok-jw.appspot.com/o/avatars%2F$uid?alt=media&no-cache=${DateTime.now().toString()}',
+                        )
+    ```

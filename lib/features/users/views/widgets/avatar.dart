@@ -21,8 +21,8 @@ class Avatar extends ConsumerWidget {
     final xfile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
       imageQuality: 100,
-      maxWidth: 150,
-      maxHeight: 150,
+      maxWidth: 300,
+      maxHeight: 300,
     );
 
     if (xfile != null) {
@@ -51,7 +51,7 @@ class Avatar extends ConsumerWidget {
               foregroundColor: Colors.teal,
               foregroundImage: hasAvatar
                   ? NetworkImage(
-                      'https://firebasestorage.googleapis.com/v0/b/tiktok-jw.appspot.com/o/avatars%2F$uid?alt=media',
+                      'https://firebasestorage.googleapis.com/v0/b/tiktok-jw.appspot.com/o/avatars%2F$uid?alt=media&no-cache=${DateTime.now().toString()}',
                     )
                   : null,
               child: Text(
