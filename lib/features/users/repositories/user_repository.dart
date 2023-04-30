@@ -27,6 +27,10 @@ class UserRepository {
     // 파일 업로드
     await fileRef.putFile(file);
   }
+
+  Future<void> updateUser(String uid, Map<String, dynamic> data) async {
+    await _firestore.collection('users').doc(uid).update(data);
+  }
 }
 
 final userRepository = Provider(
