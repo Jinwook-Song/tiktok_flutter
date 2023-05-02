@@ -3902,3 +3902,13 @@
                           'https://firebasestorage.googleapis.com/v0/b/tiktok-jw.appspot.com/o/avatars%2F$uid?alt=media&no-cache=${DateTime.now().toString()}',
                         )
     ```
+  - Firebase Functions
+    인증, 데이터베이스, 저장소 등에 변화가 발생했을때 실행할 커스텀 코드를 작성할 수 있다
+    예를들어, 누군가 영상을 업로드했을때 그것을 알 수 있도록 하는 코드륵 작성할 수 있다
+    (비디오 업로드 → 커스텀 함수 실행 → 영상으로부터 썸네일 추출 → Storage에 썸네일 저장 → firestore 영상에 썸네일 propery를 추가하여 업데이트)
+    - install
+    `flutter pub add cloud_functions`
+    `flutterfire configure`
+    `firebase init functions`
+    - deploy
+    `firebase deploy --only functions`
