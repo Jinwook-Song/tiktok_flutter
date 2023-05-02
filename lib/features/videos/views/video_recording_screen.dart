@@ -114,6 +114,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
     _flashMode = _cameraController.value.flashMode;
 
+    if (!mounted) return;
     setState(() {});
   }
 
