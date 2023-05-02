@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,10 +19,61 @@ class UserProfileScreen extends ConsumerStatefulWidget {
 }
 
 class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
+  late final TextEditingController _textEditingController =
+      TextEditingController(text: ref.watch(userProvider).value?.link);
+
   void _onGearPressed() {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const SettingsScreen(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
+  void _onSubmitTap() {
+    ref.read(userProvider.notifier).updateLink(_textEditingController.text);
+    Navigator.of(context).pop();
+  }
+
+  void _onEditProfilePressed() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text(
+          'Update link',
+        ),
+        content: Form(
+          child: Card(
+            child: Column(
+              children: [
+                CupertinoTextField(
+                  controller: _textEditingController,
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          CupertinoDialogAction(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text(
+              'Cancel',
+            ),
+          ),
+          CupertinoDialogAction(
+            onPressed: _onSubmitTap,
+            isDestructiveAction: true,
+            child: const Text(
+              'Update',
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -46,12 +98,23 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       SliverAppBar(
                         title: Text(data.name),
                         actions: [
-                          IconButton(
-                            onPressed: _onGearPressed,
-                            icon: const FaIcon(
-                              FontAwesomeIcons.gear,
-                              size: Sizes.size20,
-                            ),
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: _onEditProfilePressed,
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.penToSquare,
+                                  size: Sizes.size20,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: _onGearPressed,
+                                icon: const FaIcon(
+                                  FontAwesomeIcons.gear,
+                                  size: Sizes.size20,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -182,26 +245,26 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                               ),
                             ),
                             Gaps.v14,
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: Sizes.size36),
                               child: Text(
-                                'All highlights and where to watch live matches on FIFA+',
+                                data.bio,
                                 textAlign: TextAlign.center,
                               ),
                             ),
                             Gaps.v14,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                FaIcon(
+                              children: [
+                                const FaIcon(
                                   FontAwesomeIcons.link,
                                   size: Sizes.size16,
                                 ),
                                 Gaps.h10,
                                 Text(
-                                  'https://www.fifa.com/fifaplus/en/home',
-                                  style: TextStyle(
+                                  data.link,
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                   ),
                                 )
