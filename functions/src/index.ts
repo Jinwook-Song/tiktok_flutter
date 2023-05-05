@@ -19,11 +19,9 @@ export const onVideoCreated = functions.firestore
       '-i', // file input
       video.fileUrl,
       '-ss', // 비디오 시간 이동
-      '00:00:01.000',
+      '00:00:00',
       '-vframes', // get frames
       '1', // take first frame
-      '-vf', // video filter
-      'scale=150:-1', // 비율 (width: 150, height: 영상 비율에 맞춰 높이 설정)
       `/tmp/${snapshot.id}.jpg`, // save temporary -> functions 실행 이후 삭제됨
     ]);
 
@@ -34,4 +32,15 @@ export const onVideoCreated = functions.firestore
 
     await file.makePublic();
     await snapshot.ref.update({ thumbnailUrl: file.publicUrl() });
+
+    const db = admin.firestore();
+    await db
+      .collection('users')
+      .doc(video.creatorUid)
+      .collection('videos')
+      .doc(snapshot.id)
+      .set({
+        thumbnailUrl: file.publicUrl(),
+        videoId: snapshot.id,
+      });
   });
