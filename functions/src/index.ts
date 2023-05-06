@@ -13,19 +13,32 @@ admin.initializeApp();
 export const onVideoCreated = functions.firestore
   .document('videos/{videoId}')
   .onCreate(async (snapshot, context) => {
+    const db = admin.firestore();
+    const storage = admin.storage();
+
     const spawn = require('child-process-promise').spawn;
     const video = snapshot.data();
+    const videoPath = `videos/${video.creatorUid}/${
+      video.fileUrl.split('%2F')[2].split('?')[0]
+    }`;
+
+    await storage.bucket().file(videoPath).download({
+      destination: '/tmp/video.mp4',
+      decompress: false,
+    });
+
     await spawn('ffmpeg', [
       '-i', // file input
-      video.fileUrl,
+      '/tmp/video.mp4',
       '-ss', // 비디오 시간 이동
       '00:00:00',
       '-vframes', // get frames
       '1', // take first frame
+      //   'vf',
+      //   'scale=150:-1', // width: 150, height: 영상 비율에 맞게
       `/tmp/${snapshot.id}.jpg`, // save temporary -> functions 실행 이후 삭제됨
     ]);
 
-    const storage = admin.storage();
     const [file] = await storage.bucket().upload(`/tmp/${snapshot.id}.jpg`, {
       destination: `thumbnails/${snapshot.id}.jpg`,
     });
@@ -33,7 +46,6 @@ export const onVideoCreated = functions.firestore
     await file.makePublic();
     await snapshot.ref.update({ thumbnailUrl: file.publicUrl() });
 
-    const db = admin.firestore();
     await db
       .collection('users')
       .doc(video.creatorUid)

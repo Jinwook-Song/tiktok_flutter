@@ -3934,11 +3934,9 @@
           '-i', // file input
           video.fileUrl,
           '-ss', // 비디오 시간 이동
-          '00:00:01.000',
+          '00:00:00',
           '-vframes', // get frames
           '1', // take first frame
-          '-vf', // video filter
-          'scale=150:-1', // 비율 (width: 150, height: 영상 비율에 맞춰 높이 설정)
           `/tmp/${snapshot.id}.jpg`, // save temporary -> functions 실행 이후 삭제됨
         ]);
 
@@ -3949,9 +3947,21 @@
 
         await file.makePublic();
         await snapshot.ref.update({ thumbnailUrl: file.publicUrl() });
+
+        const db = admin.firestore();
+        await db
+          .collection('users')
+          .doc(video.creatorUid)
+          .collection('videos')
+          .doc(snapshot.id)
+          .set({
+            thumbnailUrl: file.publicUrl(),
+            videoId: snapshot.id,
+          });
       });
     ```
     firebase 서버에 기본적으로 설치되어있는 package들을 실행할 수 도 있다. ([docs](https://cloud.google.com/functions/docs/reference/system-packages))
     영상에서 이미지를 추출하기 위해 `ffmpeg` 사용
+    [ffmpeg commands sample](https://ostechnix.com/20-ffmpeg-commands-beginners/)
     서버에서 명령을 실행하기 위해 `child-process-promise` 패키지 사용
     `cd functions; npm i child-process-promise`
