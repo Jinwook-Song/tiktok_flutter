@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok_flutter/constants/gaps.dart';
 import 'package:tiktok_flutter/constants/sizes.dart';
+import 'package:tiktok_flutter/features/videos/models/video_model.dart';
 import 'package:tiktok_flutter/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok_flutter/features/videos/views/widgets/video_button.dart';
 import 'package:tiktok_flutter/features/videos/views/widgets/video_comments.dart';
@@ -14,11 +15,13 @@ import 'package:visibility_detector/visibility_detector.dart';
 class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int videoIndex;
+  final VideoModel videoData;
 
   const VideoPost({
     super.key,
     required this.onVideoFinished,
     required this.videoIndex,
+    required this.videoData,
   });
 
   @override
@@ -145,8 +148,9 @@ class VideoPostState extends ConsumerState<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Container(
-                    color: Colors.black,
+                : Image.network(
+                    widget.videoData.thumbnailUrl,
+                    fit: BoxFit.cover,
                   ),
           ),
           Positioned.fill(
@@ -196,9 +200,9 @@ class VideoPostState extends ConsumerState<VideoPost>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '@Jw',
-                  style: TextStyle(
+                Text(
+                  '@${widget.videoData.creator}',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: Sizes.size20,
                     fontWeight: FontWeight.bold,
@@ -206,7 +210,7 @@ class VideoPostState extends ConsumerState<VideoPost>
                 ),
                 Gaps.v10,
                 Text(
-                  'yeonjae_0${widget.videoIndex % 6 + 1}',
+                  widget.videoData.description,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: Sizes.size14,
@@ -221,26 +225,31 @@ class VideoPostState extends ConsumerState<VideoPost>
               right: Sizes.size14,
               child: Column(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: Sizes.size24,
                     backgroundColor: Colors.black,
                     foregroundColor: Colors.white,
                     foregroundImage: NetworkImage(
-                      'https://avatars.githubusercontent.com/u/78011042?v=4',
+                      'https://firebasestorage.googleapis.com/v0/b/tiktok-jw.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media&no-cache=${DateTime.now().toString()}',
                     ),
-                    child: Text('JW'),
+                    child: Text(
+                      widget.videoData.creator,
+                      style: const TextStyle(fontSize: Sizes.size8),
+                    ),
                   ),
                   Gaps.v24,
                   VideoButton(
                     icon: FontAwesomeIcons.solidHeart,
-                    text: S.of(context).videoLikeCount(1290000),
+                    text: S.of(context).videoLikeCount(widget.videoData.likes),
                   ),
                   Gaps.v24,
                   GestureDetector(
                     onTap: () => _onCommentsTap(context),
                     child: VideoButton(
                       icon: FontAwesomeIcons.solidComment,
-                      text: S.of(context).videoCommentCount(3300),
+                      text: S
+                          .of(context)
+                          .videoCommentCount(widget.videoData.comments),
                     ),
                   ),
                   Gaps.v24,

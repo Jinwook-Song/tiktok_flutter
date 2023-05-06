@@ -21,6 +21,13 @@ class VideosRepository {
   Future<void> saveVideo(VideoModel video) async {
     await _firestore.collection('videos').add(video.toJson());
   }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchVideos() async {
+    return await _firestore
+        .collection('videos')
+        .orderBy('createdAt', descending: true)
+        .get();
+  }
 }
 
 final videosRepository = Provider(
