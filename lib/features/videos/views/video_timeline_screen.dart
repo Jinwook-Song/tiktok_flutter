@@ -68,7 +68,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
             ),
           ),
           data: (videos) {
-            _itemCount += videos.length;
+            _itemCount = videos.length;
             return RefreshIndicator(
               onRefresh: _onRefresh,
               displacement: Sizes.size52,

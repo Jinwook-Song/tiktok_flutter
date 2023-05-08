@@ -46,7 +46,7 @@ class VideosRepository {
     return like.exists;
   }
 
-  Future<bool> toggleVideoLike({
+  Future<void> toggleVideoLike({
     required String videoId,
     required String uid,
   }) async {
@@ -55,10 +55,8 @@ class VideosRepository {
 
     if (!like.exists) {
       await query.set({'createdAt': DateTime.now().millisecondsSinceEpoch});
-      return true;
     } else {
       await query.delete();
-      return false;
     }
   }
 }

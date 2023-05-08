@@ -31,13 +31,36 @@ class VideoTimelineViewModel extends AsyncNotifier<List<VideoModel>> {
     final nextVideos = await _fetchVideos(
       lastItemCreatedAt: _videoList.last.createdAt,
     );
-    state = AsyncValue.data([..._videoList, ...nextVideos]);
+    _videoList = [..._videoList, ...nextVideos];
+    state = AsyncValue.data(_videoList);
   }
 
   Future<void> refresh() async {
     final videos = await _fetchVideos(lastItemCreatedAt: null);
     _videoList = videos;
     state = AsyncValue.data(videos);
+  }
+
+  void increaseLike(String videoId) {
+    final targetVideo = state.value!.firstWhere((video) => video.id == videoId);
+    final targetIndex = state.value!.indexWhere((video) => video.id == videoId);
+    final updated = targetVideo.copyWith(likes: targetVideo.likes + 1);
+    final copy = [...state.value!];
+    copy.removeWhere((video) => video.id == videoId);
+    copy.insert(targetIndex, updated);
+    _videoList = [...copy];
+    state = AsyncValue.data(_videoList);
+  }
+
+  void decreaseLike(String videoId) {
+    final targetVideo = state.value!.firstWhere((video) => video.id == videoId);
+    final targetIndex = state.value!.indexWhere((video) => video.id == videoId);
+    final updated = targetVideo.copyWith(likes: targetVideo.likes - 1);
+    final copy = [...state.value!];
+    copy.removeWhere((video) => video.id == videoId);
+    copy.insert(targetIndex, updated);
+    _videoList = [...copy];
+    state = AsyncValue.data(_videoList);
   }
 }
 
