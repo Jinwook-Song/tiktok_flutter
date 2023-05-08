@@ -30,6 +30,7 @@ class UploadVideoViewModel extends AsyncNotifier<void> {
       if (task.metadata != null) {
         await _repository.saveVideo(
           VideoModel(
+            id: '',
             title: 'from flutter',
             description: 'code challenge',
             fileUrl: await task.ref.getDownloadURL(),

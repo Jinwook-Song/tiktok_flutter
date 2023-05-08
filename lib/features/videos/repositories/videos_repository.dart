@@ -22,11 +22,32 @@ class VideosRepository {
     await _firestore.collection('videos').add(video.toJson());
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> fetchVideos() async {
-    return await _firestore
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchVideos(
+      {int? lastItemCreatedAt}) async {
+    final query = _firestore
         .collection('videos')
         .orderBy('createdAt', descending: true)
-        .get();
+        .limit(2);
+
+    if (lastItemCreatedAt == null) {
+      return await query.get();
+    } else {
+      return await query.startAfter([lastItemCreatedAt]).get();
+    }
+  }
+
+  Future<void> likeVideo({
+    required String videoId,
+    required String uid,
+  }) async {
+    final query = _firestore.collection('likes').doc('$videoId<>$uid');
+    final like = await query.get();
+
+    if (!like.exists) {
+      await query.set({'createdAt': DateTime.now().millisecondsSinceEpoch});
+    } else {
+      await query.delete();
+    }
   }
 }
 

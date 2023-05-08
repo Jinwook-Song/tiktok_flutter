@@ -9,13 +9,14 @@ import * as admin from 'firebase-admin';
 // });
 
 admin.initializeApp();
+const region = functions.region('asia-northeast3');
+const db = admin.firestore();
+const storage = admin.storage();
+const storageUrl = 'https://storage.googleapis.com/tiktok-jw.appspot.com/';
 
-export const onVideoCreated = functions.firestore
+export const onVideoCreated = region.firestore
   .document('videos/{videoId}')
   .onCreate(async (snapshot, context) => {
-    const db = admin.firestore();
-    const storage = admin.storage();
-
     const spawn = require('child-process-promise').spawn;
     const video = snapshot.data();
     const videoPath = `videos/${video.creatorUid}/${
@@ -55,4 +56,41 @@ export const onVideoCreated = functions.firestore
         thumbnailUrl: file.publicUrl(),
         videoId: snapshot.id,
       });
+  });
+
+export const onVideoLiked = region.firestore
+  .document('likes/{likeId}')
+  .onCreate(async (snapshot, context) => {
+    const [videoId, uid] = snapshot.id.split('<>');
+    const thumbnailUrl = `${storageUrl}thumbnails%2F${videoId}.jpg`;
+
+    await db
+      .collection('videos')
+      .doc(videoId)
+      .update({ likes: admin.firestore.FieldValue.increment(1) });
+
+    await db
+      .collection('users')
+      .doc(uid)
+      .collection('liked')
+      .doc(videoId)
+      .set({ thumbnailUrl, videoId });
+  });
+
+export const onVideoCancelLiked = region.firestore
+  .document('likes/{likeId}')
+  .onDelete(async (snapshot, context) => {
+    const [videoId, uid] = snapshot.id.split('<>');
+
+    await db
+      .collection('videos')
+      .doc(videoId)
+      .update({ likes: admin.firestore.FieldValue.increment(-1) });
+
+    await db
+      .collection('users')
+      .doc(uid)
+      .collection('liked')
+      .doc(videoId)
+      .delete();
   });
