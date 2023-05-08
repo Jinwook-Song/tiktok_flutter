@@ -6,10 +6,12 @@ import 'package:tiktok_flutter/constants/sizes.dart';
 class VideoButton extends StatelessWidget {
   final IconData icon;
   final String text;
+  final Color? accentColor;
   const VideoButton({
     super.key,
     required this.icon,
     required this.text,
+    this.accentColor,
   });
 
   @override
@@ -18,14 +20,14 @@ class VideoButton extends StatelessWidget {
       children: [
         FaIcon(
           icon,
-          color: Colors.white,
+          color: accentColor ?? Colors.white,
           size: Sizes.size36,
         ),
         Gaps.v5,
         Text(
           text,
-          style: const TextStyle(
-              color: Colors.white,
+          style: TextStyle(
+              color: accentColor ?? Colors.white,
               fontSize: Sizes.size12,
               fontWeight: FontWeight.w700),
         ),
