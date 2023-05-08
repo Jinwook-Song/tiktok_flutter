@@ -1,4 +1,4 @@
-# Tiktok with Flutter
+# TikTok with Flutter
 
 | 프로젝트 기간 | 23.01.14 ~                                     |
 | ------------- | ---------------------------------------------- |
@@ -2855,9 +2855,7 @@
 
   tapDown → start recording
   tapUp → stop recording
-
   addStatusListener를 통해 animation status를 알 수 있다.
-
   duration(10초)이 완료되면 stop recording
 
   ```dart
@@ -3003,7 +3001,6 @@
   ### Save to gallery
 
   `gallery_saver: ^2.3.2`
-
   갤러리에 저장하기 위한 라이브러리
 
   ```dart
@@ -3623,6 +3620,38 @@
       }
     ```
 
+  - FamilyAsncNotifier
+    provider를 인자와 함께 초기화할 수 있다
+
+    ```dart
+    import 'dart:async';
+
+    import 'package:flutter_riverpod/flutter_riverpod.dart';
+    import 'package:tiktok_flutter/features/authentication/repositories/authentication_repository.dart';
+    import 'package:tiktok_flutter/features/videos/repositories/videos_repository.dart';
+
+    class VideoPostViewModel extends FamilyAsyncNotifier<void, String> {
+      late final VideosRepository _videosRepository;
+      late final _videoId;
+
+      @override
+      FutureOr<void> build(String videoId) {
+        _videoId = videoId;
+        _videosRepository = ref.read(videosRepository);
+      }
+
+      likeVideo() {
+        final user = ref.read(authenticationRepository).user;
+        _videosRepository.likeVideo(videoId: _videoId, uid: user!.uid);
+      }
+    }
+
+    final videoPostProvider =
+        AsyncNotifierProvider.family<VideoPostViewModel, void, String>(
+      () => VideoPostViewModel(),
+    );
+    ```
+
 - Firebase
   [docs](https://firebase.google.com/docs/flutter/setup?hl=ko&platform=ios)
   `dart pub global activate flutterfire_cli`
@@ -3630,13 +3659,16 @@
   `flutter pub add firebase_core`
   이후, plugin 설치할때마다 `flutterfire configure` 실행
   initialize
+
   ```dart
   // Initialize Firebase
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
   ```
+
   - Authentication
+
     ```dart
     import 'package:firebase_auth/firebase_auth.dart';
     import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -3652,7 +3684,9 @@
       (ref) => AuthenticationRepository(),
     );
     ```
+
     router
+
     ```dart
     import 'package:flutter/material.dart';
     import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -3750,8 +3784,11 @@
       );
     });
     ```
+
   - Sign Up
+
     - user의 form을 받아 firebase auth로 회원가입
+
     ```dart
     import 'dart:async';
 
@@ -3788,6 +3825,7 @@
       () => SignUpViewModel(),
     );
     ```
+
     ```dart
     import 'package:firebase_auth/firebase_auth.dart';
     import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -3810,8 +3848,10 @@
       (ref) => AuthenticationRepository(),
     );
     ```
+
   - OAuth(github)
     ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f1e84b31-7592-4f4e-905c-cfff4ec2c5a0/Untitled.png)
+
     ```dart
     Future<void> githubSignIn(BuildContext context) async {
         state = const AsyncValue.loading();
@@ -3826,14 +3866,17 @@
         }
       }
     ```
+
   - findProfile
     backend 부터 시작 userRepository → userViewModel → userModel (작업순서)
+
     ```dart
     Future<Map<String, dynamic>?> findProfile(String uid) async {
         final doc = await _firestore.collection('users').doc(uid).get();
         return doc.data();
       }
     ```
+
     ```dart
     FutureOr<UserProfileModel> build() async {
         _userRepository = ref.read(userRepository);
@@ -3849,6 +3892,7 @@
         return UserProfileModel.empty();
       }
     ```
+
     ```dart
     UserProfileModel.fromJson(Map<String, dynamic> json)
           : uid = json['uid'],
@@ -3857,8 +3901,10 @@
             bio = json['bio'],
             link = json['link'];
     ```
+
   - upload avatar profile (firestorage)
     repository
+
     ```dart
     Future<void> uploadAvatar(File file, String fileName) async {
         // 파일을 업로드할 공간 생성
@@ -3867,7 +3913,9 @@
         await fileRef.putFile(file);
       }
     ```
+
     view model
+
     ```dart
     import 'dart:async';
     import 'dart:io';
@@ -3894,24 +3942,29 @@
       }
     }
     ```
+
     Bug fix
     NetworkImage는 fetch후 캐쉬하기 때문에 이미지를 변경해도 변경사항이 적용되지 않는다.
     url을 매번 변경하기 위해 `no-cache=${DateTime.now().toString()` 트릭 사용
+
     ```dart
     NetworkImage(
                           'https://firebasestorage.googleapis.com/v0/b/tiktok-jw.appspot.com/o/avatars%2F$uid?alt=media&no-cache=${DateTime.now().toString()}',
                         )
     ```
+
   - Firebase Functions
     인증, 데이터베이스, 저장소 등에 변화가 발생했을때 실행할 커스텀 코드를 작성할 수 있다
     예를들어, 누군가 영상을 업로드했을때 그것을 알 수 있도록 하는 코드륵 작성할 수 있다
     (비디오 업로드 → 커스텀 함수 실행 → 영상으로부터 썸네일 추출 → Storage에 썸네일 저장 → firestore 영상에 썸네일 propery를 추가하여 업데이트)
+
     - install
-    `flutter pub add cloud_functions`
-    `flutterfire configure`
-    `firebase init functions`
+      `flutter pub add cloud_functions`
+      `flutterfire configure`
+      `firebase init functions`
     - deploy
-    `firebase deploy --only functions`
+      `firebase deploy --only functions`
+
     ```dart
     import * as functions from 'firebase-functions';
     import * as admin from 'firebase-admin';
@@ -3960,6 +4013,7 @@
           });
       });
     ```
+
     firebase 서버에 기본적으로 설치되어있는 package들을 실행할 수 도 있다. ([docs](https://cloud.google.com/functions/docs/reference/system-packages))
     영상에서 이미지를 추출하기 위해 `ffmpeg` 사용
     [ffmpeg commands sample](https://ostechnix.com/20-ffmpeg-commands-beginners/)
