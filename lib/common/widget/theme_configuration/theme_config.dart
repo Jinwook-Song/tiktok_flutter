@@ -1,3 +1,3 @@
 import 'package:flutter/material.dart';
 
-final useDarkThemeConfig = ValueNotifier(false);
+final useDarkThemeConfig = ValueNotifier(true);

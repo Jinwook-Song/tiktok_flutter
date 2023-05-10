@@ -7,10 +7,10 @@ class MessagesRepository {
 
   Future<void> sendMessage({
     required MessageModel message,
-    String chatRoomId = 'IGW8H1oMlCmU2CfuoeuN', // TODO: chat room
+    String chatRoomId = 'qVd1a1gP6KMtbGGvYWUu', // TODO: chat room
   }) async {
     await _firestore
-        .collection('chatRoom')
+        .collection('chatRooms')
         .doc(chatRoomId)
         .collection('texts')
         .add(message.toJson());
