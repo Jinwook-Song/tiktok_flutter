@@ -7,6 +7,15 @@
 | version       | 3.3.10                                         |
 | docs(design)  | https://m3.material.io/                        |
 
+- TODOS
+  - [ ] DM
+    - [ ] Chat room 생성 (user 리스트에서 고를 수 있도록)
+    - [ ] 사용자가 속해있는 모든 Chat room 보여주기
+      - [ ] 마지막 채팅 기록(시간 및 메시지)
+      - [ ] 상대방에 대한 정보 (이름, 프로필 사진 등)
+    - [ ] Chat message (deleted로 표기되도록 변경)
+      - [ ] 2분 내에는 삭제 가능, 이후에는 삭제 불가
+
 ---
 
 - Ui & Widgets
@@ -4019,3 +4028,90 @@
     [ffmpeg commands sample](https://ostechnix.com/20-ffmpeg-commands-beginners/)
     서버에서 명령을 실행하기 위해 `child-process-promise` 패키지 사용
     `cd functions; npm i child-process-promise`
+
+  - Stream
+    collection이 변경되면 변경사항을 알 수 있다.
+
+    ```dart
+    // riverpod은 위젯트리 외부에 있으므로 반드시 dispose를 해야한다 (채팅방을 나가면 stop listening)
+    final chatProvider = StreamProvider.autoDispose<List<MessageModel>>(
+      (ref) {
+        final firestore = FirebaseFirestore.instance;
+
+        // snapshots : get과 다르게 변경사항이 발생하면 알림을 준다. (collection의 상태를 알 수 있음)
+        return firestore
+            .collection('chatRooms')
+            .doc('qVd1a1gP6KMtbGGvYWUu')
+            .collection('texts')
+            .orderBy('createdAt', descending: true)
+            .snapshots()
+            // sanpshot을 원하는 데이터 형태로 변경
+            .map(
+              (event) => event.docs
+                  .map(
+                    (doc) => MessageModel.fromJson(
+                      doc.data(),
+                    ),
+                  )
+                  .toList(),
+            );
+      },
+    );
+    ```
+
+    ```dart
+    ref.watch(chatProvider).when(
+                    data: (data) {
+                      return ListView.separated(
+                        itemCount: data.length,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Sizes.size14,
+                          vertical: Sizes.size20,
+                        ),
+                        itemBuilder: (context, index) {
+                          final uid = ref.read(authenticationRepository).user!.uid;
+                          final isMine = data[index].uid == uid;
+                          return Row(
+                            mainAxisAlignment: isMine
+                                ? MainAxisAlignment.end
+                                : MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(Sizes.size14),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: const Radius.circular(Sizes.size20),
+                                      topRight: const Radius.circular(Sizes.size20),
+                                      bottomLeft: isMine
+                                          ? const Radius.circular(Sizes.size20)
+                                          : const Radius.circular(Sizes.size3),
+                                      bottomRight: isMine
+                                          ? const Radius.circular(Sizes.size3)
+                                          : const Radius.circular(Sizes.size20),
+                                    ),
+                                    color: isMine
+                                        ? Colors.blue
+                                        : Theme.of(context).primaryColor),
+                                child: Text(
+                                  data[index].text,
+                                  style: const TextStyle(
+                                    fontSize: Sizes.size18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) => Gaps.v10,
+                      );
+                    },
+                    error: (error, stackTrace) => Center(
+                      child: Text(error.toString()),
+                    ),
+                    loading: () => const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
+                  ),
+    ```
